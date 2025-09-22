@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll(".section");
 
   // --- DARK MODE TOGGLE ---
-  // Load user preference
   if (localStorage.getItem("dark-mode") === "enabled") {
     body.classList.add("dark-mode");
+    toggleBtn.textContent = "☀️ Light Mode";
   }
 
   toggleBtn?.addEventListener("click", () => {
@@ -22,19 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Set button text correctly on page load
-  if (body.classList.contains("dark-mode")) {
-    toggleBtn.textContent = "☀️ Light Mode";
-  } else {
-    toggleBtn.textContent = "🌙 Dark Mode";
-  }
-
   // --- NAVIGATION + SECTIONS ---
   navLinks.forEach(link => {
     link.addEventListener("click", e => {
       e.preventDefault();
 
-      // Get the section ID from data-section
       const targetId = link.getAttribute("data-section");
       const targetSection = document.getElementById(targetId);
 
@@ -50,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       navLinks.forEach(l => l.classList.remove("active"));
       link.classList.add("active");
 
-      // Smooth scroll to section
+      // Smooth scroll
       targetSection.scrollIntoView({
         behavior: "smooth",
         block: "start"
