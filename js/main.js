@@ -4,13 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".nav-link");
   const sections = document.querySelectorAll(".section");
 
-  // --- DARK MODE TOGGLE ---
+  // --- Dark Mode ---
   if (localStorage.getItem("dark-mode") === "enabled") {
     body.classList.add("dark-mode");
     toggleBtn.textContent = "☀️ Light Mode";
   }
 
-  toggleBtn?.addEventListener("click", () => {
+  toggleBtn.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
 
     if (body.classList.contains("dark-mode")) {
@@ -22,11 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- NAVIGATION + SECTIONS ---
+  // --- Navigation ---
   navLinks.forEach(link => {
     link.addEventListener("click", e => {
       e.preventDefault();
-
       const targetId = link.getAttribute("data-section");
       const targetSection = document.getElementById(targetId);
 
@@ -34,11 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Hide all sections
       sections.forEach(sec => sec.classList.remove("active"));
-
-      // Show selected section
       targetSection.classList.add("active");
 
-      // Update active link
+      // Update nav active state
       navLinks.forEach(l => l.classList.remove("active"));
       link.classList.add("active");
 
