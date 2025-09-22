@@ -1,55 +1,60 @@
-document.addEventListener('DOMContentLoaded', function() {
- 
-  const navLinks = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('.section');
-  const modeToggle = document.getElementById('mode-toggle');
+document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
+  const toggleBtn = document.getElementById("mode-toggle");
+  const navLinks = document.querySelectorAll(".nav-link");
+  const sections = document.querySelectorAll(".section");
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-
-      const targetSection = this.getAttribute('data-section');
-
-      sections.forEach(section => {
-        section.classList.remove('active');
-      });
-
-      const targetElement = document.getElementById(targetSection);
-      if (targetElement) {
-        targetElement.classList.add('active');
-      }
-
-      navLinks.forEach(nav => {
-        nav.classList.remove('active');
-      });
-      this.classList.add('active');
-    });
-  });
-
-  modeToggle.addEventListener('click', function() {
-    body.classList.toggle('dark-mode');
-
-    if (body.classList.contains('dark-mode')) {
-      this.textContent = '☀️ Light Mode';
-      this.style.backgroundColor = '#9370DB'; 
-    } else {
-      this.textContent = '🌙 Dark Mode';
-      this.style.backgroundColor = '#C8A2C8'; 
-    }
-  });
-
-  if (localStorage.getItem('darkMode') === 'enabled') {
-    body.classList.add('dark-mode');
-    modeToggle.textContent = '☀️ Light Mode';
-    modeToggle.style.backgroundColor = '#9370DB';
+  // --- DARK MODE TOGGLE ---
+  // Load user preference
+  if (localStorage.getItem("dark-mode") === "enabled") {
+    body.classList.add("dark-mode");
   }
 
-  modeToggle.addEventListener('click', function() {
-    if (body.classList.contains('dark-mode')) {
-      localStorage.setItem('darkMode', 'enabled');
+  toggleBtn?.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+
+    if (body.classList.contains("dark-mode")) {
+      localStorage.setItem("dark-mode", "enabled");
+      toggleBtn.textContent = "☀️ Light Mode";
     } else {
-      localStorage.removeItem('darkMode');
+      localStorage.setItem("dark-mode", "disabled");
+      toggleBtn.textContent = "🌙 Dark Mode";
     }
+  });
+
+  // Set button text correctly on page load
+  if (body.classList.contains("dark-mode")) {
+    toggleBtn.textContent = "☀️ Light Mode";
+  } else {
+    toggleBtn.textContent = "🌙 Dark Mode";
+  }
+
+  // --- NAVIGATION + SECTIONS ---
+  navLinks.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+
+      // Get the section ID from data-section
+      const targetId = link.getAttribute("data-section");
+      const targetSection = document.getElementById(targetId);
+
+      if (!targetSection) return;
+
+      // Hide all sections
+      sections.forEach(sec => sec.classList.remove("active"));
+
+      // Show selected section
+      targetSection.classList.add("active");
+
+      // Update active link
+      navLinks.forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+
+      // Smooth scroll to section
+      targetSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
   });
 });
