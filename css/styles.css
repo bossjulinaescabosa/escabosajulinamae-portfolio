@@ -1,10 +1,293 @@
-    }
-    /* Responsive tweaks */
-    @media (max-width: 600px) {
-      nav.navbar ul.nav-links {
-        gap: 1rem;
-      }
-      .card-img {
-        height: 140px;
-      }
-    }
+/* Reset and base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f0ff; /* very light lavender */
+  color: #4b3b6b; /* dark lavender */
+  transition: background-color 0.4s ease, color 0.4s ease;
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  color: #7e66cc; /* medium lavender */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover, a:focus {
+  color: #a890ff; /* lighter lavender */
+  outline: none;
+}
+
+/* Dark mode base */
+body.dark-mode {
+  background-color: #2e2546; /* dark lavender */
+  color: #d6cfff; /* light lavender text */
+}
+body.dark-mode a {
+  color: #cbb9ff;
+}
+body.dark-mode a:hover, body.dark-mode a:focus {
+  color: #e0d4ff;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 2rem auto 4rem;
+  padding: 0 1rem;
+}
+
+/* Header and Navigation */
+header {
+  background-color: #e6e0ff; /* pale lavender */
+  box-shadow: 0 2px 6px rgba(126, 102, 204, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.4s ease;
+}
+body.dark-mode header {
+  background-color: #3a2f5a; /* darker lavender */
+  box-shadow: 0 2px 6px rgba(168, 146, 255, 0.5);
+}
+nav.navbar {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+nav.navbar h1.logo {
+  font-weight: 700;
+  font-size: 1.9rem;
+  margin-bottom: 0.5rem;
+  color: #6b57a1; /* deep lavender */
+  user-select: none;
+}
+
+/* Navigation links */
+nav.navbar ul.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+nav.navbar ul.nav-links li {
+  margin: 0;
+}
+nav.navbar ul.nav-links a.nav-link {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #6b57a1;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: inline-block;
+  user-select: none;
+}
+nav.navbar ul.nav-links a.nav-link:hover,
+nav.navbar ul.nav-links a.nav-link:focus {
+  background-color: #a890ff;
+  color: #2e2546;
+  outline: none;
+  cursor: pointer;
+}
+nav.navbar ul.nav-links a.nav-link.active {
+  background-color: #7e66cc;
+  color: #f5f0ff;
+  cursor: default;
+}
+
+/* Dark mode nav links */
+body.dark-mode nav.navbar ul.nav-links a.nav-link {
+  color: #cbb9ff;
+}
+body.dark-mode nav.navbar ul.nav-links a.nav-link:hover,
+body.dark-mode nav.navbar ul.nav-links a.nav-link:focus {
+  background-color: #d6cfff;
+  color: #2e2546;
+}
+body.dark-mode nav.navbar ul.nav-links a.nav-link.active {
+  background-color: #a890ff;
+  color: #2e2546;
+}
+
+/* Dark mode toggle button */
+#mode-toggle {
+  margin-top: 0.75rem;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.95rem;
+  border: 2px solid #7e66cc;
+  background: transparent;
+  color: #7e66cc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+#mode-toggle:hover, #mode-toggle:focus {
+  background-color: #7e66cc;
+  color: #f5f0ff;
+  outline: none;
+}
+body.dark-mode #mode-toggle {
+  border-color: #a890ff;
+  color: #d6cfff;
+}
+body.dark-mode #mode-toggle:hover, body.dark-mode #mode-toggle:focus {
+  background-color: #a890ff;
+  color: #2e2546;
+}
+
+/* Section Titles */
+h2.section-title {
+  font-size: 1.85rem;
+  margin-bottom: 1rem;
+  border-bottom: 3px solid #7e66cc;
+  padding-bottom: 0.4rem;
+  font-weight: 700;
+  color: #5a478c;
+}
+body.dark-mode h2.section-title {
+  border-color: #a890ff;
+  color: #d6cfff;
+}
+
+/* Cards */
+.card {
+  background-color: #fff;
+  padding: 1.8rem 2rem;
+  margin-bottom: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(126, 102, 204, 0.15);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+body.dark-mode .card {
+  background-color: #3a2f5a;
+  box-shadow: 0 6px 15px rgba(168, 146, 255, 0.3);
+}
+
+/* Profile picture large */
+.profile-pic-large {
+  display: block;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1.8rem auto;
+  box-shadow: 0 0 15px rgba(126, 102, 204, 0.6);
+  transition: box-shadow 0.4s ease;
+}
+body.dark-mode .profile-pic-large {
+  box-shadow: 0 0 15px rgba(168, 146, 255, 0.9);
+}
+
+/* Inspirations list with images */
+.inspirations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.inspirations-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  color: #5a478c;
+}
+body.dark-mode .inspirations-list li {
+  color: #d6cfff;
+}
+.inspirations-list img.profile-pic {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1.2rem;
+  box-shadow: 0 0 8px rgba(126, 102, 204, 0.4);
+  flex-shrink: 0;
+  transition: box-shadow 0.4s ease;
+}
+body.dark-mode .inspirations-list img.profile-pic {
+  box-shadow: 0 0 8px rgba(168, 146, 255, 0.7);
+}
+
+/* Card grid for instruments and acting */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.8rem;
+}
+.card-grid .card {
+  margin-bottom: 0;
+}
+
+/* Card images */
+.card-img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 10px rgba(126, 102, 204, 0.15);
+  transition: box-shadow 0.4s ease;
+}
+body.dark-mode .card-img {
+  box-shadow: 0 4px 10px rgba(168, 146, 255, 0.3);
+}
+
+/* Playlist iframe */
+iframe {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(126, 102, 204, 0.2);
+  transition: box-shadow 0.4s ease;
+}
+body.dark-mode iframe {
+  box-shadow: 0 4px 12px rgba(168, 146, 255, 0.4);
+}
+
+/* Footer */
+footer.footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 0.9rem;
+  color: #7e66cc;
+  border-top: 1px solid #d1c4ff;
+  background-color: #e6e0ff;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+body.dark-mode footer.footer {
+  background-color: #3a2f5a;
+  color: #cbb9ff;
+  border-color: #6b57a1;
+}
+
+/* Footer links */
+footer.footer a {
+  color: #7e66cc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+footer.footer a:hover,
+footer.footer a:focus {
+  color: #a890ff;
+  outline: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  nav.navbar ul.nav-links {
+    gap: 1rem;
+  }
+  .card-img {
+    height: 140px;
+  }
+}
