@@ -16,7 +16,7 @@ Hello! I'm Julina Mae Escabosa, a dedicated musician and aspiring actor with a v
 
  https://bossjulinaescabosa.github.io/escabosajulinamae-portfolio/
 
- ##Technologies Used
+ ## Technologies Used
 
  GitHub
 
