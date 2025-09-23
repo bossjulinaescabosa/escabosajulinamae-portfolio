@@ -22,9 +22,9 @@ Hello! I'm Julina Mae Escabosa, a dedicated musician and aspiring actor with a v
 
  ## Contact Me
 
- Email: lovejulinae02@gmail.com
- Discord: bossjuliijuls
- GitHub: github.com/bossjulinaescabosa
+ - Email: lovejulinae02@gmail.com
+ - Discord: bossjuliijuls
+ - GitHub: github.com/bossjulinaescabosa
 
  ## Reflection
 
