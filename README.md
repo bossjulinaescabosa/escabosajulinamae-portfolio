@@ -12,6 +12,22 @@ Hello! I'm Julina Mae Escabosa, a dedicated musician and aspiring actor with a v
 - Acting
 - Contact
 
-  ##Live Site
+##Live Site
+
+ https://bossjulinaescabosa.github.io/escabosajulinamae-portfolio/
+
+ ##Technologies Used
+
+ GitHub
+
+ ##Contact Me
+
+ Email: lovejulinae02@gmail.com
+ Discord: bossjuliijuls
+ GitHub: github.com/bossjulinaescabosa
+
+ ## Reflection
+
+ 
 
   
