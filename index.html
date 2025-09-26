@@ -1,157 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Julina Mae Escabosa - Talent Portfolio</title>
-  <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="navbar-content">
-        <h1 class="logo">🌟 Julina's Portfolio</h1>
-        <ul class="nav-links">
-          <li><a href="#" data-section="about" class="nav-link active">Home</a></li>
-          <li><a href="#" data-section="music" class="nav-link">Music</a></li>
-          <li><a href="#" data-section="inspirations" class="nav-link">Inspirations</a></li>
-          <li><a href="#" data-section="playlists" class="nav-link">Playlists</a></li>
-          <li><a href="#" data-section="instruments" class="nav-link">Instruments</a></li>
-          <li><a href="#" data-section="acting" class="nav-link">Acting</a></li>
-          <li><a href="#" data-section="contact" class="nav-link">Contact</a></li>
-        </ul>
-        <button id="mode-toggle" class="mode-btn">🌙 Dark Mode</button>
-      </div>
-    </nav>
-  </header>
+  <header id="header">
+    <div class="container">
+      <nav>
+        <div class="logo">My Portfolio</div>
+          <ul class="nav-links">
+           <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
+           <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
+           <li><a href="#" class="nav-link" data-section="activities">Activities</a></li>
+           <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+          </ul>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      </nav>
+    </div>
+    </header>
 
-  <main class="container">
-    <section id="about" class="section">
-        <h2 class="section-title">About Me</h2>
-        <img src="assets/images/IMG_20250823_131322_418.webp" alt="Profile Picture" class="profile-pic">
-          <p>Hello! I'm Julina Mae Escabosa, a dedicated musician and aspiring actor with a vibrant passion for the performing arts. Music is my core outlet, whether I'm breathing life into tunes on wind instruments such as the clarinet or saxophone, curating playlists that capture the essence of my favorite genres like ballad, pop, and RnB. Acting adds another layer to my creativity. I thrive on bringing characters to life through theater, short films, and improv, drawing from the raw emotion of storytelling.</p>
-          <p>This portfolio showcases my original music tracks, acting reels, curated playlists, and the journey behind my artistic pursuits, inviting you to join me in this world of sound and story.</p>
-    </section>
-
-    <section id="music" class="section">
-      <h2 class="section-title">🎶 Music</h2>
-      <div class="card">
-        <p>I have a strong passion for music and love exploring different genres. Music allows me to express emotions, connect with people, and find inspiration every day.</p>
-      </div>
-    </section>
-
-    <section id="inspirations" class="section">
-      <h2 class="section-title">🌟 My Inspirations</h2>
-      <div class="card">
-        <h3 style="text-align: center;">Favorite Artists</h3>
-        <div class="inspiration-grid">
-          <div class="inspiration-item">
-            <img src="assets/images/lea-salonga_2-1.jpeg" alt="Lea Salonga" />
-            <p><strong>Lea Salonga</strong><br>For her timeless voice and Broadway magic.</p>
-          </div>
-          <div class="inspiration-item">
-            <img src="assets/images/marya.jpeg" alt="Maricel Soriano" />
-            <p><strong>Maricel Soriano</strong><br>Iconic acting and emotional depth.</p>
-          </div>
-          <div class="inspiration-item">
-            <img src="assets/images/akb48.jpg" alt="AKB48" />
-            <p><strong>AKB48</strong><br>Energetic performances and group harmony.</p>
-          </div>
-          <div class="inspiration-item">
-            <img src="assets/images/abba.jpeg" alt="ABBA" />
-            <p><strong>ABBA</strong><br>Timeless pop melodies and storytelling.</p>
-          </div>
+    <section id="cover" class="content-section active">
+        <div class="cover-content">
+            <h1 class="fade-in">Welcome to My Portfolio</h1>
+            <p class="slide-up">Discover my journey, school activities, and passion for learning</p>
+            <a href="#" class="btn get-started-btn slide-up-delay">Get Started</a>
         </div>
-      </div>
     </section>
 
-    <section id="playlists" class="section">
-        <h2 class="section-title">🎧 Playlists</h2>
-        <div class="card">
-          <h3 style="text-align: center;">My Curated Playlists</h3>
-          <div class="card-grid">
+    <section id="about" class="content-section">
+        <div class="container">
+            <h2 class="fade-in">About Me</h2>
+            <div class="about-content">
+                <div class="profile-image">
+                    <img src="/assets/images/IMG_20250823_131322_418.webp" alt="Profile Picture" class="profile-img" id="profileImg">
+                </div>
+                <div class="about-info-box">
+                    <div class="info-card">
+                        <h3>Hello! I'm [Your Name]</h3>
+                        <p>I'm a passionate student with a keen interest in learning and creating. I believe in the power of education to transform lives and am constantly seeking new opportunities to grow both personally and professionally.</p>
+                        <p>My academic journey has been filled with exciting challenges and rewarding experiences. I enjoy collaborating with others on projects that make a positive impact and push the boundaries of what's possible.</p>
+                        <p>When I'm not studying or working on projects, you can find me exploring new technologies, reading books, or spending time outdoors. I'm always open to new connections and opportunities to learn from others.</p>
+                        <ul class="skills-list">
+                            <li>Programming & Web Development</li>
+                            <li>Team Collaboration</li>
+                            <li>Creative Problem Solving</li>
+                            <li>Community Service</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" class="content-section">
+        <div class="container">
+            <h2 class="fade-in">School Activities</h2>
+            <p class="slide-up">Here are some of the projects and activities I've been involved with during my academic journey:</p>
             
-            <div class="card">
-              <a href="https://music.youtube.com/channel/UCszuiV5XpxGRk8tXmUXxV5Q?si=3bnxNL2clYZ_39Ac" target="_blank">
-                <img src="assets/images/akb48.jpg" alt="AKB48 Playlist" class="card-img" />
-              </a>
-              <p>🎤 Energetic and inspiring J-pop from <strong><br>AKB48</strong>.</p>
+            <div class="activities-grid">
+                <div class="activity-card slide-up-delay">
+                    <img src="https://via.placeholder.com/400x200/967BB6/FFFFFF?text=Science+Fair" alt="Science Fair Project" class="activity-img" data-modal="modal1">
+                    <div class="activity-content">
+                        <h3>Science Fair Project</h3>
+                        <p>Developed an innovative solution for renewable energy sources, earning recognition at the regional science fair.</p>
+                    </div>
+                </div>
+                
+                <div class="activity-card slide-up-delay">
+                    <img src="https://via.placeholder.com/400x200/C5A8E4/FFFFFF?text=Coding+Club" alt="Coding Club" class="activity-img" data-modal="modal2">
+                    <div class="activity-content">
+                        <h3>Coding Club</h3>
+                        <p>Active member of the school's coding club, participating in hackathons and collaborative programming projects.</p>
+                    </div>
+                </div>
+                
+                <div class="activity-card slide-up-delay">
+                    <img src="https://via.placeholder.com/400x200/6A5B8E/FFFFFF?text=Community+Service" alt="Community Service" class="activity-img" data-modal="modal3">
+                    <div class="activity-content">
+                        <h3>Community Service</h3>
+                        <p>Organized and participated in community clean-up initiatives and environmental conservation projects.</p>
+                    </div>
+                </div>
+                
+                <div class="activity-card slide-up-delay">
+                    <img src="https://via.placeholder.com/400x200/B39DDB/FFFFFF?text=Academic+Competition" alt="Academic Competition" class="activity-img" data-modal="modal4">
+                    <div class="activity-content">
+                        <h3>Academic Competitions</h3>
+                        <p>Represented my school in various academic competitions, focusing on mathematics and science categories.</p>
+                    </div>
+                </div>
             </div>
-      
-            <div class="card">
-              <a href="https://music.youtube.com/channel/UCuubAXN9AYgtcmSrD0frggQ?si=tfCOV6SZ153U55GG" target="_blank">
-                <img src="assets/images/abba.jpeg" alt="ABBA Playlist" class="card-img" />
-              </a>
-              <p>✨ Timeless hits and disco vibes from <strong><br>ABBA</strong>.</p>
-            </div>
-      
-            <div class="card">
-              <a href="https://music.youtube.com/channel/UCkvoz5gnEk53HolBefnReGQ?si=yHrB2jDoj-MiOsek" target="_blank">
-                <img src="assets/images/lea-salonga_2-1.jpeg" alt="Lea Salonga's Playlist" class="card-img" />
-              </a>
-              <p>🌟 Beautiful performances by <strong><br>Lea Salonga</strong>.</p>
-            </div>
-      
-            <div class="card">
-              <a href="https://music.youtube.com/channel/UCN5Cp65YNKja-0_BxG6qIfw?si=LWG_vkl7D8hSJ6a-" target="_blank">
-                <img src="assets/images/sharon-cuneta-1-e1521956247261.jpg" alt="Sharon Cuneta Playlist" class="card-img" />
-              </a>
-              <p>💖 OPM classics from the <strong><br>Megastar Sharon Cuneta</strong>.</p>
-            </div>
-      
-          </div>
-          <p style="margin-top: 20px; text-align:center;">
-            Explore my favorite collections of AKB48, ABBA, Lea Salonga, and Sharon Cuneta 🎶
-          </p>
         </div>
-      </section>
-      
-
-    <section id="instruments" class="section">
-      <h2 class="section-title">🎼 Instruments</h2>
-      <p>I enjoy practicing and learning different instruments, each helping me to grow as a performer and musician.</p>
-      <div class="card-grid">
-        <div class="card">
-          <img src="assets/images/silhouette-of-a-woman-playing-the-clarinet-vector.jpg" alt="Playing clarinet" class="card-img" />
-          <p>Breathing soul into wind melodies on clarinet.</p>
-        </div>
-        <div class="card">
-          <img src="assets/images/girl playing saxophone silhouette.png" alt="Playing saxophone" class="card-img" />
-          <p>Capturing emotion with saxophone tones.</p>
-        </div>
-      </div>
     </section>
 
-    <section id="acting" class="section">
-      <h2 class="section-title">🎭 Acting</h2>
-      <p>Acting is another form of art I enjoy. It allows me to step into different roles, express emotions, and connect with audiences on stage and screen.</p>
-      <div class="card-grid">
-        <div class="card">
-          <img src="assets/images/F6apxwzDBzkK2nXnM8jMo9.jpg" alt="Stage acting" class="card-img" />
-          <p>A glimpse of my passion for theater and performance arts.</p>
+    <section id="contact" class="content-section">
+        <div class="container">
+            <h2 class="fade-in">Get In Touch</h2>
+            <p class="slide-up">I'm always interested in new opportunities and connections. Feel free to reach out!</p>
+            
+            <form class="contact-form slide-up-delay">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" placeholder="Type your message here..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Send Message</button>
+            </form>
         </div>
-        <div class="card">
-          <img src="assets/images/images (2).jpeg" alt="On-screen acting" class="card-img" />
-          <p>Bringing characters to life in short films and improv.</p>
-        </div>
-      </div>
     </section>
 
-    <section id="contact" class="section">
-      <h2 class="section-title">📩 Contact</h2>
-      <div class="card">
-        <p><strong>Email:</strong> lovejulinae02@email.com</p>
-        <p><strong>Discord:</strong> bossjuliijuls</p>
-        <p><strong>GitHub:</strong> <a href="https://github.com/bossjulinaescabosa" target="_blank" rel="noopener noreferrer">github.com/bossjulinaescabosa</a></p>
-        <p>Let's connect for collaborations or opportunities in music and acting!</p>
-      </div>
-    </section>
-  </main>
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
 
-  <footer class="footer">
-    <p>&copy; 2025 Julina Mae Escabosa. All Rights Reserved.</p>
-  </footer>
+    <div id="mobileMenu" class="mobile-menu">
+        <ul>
+            <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
+            <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
+            <li><a href="#" class="nav-link" data-section="activities">Activities</a></li>
+            <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+        </ul>
+    </div>
 
-  <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
