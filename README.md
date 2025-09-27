@@ -1,6 +1,6 @@
 ## About Me
 
-Hello! I'm Julina Mae Escabosa, I am a passionate and curious student who loves learning and creating. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally. Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries. Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.
+Hello! I'm Julina Mae Escabosa. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally. Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries. Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.
 
 ## Portfolio Sections
 
