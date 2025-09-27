@@ -1,17 +1,13 @@
 ## About Me
 
-Hello! I'm Julina Mae Escabosa, a dedicated musician and aspiring actor with a vibrant passion for the performing arts. Music is my core outlet, whether I'm breathing life into tunes on wind instruments such as the clarinet or saxophone, curating playlists that capture the essence of my favorite genres like ballad, pop, and RnB. Acting adds another layer to my creativity. I thrive on bringing characters to life through theater, short films, and improv, drawing from the raw emotion of storytelling.
+Hello! I'm Julina Mae Escabosa, I am a passionate and curious student who loves learning and creating. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally. Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries. Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.
 
 ## Portfolio Sections
 
 - About Me
-- Music
-- My Inspirations
-- Playlists
-- Instruments
-- Acting
+- Reports & Activities
 - Contact
-
+  
 ## Live Site
 
  https://bossjulinaescabosa.github.io/escabosajulinamae-portfolio/
