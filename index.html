@@ -1,144 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Web Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header id="header">
     <div class="container">
       <nav>
         <div class="logo">My Web Portfolio</div>
-          <ul class="nav-links">
-           <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
-           <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
-           <li><a href="#" class="nav-link" data-section="activities">Activities</a></li>
-           <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
-          </ul>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
+          <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
+          <li><a href="#" class="nav-link" data-section="activities">Reports & Activities</a></li>
+          <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
       </nav>
     </div>
-    </header>
+  </header>
 
-    <section id="cover" class="content-section active">
-        <div class="cover-content">
-            <h1 class="fade-in">Welcome to My Portfolio</h1>
-            <p class="slide-up">Discover my journey, school activities, and passion for learning</p>
-            <a href="#" class="btn get-started-btn slide-up-delay">Get Started</a>
+  <section id="cover" class="content-section active">
+    <div class="cover-content">
+      <h1 class="fade-in">Welcome to My Portfolio</h1>
+      <p class="slide-up">Discover my journey, school activities, and passion for learning</p>
+      <a href="#" class="btn get-started-btn slide-up-delay">Get Started</a>
+    </div>
+  </section>
+
+  <section id="about" class="content-section">
+    <div class="container">
+      <h2 class="fade-in">About Me</h2>
+      <div class="about-content">
+        <div class="profile-image">
+          <img src="//" alt="Profile Picture" class="Julina's Picture" id="Julina's Picture">
         </div>
-    </section>
-
-    <section id="about" class="content-section">
-        <div class="container">
-            <h2 class="fade-in">About Me</h2>
-            <div class="about-content">
-                <div class="profile-image">
-                    <img src="/assets/images/IMG_20250823_131322_418.webp" alt="Profile Picture" class="profile-img" id="profileImg">
-                </div>
-                <div class="about-info-box">
-                    <div class="info-card">
-                        <h3>Hello! I'm [Your Name]</h3>
-                        <p>I'm a passionate student with a keen interest in learning and creating. I believe in the power of education to transform lives and am constantly seeking new opportunities to grow both personally and professionally.</p>
-                        <p>My academic journey has been filled with exciting challenges and rewarding experiences. I enjoy collaborating with others on projects that make a positive impact and push the boundaries of what's possible.</p>
-                        <p>When I'm not studying or working on projects, you can find me exploring new technologies, reading books, or spending time outdoors. I'm always open to new connections and opportunities to learn from others.</p>
-                        <ul class="skills-list">
-                            <li>Programming & Web Development</li>
-                            <li>Team Collaboration</li>
-                            <li>Creative Problem Solving</li>
-                            <li>Community Service</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="about-info-box">
+          <div class="info-card">
+            <h3>Hello! I'm Julina Escabosa</h3>
+            <p>I am a passionate and curious student who loves learning and creating. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally.</p>
+            <p>Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries.</p>
+            <p>Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.</p>
+            <ul class="skills-list">
+              <li>Music Performance & Singing</li>
+              <li>Team Collaboration</li>
+              <li>Instrument Proficiency</li>
+              <li>Creative Problem Solving</li>
+              <li>Community Service</li>
+            </ul>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="activities" class="content-section">
-        <div class="container">
-            <h2 class="fade-in">School Activities</h2>
-            <p class="slide-up">Here are some of the projects and activities I've been involved with during my academic journey:</p>
-            
-            <div class="activities-grid">
-                <div class="activity-card slide-up-delay">
-                    <img src="https://via.placeholder.com/400x200/967BB6/FFFFFF?text=Science+Fair" alt="Science Fair Project" class="activity-img" data-modal="modal1">
-                    <div class="activity-content">
-                        <h3>Science Fair Project</h3>
-                        <p>Developed an innovative solution for renewable energy sources, earning recognition at the regional science fair.</p>
-                    </div>
-                </div>
-                
-                <div class="activity-card slide-up-delay">
-                    <img src="https://via.placeholder.com/400x200/C5A8E4/FFFFFF?text=Coding+Club" alt="Coding Club" class="activity-img" data-modal="modal2">
-                    <div class="activity-content">
-                        <h3>Coding Club</h3>
-                        <p>Active member of the school's coding club, participating in hackathons and collaborative programming projects.</p>
-                    </div>
-                </div>
-                
-                <div class="activity-card slide-up-delay">
-                    <img src="https://via.placeholder.com/400x200/6A5B8E/FFFFFF?text=Community+Service" alt="Community Service" class="activity-img" data-modal="modal3">
-                    <div class="activity-content">
-                        <h3>Community Service</h3>
-                        <p>Organized and participated in community clean-up initiatives and environmental conservation projects.</p>
-                    </div>
-                </div>
-                
-                <div class="activity-card slide-up-delay">
-                    <img src="https://via.placeholder.com/400x200/B39DDB/FFFFFF?text=Academic+Competition" alt="Academic Competition" class="activity-img" data-modal="modal4">
-                    <div class="activity-content">
-                        <h3>Academic Competitions</h3>
-                        <p>Represented my school in various academic competitions, focusing on mathematics and science categories.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="activities" class="content-section">
+  <div class="container">
+    <h2 class="fade-in">Reports & Activities</h2>
+    <p class="slide-up">Click below to explore my school reports and activities:</p>
 
-    <section id="contact" class="content-section">
-        <div class="container">
-            <h2 class="fade-in">Get In Touch</h2>
-            <p class="slide-up">I'm always interested in new opportunities and connections. Feel free to reach out!</p>
-            
-            <form class="contact-form slide-up-delay">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" placeholder="Type your message here..." required></textarea>
-                </div>
-                
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImg">
-        <div class="modal-caption" id="modalCaption"></div>
+    <div id="activitiesChoices" class="activities-choices">
+      <div class="choices-grid" style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+        <button class="choice-btn" data-open="reportsFolder" style="min-width:220px;">📁 Reports</button>
+        <button class="choice-btn" data-open="activitiesFolder" style="min-width:220px;">📁 School Activities</button>
+      </div>
     </div>
 
-    <div id="mobileMenu" class="mobile-menu">
-        <ul>
-            <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
-            <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
-            <li><a href="#" class="nav-link" data-section="activities">Activities</a></li>
-            <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
-        </ul>
+    <div id="reportsFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
+      <button class="back-to-choices" style="margin-bottom:12px;">Back</button>
+      <h3>Reports</h3>
+
+      <div class="folder-list" style="margin-top:12px;">
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="report1Content">Report 1</button>
+          <div id="report1Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="reportsFolder">Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/8E44AD/FFFFFF?text=Report+1+Image+1" alt="Report 1 Image 1">
+              <img src="https://via.placeholder.com/500x300/9B59B6/FFFFFF?text=Report+1+Image+2" alt="Report 1 Image 2">
+            </div>
+          </div>
+        </div>
+
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="report2Content">Report 2</button>
+          <div id="report2Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="reportsFolder">Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/2980B9/FFFFFF?text=Report+2+Image+1" alt="Report 2 Image 1">
+            </div>
+          </div>
+        </div>
+
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="report3Content">Report 3</button>
+          <div id="report3Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="reportsFolder">Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/27AE60/FFFFFF?text=Report+3+Image+1" alt="Report 3 Image 1">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script src="js/main.js"></script>
+    <div id="activitiesFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
+      <button class="back-to-choices" style="margin-bottom:12px;">Back</button>
+      <h3>School Activities</h3>
+
+      <div class="folder-list" style="margin-top:12px;">
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="activity1Content">Activity 1</button>
+          <div id="activity1Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="activitiesFolder">Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/E67E22/FFFFFF?text=Activity+1+Image+1" alt="Activity 1 Image 1">
+              <img src="https://via.placeholder.com/500x300/E67E22/FFFFFF?text=Activity+1+Image+2" alt="Activity 1 Image 2">
+            </div>
+          </div>
+        </div>
+
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="activity2Content">Activity 2</button>
+          <div id="activity2Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="activitiesFolder">Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/C0392B/FFFFFF?text=Activity+2+Image+1" alt="Activity 2 Image 1">
+            </div>
+          </div>
+        </div>
+
+        <div class="subfolder">
+          <button class="subfolder-btn" data-open="activity3Content">Activity 3</button>
+          <div id="activity3Content" class="subfolder-content" style="display:none;">
+            <button class="back-to-folder" data-target="activitiesFolder">← Back</button>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+              <img src="https://via.placeholder.com/500x300/16A085/FFFFFF?text=Activity+3+Image+1" alt="Activity 3 Image 1">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="contact" class="content-section">
+    <div class="container">
+      <h2 class="fade-in">Get In Touch</h2>
+      <p class="slide-up">I'm always interested in new opportunities and connections. Feel free to reach out!</p>
+      <form class="contact-form slide-up-delay">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" placeholder="Type your message here..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <div id="imageModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu">
+    <ul>
+      <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
+      <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
+      <li><a href="#" class="nav-link" data-section="activities">Reports & Activities</a></li>
+      <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
