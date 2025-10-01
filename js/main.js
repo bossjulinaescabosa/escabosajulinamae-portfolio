@@ -32,23 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ✅ FIXED: Hamburger Menu (menuBtn)
-  const mobileMenuBtn = document.getElementById('menuBtn'); // hamburger button
-  const mobileMenu = document.getElementById('mobileMenu');
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
 
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      mobileMenuBtn.classList.toggle('open'); // toggle X animation
-    });
+if (menuBtn && mobileMenu) {
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    menuBtn.classList.toggle('open');
+  });
 
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        mobileMenuBtn.classList.remove('open');
-      }
-    });
-  }
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+      mobileMenu.classList.remove('active');
+      menuBtn.classList.remove('open');
+    }
+  });
+}
 
   const themeToggle = document.getElementById('themeToggle');
   const body = document.body;
