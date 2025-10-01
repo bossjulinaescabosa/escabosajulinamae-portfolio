@@ -646,4 +646,31 @@ textarea {
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
+  
+.menu-btn {
+  display: none; /* nakatago by default, lalabas lang sa maliit na screen */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100;
+}
+
+.menu-btn span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--text-color);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: flex;
+  }
 }
