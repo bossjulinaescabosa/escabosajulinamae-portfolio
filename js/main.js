@@ -1,206 +1,102 @@
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, initializing portfolio scripts...');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('.content-section');
-  const getStartedBtn = document.querySelector('.get-started-btn');
+// THEME TOGGLE
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+});
 
-  function showSection(sectionId) {
-    sections.forEach(section => {
-      section.classList.remove('active');
-    });
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-      targetSection.classList.add('active');
-      targetSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
+// HAMBURGER MENU
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const sectionId = link.getAttribute('data-section');
-      showSection(sectionId);
-      const mobileMenu = document.getElementById('mobileMenu');
-      if (mobileMenu) mobileMenu.classList.remove('active');
-    });
+menuBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("active");
+  menuBtn.classList.toggle("open");
+});
+
+// CLOSE MOBILE MENU WHEN CLICK NAV LINK
+document.querySelectorAll(".mobile-menu .nav-link").forEach(link => {
+  link.addEventListener("click", () => {
+    mobileMenu.classList.remove("active");
+    menuBtn.classList.remove("open");
   });
+});
 
-  if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      showSection('about');
-    });
-  }
+// SECTION NAVIGATION
+const navLinks = document.querySelectorAll(".nav-link");
+const sections = document.querySelectorAll(".content-section");
 
-const menuBtn = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
+navLinks.forEach(link => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const target = link.getAttribute("data-section");
 
-if (menuBtn && mobileMenu) {
-  menuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    menuBtn.classList.toggle('open');
+    sections.forEach(section => section.classList.remove("active"));
+    document.getElementById(target).classList.add("active");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
+});
 
-  document.addEventListener('click', (e) => {
-    if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-      mobileMenu.classList.remove('active');
-      menuBtn.classList.remove('open');
-    }
+// FOLDER TOGGLE (Reports / Activities)
+const choiceBtns = document.querySelectorAll(".choice-btn");
+const folderContents = document.querySelectorAll(".folder-content");
+const backToChoicesBtns = document.querySelectorAll(".back-to-choices");
+
+choiceBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("activitiesChoices").style.display = "none";
+    folderContents.forEach(f => f.style.display = "none");
+    document.getElementById(btn.dataset.open).style.display = "block";
   });
-}
+});
 
-  const themeToggle = document.getElementById('themeToggle');
-  const body = document.body;
-
-  if (themeToggle) {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    body.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      body.setAttribute('data-theme', newTheme);
-      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-      localStorage.setItem('theme', newTheme);
-    });
-  }
-
-  const activitiesChoices = document.getElementById('activitiesChoices');
-  const choiceBtns = document.querySelectorAll('.choice-btn');
-  const backToChoicesBtns = document.querySelectorAll('.back-to-choices');
-  const subfolderBtns = document.querySelectorAll('.subfolder-btn');
-  const backToFolderBtns = document.querySelectorAll('.back-to-folder');
-
-  if (choiceBtns.length > 0) {
-    choiceBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetFolderId = btn.getAttribute('data-open');
-        const targetFolder = document.getElementById(targetFolderId);
-        if (activitiesChoices && targetFolder) {
-          activitiesChoices.style.display = 'none';
-          targetFolder.style.display = 'block';
-          console.log(`Opened folder: ${targetFolderId}`);
-        }
-      });
-    });
-  }
-
-  if (backToChoicesBtns.length > 0) {
-    backToChoicesBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const currentFolder = btn.closest('.folder-content');
-        if (currentFolder && activitiesChoices) {
-          currentFolder.style.display = 'none';
-          activitiesChoices.style.display = 'block';
-          console.log('Returned to activities choices');
-        }
-      });
-    });
-  }
-
-  if (subfolderBtns.length > 0) {
-    subfolderBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetSubfolderId = btn.getAttribute('data-open');
-        const subfolder = btn.closest('.subfolder');
-        const subfolderContent = subfolder ? subfolder.querySelector('.subfolder-content') : null;
-        if (subfolderContent) {
-          subfolderContent.style.display = 'block';
-          subfolderContent.classList.add('fade-in');
-          btn.style.display = 'none';
-          console.log(`Opened subfolder: ${targetSubfolderId}`);
-        }
-      });
-    });
-  }
-
-  if (backToFolderBtns.length > 0) {
-    backToFolderBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const targetFolderId = btn.getAttribute('data-target');
-        const subfolderContent = btn.closest('.subfolder-content');
-        const subfolder = subfolderContent ? subfolderContent.closest('.subfolder') : null;
-        const subfolderBtn = subfolder ? subfolder.querySelector('.subfolder-btn') : null;
-        if (subfolderContent && subfolderBtn) {
-          subfolderContent.style.display = 'none';
-          subfolderBtn.style.display = 'block';
-          console.log(`Closed subfolder, back to ${targetFolderId}`);
-        }
-      });
-    });
-  }
-
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalCaption = document.getElementById('modalCaption');
-  const closeModal = document.querySelector('.close');
-
-  if (modal && modalImg && modalCaption && closeModal) {
-    document.querySelectorAll('.subfolder-content img').forEach(img => {
-      if (img.src && img.alt) {
-        img.style.cursor = 'pointer';
-        img.addEventListener('click', () => {
-          modal.style.display = 'block';
-          modalImg.src = img.src;
-          modalImg.alt = img.alt;
-          modalCaption.textContent = img.alt;
-          console.log(`Opened modal for: ${img.alt}`);
-        });
-      }
-    });
-
-    closeModal.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'block') {
-        modal.style.display = 'none';
-      }
-    });
-
-    modalImg.addEventListener('error', () => {
-      modalImg.src = 'https://via.placeholder.com/500x300?text=Image+Not+Found';
-      modalCaption.textContent = 'Image could not be loaded.';
-    });
-  }
-
-  const contactForm = document.querySelector('.contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(contactForm);
-      const name = formData.get('name') || document.getElementById('name').value;
-      alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon.`);
-      contactForm.reset();
-      console.log('Form submitted');
-    });
-  }
-
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in', 'slide-up');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  document.querySelectorAll('.fade-in, .slide-up, .slide-up-delay, h2, .about-info-box, .activities-choices, .folder-content').forEach(el => {
-    if (el) observer.observe(el);
+backToChoicesBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("activitiesChoices").style.display = "block";
+    folderContents.forEach(f => f.style.display = "none");
   });
+});
 
-  console.log('Portfolio scripts initialized successfully!');
+// SUBFOLDER TOGGLE
+const subfolderBtns = document.querySelectorAll(".subfolder-btn");
+const subfolderContents = document.querySelectorAll(".subfolder-content");
+const backToFolderBtns = document.querySelectorAll(".back-to-folder");
+
+subfolderBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    subfolderContents.forEach(s => s.style.display = "none");
+    document.getElementById(btn.dataset.open).style.display = "block";
+  });
+});
+
+backToFolderBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    subfolderContents.forEach(s => s.style.display = "none");
+    document.getElementById(btn.dataset.target).style.display = "block";
+  });
+});
+
+// IMAGE MODAL
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const modalCaption = document.getElementById("modalCaption");
+const modalClose = document.querySelector(".modal .close");
+
+document.querySelectorAll("img").forEach(img => {
+  img.addEventListener("click", () => {
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    modalCaption.innerHTML = img.alt;
+  });
+});
+
+modalClose.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
 });
