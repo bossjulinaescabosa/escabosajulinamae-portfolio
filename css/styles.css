@@ -277,6 +277,28 @@ body.dark-mode .info-card {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* New grid styles for reports and activities images */
+.folder-content, .subfolder-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 1rem;
+}
+
+.folder-content img, .subfolder-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  object-fit: cover;
+}
+
+.folder-content img:hover, .subfolder-content img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.3); 
+}
+
 .choices-grid {
   display: flex;
   gap: 1rem;
@@ -335,20 +357,12 @@ body.dark-mode .subfolder {
   transform: translateY(-2px);
 }
 
-.folder-content img,
-.subfolder-content img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 0; 
-}
-
-.folder-content img:hover,
-.subfolder-content img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.3);
+.folder-content, .subfolder-content {
+  opacity: 0;
+  transform: translateY(10px);
+  visibility: hidden;
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+  margin-top: 1.5rem;
 }
 
 .folder-content.active, .subfolder-content.active {
@@ -518,24 +532,23 @@ body.dark-mode .mobile-menu a {
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
+  user-select: none;
+  transition: color 0.3s ease;
 }
 
 .close:hover {
-  color: #A78BFA; 
-  transform: scale(1.1);
+  color: #A78BFA;
 }
 
-.modal-caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  color: #E2E8F0;
-  padding: 10px 0;
-  font-size: 1rem;
-  transition: color 0.3s ease;
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fade-in {
@@ -543,142 +556,32 @@ body.dark-mode .mobile-menu a {
   to { opacity: 1; }
 }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fade-in 0.8s ease-out;
-}
-
-.slide-up {
-  animation: slide-up 0.6s ease-out 0.2s both;
-}
-
-.slide-up-delay {
-  animation: slide-up 0.6s ease-out 0.4s both;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .profile-pic {
+    margin: 0 auto 2rem;
+  }
+
+  nav .nav-links {
+    display: none;
+  }
+
   .hamburger {
     display: flex;
   }
 
-  .nav-links {
-    display: none;
-  }
-
-  .about-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 1.5rem;
-  }
-
-  h1 { 
-    font-size: 2rem; 
-  }
-
-  h2 { 
-    font-size: 2rem; 
-  }
-
-  h3 { 
-    font-size: 1.5rem; 
-  }
-
-  .choices-grid, .folder-list {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .choice-btn, .subfolder-btn {
-    min-width: auto;
-    width: 100%;
-    max-width: 300px;
-  }
-
-  img {
-    width: calc(50% - 10px);
-    margin: 5px;
-  }
-
-  .modal-content {
-    width: 95%;
-  }
-
-  .back-to-choices, .back-to-folder {
-    width: 100%;
-    margin-bottom: 12px;
+  .folder-content, .subfolder-content {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 0.5rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.2rem;
-  }
-
-  .nav-actions {
-    gap: 0.5rem;
-  }
-
-  .choice-btn,
-  .subfolder-btn,
-  .back-to-choices,
-  .back-to-folder {
-    width: 100%;
-    font-size: 0.95rem;
-    padding: 10px;
-  }
-
-  .about-content {
-    gap: 1rem;
-  }
-
-  .profile-pic {
-    max-width: 200px;
-    margin: 0 auto;
-  }
-
-  img {
-    width: 100%; 
-    margin: 5px 0;
-  }
-
-  .modal-caption {
-    font-size: 0.9rem;
-    padding: 8px 0;
-  }
-
-  .modal-content {
-    width: 95%;
-    max-height: 70%;
-  }
-
-  .form-group label {
-    font-size: 0.9rem;
-  }
-
-  input,
-  textarea {
-    font-size: 0.95rem;
+  .folder-content, .subfolder-content {
+    grid-template-columns: 1fr;
   }
 }
