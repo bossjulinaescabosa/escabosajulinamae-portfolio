@@ -1,24 +1,19 @@
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-  // Navigation: Handle section switching
   const navLinks = document.querySelectorAll('.nav-link');
   const contentSections = document.querySelectorAll('.content-section');
   const mobileMenuLinks = document.querySelectorAll('.mobile-menu .nav-link');
 
   function showSection(sectionId) {
-    // Hide all sections
     contentSections.forEach(section => {
       section.classList.remove('active');
     });
 
-    // Show target section
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
       targetSection.classList.add('active');
       targetSection.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Close mobile menu if open
     const mobileMenu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('menuBtn');
     if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
@@ -27,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Add listeners to all nav links (desktop and mobile)
   [...navLinks, ...mobileMenuLinks].forEach(link => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
@@ -38,10 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Initial active section (Home/Cover)
   showSection('cover');
 
-  // Get Started button on cover (scrolls to about)
   const getStartedBtn = document.querySelector('.get-started-btn');
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', function(e) {
@@ -50,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Mobile Menu Toggle (Hamburger)
   const hamburger = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
 
@@ -61,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.toggle('active');
     });
 
-    // Close mobile menu on outside click
     document.addEventListener('click', function(e) {
       if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
         mobileMenu.classList.remove('active');
@@ -69,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    // Close on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
         mobileMenu.classList.remove('active');
@@ -78,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Theme Toggle (Dark/Light Mode) with localStorage persistence
   const themeToggle = document.getElementById('themeToggle');
   const body = document.body;
 
@@ -87,22 +75,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     if (savedTheme === 'dark') {
       body.classList.add('dark-mode');
-      themeToggle.textContent = '☀️'; // Sun for dark mode
+      themeToggle.textContent = '☀️'; 
     } else {
-      themeToggle.textContent = '🌙'; // Moon for light mode
+      themeToggle.textContent = '🌙'; 
     }
 
     themeToggle.addEventListener('click', function() {
       body.classList.toggle('dark-mode');
       const isDark = body.classList.contains('dark-mode');
       this.textContent = isDark ? '☀️' : '🌙';
-      
-      // Save to localStorage
+    
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
   }
 
-  // Folder Interactions (Reports & Activities)
   const choiceBtns = document.querySelectorAll('.choice-btn');
   const backToChoicesBtns = document.querySelectorAll('.back-to-choices');
   const subfolderBtns = document.querySelectorAll('.subfolder-btn');
@@ -112,14 +98,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const activitiesFolder = document.getElementById('activitiesFolder');
   const activitiesSection = document.getElementById('activities');
 
-  // Choice buttons (Reports/Activities)
   choiceBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       const target = this.getAttribute('data-open');
       if (activitiesChoices) {
         activitiesChoices.style.display = 'none';
       }
-      // Clear instructional text
+      
       const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
       if (instructionalP) {
         instructionalP.textContent = '';
@@ -137,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Back to choices buttons
   backToChoicesBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       if (reportsFolder) {
@@ -151,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (activitiesChoices) {
         activitiesChoices.style.display = 'block';
       }
-      // Restore instructional text
+    
       const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
       if (instructionalP) {
         instructionalP.textContent = 'Click below to explore my school reports and activities:';
@@ -162,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Subfolder buttons (inside folders)
   subfolderBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       const target = this.getAttribute('data-open');
@@ -170,14 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const subfolderContent = document.getElementById(target);
       
       if (currentFolder) {
-        // Hide all subfolder contents in current folder
         currentFolder.querySelectorAll('.subfolder-content').forEach(content => {
           content.style.display = 'none';
           content.classList.remove('active');
         });
       }
       
-      // Show target subfolder
       if (subfolderContent) {
         subfolderContent.style.display = 'block';
         subfolderContent.classList.add('active');
@@ -186,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Back to folder buttons
   backToFolderBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       const targetFolderId = this.getAttribute('data-target');
@@ -211,32 +191,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const closeBtn = document.querySelector('.close');
 
   if (modal && modalImg && modalCaption) {
-    // Event delegation for all images (click to open modal)
     document.addEventListener('click', function(e) {
       if (e.target.tagName === 'IMG' && e.target.src && e.target.alt) {
         modal.style.display = 'block';
         modalImg.src = e.target.src;
         modalCaption.textContent = e.target.alt;
-        // Prevent bubbling if needed
         e.stopPropagation();
       }
     });
 
-    // Close modal with X button
     if (closeBtn) {
       closeBtn.addEventListener('click', function() {
         modal.style.display = 'none';
       });
     }
 
-    // Close modal on outside click
     window.addEventListener('click', function(e) {
       if (e.target === modal) {
         modal.style.display = 'none';
       }
     });
 
-    // Close modal on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.style.display === 'block') {
         modal.style.display = 'none';
@@ -244,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Contact Form Submission
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -259,17 +233,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (name && email && message) {
         alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon at ${email}.`);
-        // Reset form
         contactForm.reset();
-        // Scroll to home on success
         showSection('cover');
       } else {
         alert('Please fill in all fields.');
       }
     });
   }
-
-  // Smooth scrolling for any anchor links (backup for future additions)
+  
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
