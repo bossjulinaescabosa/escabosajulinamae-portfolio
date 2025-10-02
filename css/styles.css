@@ -279,22 +279,16 @@ body.dark-mode .info-card {
 /* FOLDER GRID (IMAGES) */
 .folder-content, .subfolder-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
   margin-top: 1.5rem;
 }
 
-.folder-content.active, .subfolder-content.active {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-}
-
 .folder-content img, .subfolder-content img {
   width: 100%;
-  height: 200px;          /* pare-pareho taas ng row */
-  object-fit: contain;    /* buo ang picture, walang crop */
-  background: #fff;       /* white padding kung may extra space */
+  height: 200px;
+  object-fit: contain;  /* buo ang image */
+  background: #fff;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -303,6 +297,38 @@ body.dark-mode .info-card {
 .folder-content img:hover, .subfolder-content img:hover {
   transform: scale(1.03);
   box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
+}
+
+/* LIGHTBOX */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+}
+
+.lightbox:target {
+  display: flex;
+}
+
+.lightbox a.close {
+  position: absolute;
+  top: 20px; right: 30px;
+  font-size: 2rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 /* CHOICES BUTTONS */
