@@ -279,8 +279,8 @@ body.dark-mode .info-card {
 /* FOLDER GRID (IMAGES) */
 .folder-content, .subfolder-content {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
   margin-top: 1.5rem;
 }
 
@@ -292,18 +292,17 @@ body.dark-mode .info-card {
 
 .folder-content img, .subfolder-content img {
   width: 100%;
-  height: auto;          /* keep original ratio */
-  max-height: 200px;     /* para hindi sobrang haba */
-  object-fit: contain;   /* show full image */
+  height: 200px;          /* pare-pareho taas ng row */
+  object-fit: contain;    /* buo ang picture, walang crop */
+  background: #fff;       /* white padding kung may extra space */
   border-radius: 8px;
   cursor: pointer;
-  background: #f9f9f9;   /* para may background kung transparent yung image */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .folder-content img:hover, .subfolder-content img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.3);
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
 }
 
 /* CHOICES BUTTONS */
