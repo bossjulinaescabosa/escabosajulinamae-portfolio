@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close mobile menu if open
     const mobileMenu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('menuBtn');
-    if (mobileMenu.classList.contains('active')) {
+    if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
       mobileMenu.classList.remove('active');
       hamburger.classList.remove('active');
     }
@@ -32,51 +32,75 @@ document.addEventListener('DOMContentLoaded', function() {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       const sectionId = this.getAttribute('data-section');
-      showSection(sectionId);
+      if (sectionId) {
+        showSection(sectionId);
+      }
     });
   });
 
-  // Initial active section
+  // Initial active section (Home/Cover)
   showSection('cover');
+
+  // Get Started button on cover (scrolls to about)
+  const getStartedBtn = document.querySelector('.get-started-btn');
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      showSection('about');
+    });
+  }
 
   // Mobile Menu Toggle (Hamburger)
   const hamburger = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
 
-  hamburger.addEventListener('click', function() {
-    this.classList.toggle('active');
-    mobileMenu.classList.toggle('active');
-  });
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
 
-  // Close mobile menu on outside click
-  document.addEventListener('click', function(e) {
-    if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-      mobileMenu.classList.remove('active');
-      hamburger.classList.remove('active');
-    }
-  });
+    // Close mobile menu on outside click
+    document.addEventListener('click', function(e) {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+      }
+    });
+  }
 
   // Theme Toggle (Dark/Light Mode) with localStorage persistence
   const themeToggle = document.getElementById('themeToggle');
   const body = document.body;
 
-  // Load saved theme from localStorage
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
-    themeToggle.textContent = '☀️'; // Sun for dark mode
-  } else {
-    themeToggle.textContent = '🌙'; // Moon for light mode
-  }
+  if (themeToggle) {
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      themeToggle.textContent = '☀️'; // Sun for dark mode
+    } else {
+      themeToggle.textContent = '🌙'; // Moon for light mode
+    }
 
-  themeToggle.addEventListener('click', function() {
-    body.classList.toggle('dark-mode');
-    const isDark = body.classList.contains('dark-mode');
-    this.textContent = isDark ? '☀️' : '🌙';
-    
-    // Save to localStorage
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
+    themeToggle.addEventListener('click', function() {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      this.textContent = isDark ? '☀️' : '🌙';
+      
+      // Save to localStorage
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
 
   // Folder Interactions (Reports & Activities)
   const choiceBtns = document.querySelectorAll('.choice-btn');
@@ -86,23 +110,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const activitiesChoices = document.getElementById('activitiesChoices');
   const reportsFolder = document.getElementById('reportsFolder');
   const activitiesFolder = document.getElementById('activitiesFolder');
+  const activitiesSection = document.getElementById('activities');
 
   // Choice buttons (Reports/Activities)
   choiceBtns.forEach(btn => {
     btn.addEventListener('click', function() {
       const target = this.getAttribute('data-open');
-      activitiesChoices.style.display = 'none';
-      // Clear any instructional text
-      const instructionalP = document.querySelector('#activities p.slide-up');
+      if (activitiesChoices) {
+        activitiesChoices.style.display = 'none';
+      }
+      // Clear instructional text
+      const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
       if (instructionalP) {
         instructionalP.textContent = '';
       }
 
-      if (target === 'reportsFolder') {
+      if (target === 'reportsFolder' && reportsFolder) {
         reportsFolder.style.display = 'block';
         reportsFolder.classList.add('active');
         reportsFolder.scrollIntoView({ behavior: 'smooth' });
-      } else if (target === 'activitiesFolder') {
+      } else if (target === 'activitiesFolder' && activitiesFolder) {
         activitiesFolder.style.display = 'block';
         activitiesFolder.classList.add('active');
         activitiesFolder.scrollIntoView({ behavior: 'smooth' });
@@ -113,17 +140,25 @@ document.addEventListener('DOMContentLoaded', function() {
   // Back to choices buttons
   backToChoicesBtns.forEach(btn => {
     btn.addEventListener('click', function() {
-      reportsFolder.style.display = 'none';
-      reportsFolder.classList.remove('active');
-      activitiesFolder.style.display = 'none';
-      activitiesFolder.classList.remove('active');
-      activitiesChoices.style.display = 'block';
+      if (reportsFolder) {
+        reportsFolder.style.display = 'none';
+        reportsFolder.classList.remove('active');
+      }
+      if (activitiesFolder) {
+        activitiesFolder.style.display = 'none';
+        activitiesFolder.classList.remove('active');
+      }
+      if (activitiesChoices) {
+        activitiesChoices.style.display = 'block';
+      }
       // Restore instructional text
-      const instructionalP = document.querySelector('#activities p.slide-up');
+      const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
       if (instructionalP) {
         instructionalP.textContent = 'Click below to explore my school reports and activities:';
       }
-      document.getElementById('activities').scrollIntoView({ behavior: 'smooth' });
+      if (activitiesSection) {
+        activitiesSection.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
@@ -134,16 +169,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const currentFolder = this.closest('.folder-content');
       const subfolderContent = document.getElementById(target);
       
-      // Hide all subfolder contents in current folder
-      currentFolder.querySelectorAll('.subfolder-content').forEach(content => {
-        content.style.display = 'none';
-        content.classList.remove('active');
-      });
+      if (currentFolder) {
+        // Hide all subfolder contents in current folder
+        currentFolder.querySelectorAll('.subfolder-content').forEach(content => {
+          content.style.display = 'none';
+          content.classList.remove('active');
+        });
+      }
       
       // Show target subfolder
-      subfolderContent.style.display = 'block';
-      subfolderContent.classList.add('active');
-      subfolderContent.scrollIntoView({ behavior: 'smooth' });
+      if (subfolderContent) {
+        subfolderContent.style.display = 'block';
+        subfolderContent.classList.add('active');
+        subfolderContent.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
@@ -154,10 +193,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const currentSubfolder = this.closest('.subfolder-content');
       const targetFolder = document.getElementById(targetFolderId);
       
-      currentSubfolder.style.display = 'none';
-      currentSubfolder.classList.remove('active');
+      if (currentSubfolder) {
+        currentSubfolder.style.display = 'none';
+        currentSubfolder.classList.remove('active');
+      }
       
-      targetFolder.scrollIntoView({ behavior: 'smooth' });
+      if (targetFolder) {
+        targetFolder.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
@@ -167,51 +210,71 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalCaption = document.getElementById('modalCaption');
   const closeBtn = document.querySelector('.close');
 
-  // Event delegation for all images (current and future)
-  document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'IMG' && e.target.alt) {
-      modal.style.display = 'block';
-      modalImg.src = e.target.src;
-      modalCaption.textContent = e.target.alt;
-    }
-  });
+  if (modal && modalImg && modalCaption) {
+    // Event delegation for all images (click to open modal)
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'IMG' && e.target.src && e.target.alt) {
+        modal.style.display = 'block';
+        modalImg.src = e.target.src;
+        modalCaption.textContent = e.target.alt;
+        // Prevent bubbling if needed
+        e.stopPropagation();
+      }
+    });
 
-  // Close modal
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-  });
-
-  // Close modal on outside click
-  window.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      modal.style.display = 'none';
+    // Close modal with X button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
     }
-  });
+
+    // Close modal on outside click
+    window.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+    });
+  }
 
   // Contact Form Submission
   const contactForm = document.querySelector('.contact-form');
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const messageInput = document.getElementById('message');
 
-    if (name && email && message) {
-      alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon at ${email}.`);
-      // Reset form
-      contactForm.reset();
-      // Optionally, scroll back to top or show success message
-      showSection('cover');
-    } else {
-      alert('Please fill in all fields.');
-    }
-  });
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+      const message = messageInput ? messageInput.value.trim() : '';
 
-  // Smooth scrolling for any anchor links (if added later)
+      if (name && email && message) {
+        alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon at ${email}.`);
+        // Reset form
+        contactForm.reset();
+        // Scroll to home on success
+        showSection('cover');
+      } else {
+        alert('Please fill in all fields.');
+      }
+    });
+  }
+
+  // Smooth scrolling for any anchor links (backup for future additions)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
+      const targetId = this.getAttribute('href').substring(1);
+      const target = document.getElementById(targetId);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth' });
       }
