@@ -277,24 +277,22 @@ body.dark-mode .info-card {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Updated grid styles for reports and activities images */
 .folder-content, .subfolder-content {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 15px;
+  grid-template-columns: repeat(3, 1fr); /* 3 images per row */
+  gap: 12px;  /* smaller gap for compact layout */
   margin-top: 1rem;
 }
 
 .folder-content img, .subfolder-content img {
   width: 100%;
-  height: 180px;          /* fixed height for uniformity */
-  object-fit: cover;      /* crop to fill container */
+  height: 120px;        
+  object-fit: cover;   
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 0 auto;
-  display: block;
 }
+
 
 .choices-grid {
   display: flex;
