@@ -18,14 +18,7 @@
           <li><a href="#" class="nav-link" data-section="activities">Reports & Activities</a></li>
           <li><a href="#" class="nav-link" data-section="contact">Contact</a></li>
         </ul>
-        <div class="nav-actions">
-          <button class="theme-toggle" id="themeToggle">🌙</button>
-          <button id="menuBtn" class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
       </nav>
     </div>
   </header>
@@ -43,9 +36,8 @@
       <h2 class="fade-in">About Me</h2>
       <div class="about-content slide-up">
         <div class="profile-image fade-in">
-          <img src="assets/images/IMG_20250823_131322_418.webp" alt="Julina's Profile Picture" class="profile-pic">
+          <img src="/assets/images/IMG_20250823_131322_418.webp" alt="Julina's Profile Picture" class="profile-pic">
         </div>
-
         <div class="about-info-box slide-up-delay">
           <div class="info-card">
             <h3>Hello! I'm Julina Escabosa</h3>
@@ -72,13 +64,13 @@
 
       <div id="activitiesChoices" class="activities-choices">
         <div class="choices-grid" style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-          <button class="choice-btn" data-open="reportsFolder" style="min-width:220px;">📁 Reports</button>
-          <button class="choice-btn" data-open="activitiesFolder" style="min-width:220px;">📁 Activities</button>
+          <button class="choice-btn" data-open="reportsFolder">📁 Reports</button>
+          <button class="choice-btn" data-open="activitiesFolder">📁 Activities</button>
         </div>
       </div>
 
       <div id="reportsFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
-        <button class="back-to-choices" style="margin-bottom:12px;">Back</button>
+        <button class="back-to-choices">Back</button>
         <h3>Reports</h3>
 
         <div class="folder-list" style="margin-top:12px;">
@@ -87,50 +79,58 @@
             <div id="report1Content" class="subfolder-content" style="display:none;">
               <button class="back-to-folder" data-target="reportsFolder">Back</button>
               <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/1000006226.jpg" alt="Report 1 Image 1">
-                <img src="assets/images/1000006225.jpg" alt="Report 1 Image 2">
-                <img src="assets/images/1000006227.jpg" alt="Report 1 Image 3">
-                <img src="assets/images/1000006228.jpg" alt="Report 1 Image 4">
-                <img src="assets/images/1000006229.jpg" alt="Report 1 Image 5">
+                <button class="topic-btn" data-open="topic1Content">Topic 1</button>
+                <button class="topic-btn" data-open="topic2Content">Topic 2</button>
+                <button class="topic-btn" data-open="topic3Content">Topic 3</button>
               </div>
-            </div>
-          </div>
 
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="report2Content">Report 2</button>
-            <div id="report2Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="reportsFolder">Back</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/Screenshot_20250928-202322.png" alt="Report 2 Image 1">
-                <img src="assets/images/Screenshot_20250928-202329.png" alt="Report 2 Image 2">
-                <img src="assets/images/Screenshot_20250928-202336.png" alt="Report 2 Image 3">
-                <img src="assets/images/Screenshot_20250928-202400.png" alt="Report 2 Image 4">
-                <img src="assets/images/Screenshot_20250928-202411.png" alt="Report 2 Image 5">
-                <img src="assets/images/Screenshot_20250928-202418.png" alt="Report 2 Image 6">
-                <img src="assets/images/Screenshot_20250928-202429.png" alt="Report 2 Image 7">
-                <img src="assets/images/Screenshot_20250928-202756.png" alt="Report 2 Image 8">
-                <img src="assets/images/Screenshot_20250928-202802.png" alt="Report 2 Image 9">
+              <div id="topic1Content" class="topic-content" style="display:none; margin-top:12px;">
+                <button class="back-to-topics">Close</button>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+                  <img src="/assets/images/Screenshot_20250928-202322.png" alt="Topic 1 Image 1">
+                  <img src="/assets/images/Screenshot_20250928-202329.png" alt="Topic 1 Image 2">
+                  <img src="/assets/images/Screenshot_20250928-202336.png" alt="Topic 1 Image 3">
+                </div>
               </div>
+
+              <div id="topic2Content" class="topic-content" style="display:none; margin-top:12px;">
+                <button class="back-to-topics">Close</button>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+                  <img src="/assets/images/Screenshot_20250928-202400.png" alt="Topic 2 Image 1">
+                  <img src="/assets/images/Screenshot_20250928-202411.png" alt="Topic 2 Image 2">
+                  <img src="/assets/images/Screenshot_20250928-202418.png" alt="Topic 2 Image 3">
+                  <img src="/assets/images/Screenshot_20250928-202429.png" alt="Topic 2 Image 4">
+                </div>
+              </div>
+
+              <div id="topic3Content" class="topic-content" style="display:none; margin-top:12px;">
+                <button class="back-to-topics">Close</button>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+                  <img src="/assets/images/Screenshot_20250928-202756.png" alt="Topic 3 Image 1">
+                  <img src="/assets/images/Screenshot_20250928-202802.png" alt="Topic 3 Image 2">
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
 
       <div id="activitiesFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
-        <button class="back-to-choices" style="margin-bottom:12px;">Back</button>
+        <button class="back-to-choices">Back</button>
         <h3>Activities</h3>
 
         <div class="folder-list" style="margin-top:12px;">
           <div class="subfolder">
             <button class="subfolder-btn" data-open="activity1Content">Activity 1</button>
             <div id="activity1Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Back</button>
+              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
               <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/Screenshot (60).png" alt="Activity 1 Image 1">
-                <img src="assets/images/Screenshot (61).png" alt="Activity 1 Image 2">
-                <img src="assets/images/Screenshot (62).png" alt="Activity 1 Image 3">
-                <img src="assets/images/Screenshot (63).png" alt="Activity 1 Image 4">
-                <img src="assets/images/Screenshot (65).png" alt="Activity 1 Image 5">
+                <img src="/assets/images/1000006226.jpg" alt="Activity 1 Image 1">
+                <img src="/assets/images/1000006225.jpg" alt="Activity 1 Image 2">
+                <img src="/assets/images/1000006227.jpg" alt="Activity 1 Image 3">
+                <img src="/assets/images/1000006228.jpg" alt="Activity 1 Image 4">
+                <img src="/assets/images/1000006229.jpg" alt="Activity 1 Image 5">
               </div>
             </div>
           </div>
@@ -138,17 +138,13 @@
           <div class="subfolder">
             <button class="subfolder-btn" data-open="activity2Content">Activity 2</button>
             <div id="activity2Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Back</button>
+              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
               <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/Screenshot (66).png" alt="Activity 2 Image 1">
-                <img src="assets/images/Screenshot (67).png" alt="Activity 2 Image 2">
-                <img src="assets/images/Screenshot (68).png" alt="Activity 2 Image 3">
-                <img src="assets/images/Screenshot (69).png" alt="Activity 2 Image 4">
-                <img src="assets/images/Screenshot (70).png" alt="Activity 2 Image 5">
-                <img src="assets/images/Screenshot (71).png" alt="Activity 2 Image 6">
-                <img src="assets/images/Screenshot (72).png" alt="Activity 2 Image 7">
-                <img src="assets/images/Screenshot (73).png" alt="Activity 2 Image 8">
-                <img src="assets/images/Screenshot (74).png" alt="Activity 2 Image 9">
+                <img src="/assets/images/Screenshot (60).png" alt="Activity 2 Image 1">
+                <img src="/assets/images/Screenshot (61).png" alt="Activity 2 Image 2">
+                <img src="/assets/images/Screenshot (62).png" alt="Activity 2 Image 3">
+                <img src="/assets/images/Screenshot (63).png" alt="Activity 2 Image 4">
+                <img src="/assets/images/Screenshot (65).png" alt="Activity 2 Image 5">
               </div>
             </div>
           </div>
@@ -156,9 +152,27 @@
           <div class="subfolder">
             <button class="subfolder-btn" data-open="activity3Content">Activity 3</button>
             <div id="activity3Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Back</button>
+              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
               <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="https://via.placeholder.com/500x300/16A085/FFFFFF?text=Activity+3+Image+1" alt="Activity 3 Image 1">
+                <img src="/assets/images/Screenshot (66).png" alt="Activity 3 Image 1">
+                <img src="/assets/images/Screenshot (67).png" alt="Activity 3 Image 2">
+                <img src="/assets/images/Screenshot (68).png" alt="Activity 3 Image 3">
+                <img src="/assets/images/Screenshot (69).png" alt="Activity 3 Image 4">
+                <img src="/assets/images/Screenshot (70).png" alt="Activity 3 Image 5">
+                <img src="/assets/images/Screenshot (71).png" alt="Activity 3 Image 6">
+                <img src="/assets/images/Screenshot (72).png" alt="Activity 3 Image 7">
+                <img src="/assets/images/Screenshot (73).png" alt="Activity 3 Image 8">
+                <img src="/assets/images/Screenshot (74).png" alt="Activity 3 Image 9">
+              </div>
+            </div>
+          </div>
+
+          <div class="subfolder">
+            <button class="subfolder-btn" data-open="activity4Content">Activity 4</button>
+            <div id="activity4Content" class="subfolder-content" style="display:none;">
+              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
+              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+                <img src="https://via.placeholder.com/500x300/16A085/FFFFFF?text=Activity+4+Image+1" alt="Activity 4 Image 1">
               </div>
             </div>
           </div>
@@ -166,7 +180,7 @@
       </div>
     </div>
   </section>
-
+  
   <section id="contact" class="content-section">
     <div class="container">
       <h2 class="fade-in">Get In Touch</h2>
