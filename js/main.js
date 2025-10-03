@@ -1,68 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, initializing portfolio scripts...');
   const navLinks = document.querySelectorAll('.nav-link');
-  const contentSections = document.querySelectorAll('.content-section');
-  const mobileMenuLinks = document.querySelectorAll('.mobile-menu .nav-link');
+  const sections = document.querySelectorAll('.content-section');
+  const getStartedBtn = document.querySelector('.get-started-btn');
 
   function showSection(sectionId) {
-    contentSections.forEach(section => {
-      section.classList.remove('active');
-    });
-
+    sections.forEach(section => section.classList.remove('active'));
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
       targetSection.classList.add('active');
       targetSection.scrollIntoView({ behavior: 'smooth' });
     }
-
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('menuBtn');
-    if (mobileMenu && hamburger && mobileMenu.classList.contains('active')) {
-      mobileMenu.classList.remove('active');
-      hamburger.classList.remove('active');
-    }
   }
 
-  [...navLinks, ...mobileMenuLinks].forEach(link => {
-    link.addEventListener('click', function(e) {
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      const sectionId = this.getAttribute('data-section');
-      if (sectionId) {
-        showSection(sectionId);
-      }
+      const sectionId = link.getAttribute('data-section');
+      showSection(sectionId);
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu) mobileMenu.classList.remove('active');
     });
   });
 
-  showSection('cover');
-
-  const getStartedBtn = document.querySelector('.get-started-btn');
   if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', function(e) {
+    getStartedBtn.addEventListener('click', (e) => {
       e.preventDefault();
       showSection('about');
     });
   }
 
-  const hamburger = document.getElementById('menuBtn');
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
 
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      this.classList.toggle('active');
-      mobileMenu.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(e) {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('active'));
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
         mobileMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        hamburger.classList.remove('active');
       }
     });
   }
@@ -71,184 +46,153 @@ document.addEventListener('DOMContentLoaded', function() {
   const body = document.body;
 
   if (themeToggle) {
-    // Load saved theme from localStorage
     const savedTheme = localStorage.getItem('theme') || 'light';
-    if (savedTheme === 'dark') {
-      body.classList.add('dark-mode');
-      themeToggle.textContent = '☀️'; 
-    } else {
-      themeToggle.textContent = '🌙'; 
-    }
+    body.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-    themeToggle.addEventListener('click', function() {
-      body.classList.toggle('dark-mode');
-      const isDark = body.classList.contains('dark-mode');
-      this.textContent = isDark ? '☀️' : '🌙';
-    
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('theme', newTheme);
     });
   }
 
+  const activitiesChoices = document.getElementById('activitiesChoices');
   const choiceBtns = document.querySelectorAll('.choice-btn');
   const backToChoicesBtns = document.querySelectorAll('.back-to-choices');
+
+  if (choiceBtns.length > 0) {
+    choiceBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetFolderId = btn.getAttribute('data-open');
+        const targetFolder = document.getElementById(targetFolderId);
+        if (activitiesChoices && targetFolder) {
+          activitiesChoices.style.display = 'none';
+          targetFolder.style.display = 'block';
+          console.log(`Opened folder: ${targetFolderId}`);
+        }
+      });
+    });
+  }
+
+  if (backToChoicesBtns.length > 0) {
+    backToChoicesBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const currentFolder = btn.closest('.folder-content');
+        if (currentFolder && activitiesChoices) {
+          currentFolder.style.display = 'none';
+          activitiesChoices.style.display = 'block';
+          console.log('Returned to activities choices');
+        }
+      });
+    });
+  }
+
   const subfolderBtns = document.querySelectorAll('.subfolder-btn');
   const backToFolderBtns = document.querySelectorAll('.back-to-folder');
-  const activitiesChoices = document.getElementById('activitiesChoices');
-  const reportsFolder = document.getElementById('reportsFolder');
-  const activitiesFolder = document.getElementById('activitiesFolder');
-  const activitiesSection = document.getElementById('activities');
-
-  choiceBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const target = this.getAttribute('data-open');
-      if (activitiesChoices) {
-        activitiesChoices.style.display = 'none';
-      }
-      
-      const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
-      if (instructionalP) {
-        instructionalP.textContent = '';
-      }
-
-      if (target === 'reportsFolder' && reportsFolder) {
-        reportsFolder.style.display = 'block';
-        reportsFolder.classList.add('active');
-        reportsFolder.scrollIntoView({ behavior: 'smooth' });
-      } else if (target === 'activitiesFolder' && activitiesFolder) {
-        activitiesFolder.style.display = 'block';
-        activitiesFolder.classList.add('active');
-        activitiesFolder.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  backToChoicesBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      if (reportsFolder) {
-        reportsFolder.style.display = 'none';
-        reportsFolder.classList.remove('active');
-      }
-      if (activitiesFolder) {
-        activitiesFolder.style.display = 'none';
-        activitiesFolder.classList.remove('active');
-      }
-      if (activitiesChoices) {
-        activitiesChoices.style.display = 'block';
-      }
-    
-      const instructionalP = activitiesSection ? activitiesSection.querySelector('p.slide-up') : null;
-      if (instructionalP) {
-        instructionalP.textContent = 'Click below to explore my school reports and activities:';
-      }
-      if (activitiesSection) {
-        activitiesSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
+  const topicButtons = document.querySelectorAll('.topic-btn');
+  const backToTopics = document.querySelectorAll('.back-to-topics');
 
   subfolderBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const target = this.getAttribute('data-open');
-      const currentFolder = this.closest('.folder-content');
-      const subfolderContent = document.getElementById(target);
-      
-      if (currentFolder) {
-        currentFolder.querySelectorAll('.subfolder-content').forEach(content => {
-          content.style.display = 'none';
-          content.classList.remove('active');
-        });
-      }
-      
+    btn.addEventListener('click', () => {
+      const targetSubfolderId = btn.getAttribute('data-open');
+      const subfolder = btn.closest('.subfolder');
+      const subfolderContent = subfolder ? subfolder.querySelector('.subfolder-content') : null;
       if (subfolderContent) {
         subfolderContent.style.display = 'block';
-        subfolderContent.classList.add('active');
-        subfolderContent.scrollIntoView({ behavior: 'smooth' });
+        subfolderContent.classList.add('fade-in');
+        btn.style.display = 'none';
+        console.log(`Opened subfolder: ${targetSubfolderId}`);
       }
     });
   });
 
+ 
   backToFolderBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const targetFolderId = this.getAttribute('data-target');
-      const currentSubfolder = this.closest('.subfolder-content');
-      const targetFolder = document.getElementById(targetFolderId);
-      
-      if (currentSubfolder) {
-        currentSubfolder.style.display = 'none';
-        currentSubfolder.classList.remove('active');
-      }
-      
-      if (targetFolder) {
-        targetFolder.scrollIntoView({ behavior: 'smooth' });
+    btn.addEventListener('click', () => {
+      const subfolderContent = btn.closest('.subfolder-content');
+      const subfolder = subfolderContent ? subfolderContent.closest('.subfolder') : null;
+      const subfolderBtn = subfolder ? subfolder.querySelector('.subfolder-btn') : null;
+      if (subfolderContent && subfolderBtn) {
+        subfolderContent.style.display = 'none';
+        subfolderBtn.style.display = 'block';
+        console.log('Closed subfolder, back to main folder');
       }
     });
   });
 
-  // Image Modal Functionality
+  topicButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-open');
+      const topic = document.getElementById(targetId);
+      const subfolderContent = btn.closest('.subfolder-content');
+      if (subfolderContent) {
+        subfolderContent.querySelectorAll('.topic-content')
+                        .forEach(tc => tc.style.display = 'none');
+      }
+      if (topic) topic.style.display = 'block';
+    });
+  });
+
+  backToTopics.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const topicContent = btn.closest('.topic-content');
+      if (topicContent) topicContent.style.display = 'none';
+    });
+  });
+
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
-  const closeBtn = document.querySelector('.close');
+  const closeModal = document.querySelector('.close');
 
-  if (modal && modalImg && modalCaption) {
-    document.addEventListener('click', function(e) {
-      if (e.target.tagName === 'IMG' && e.target.src && e.target.alt) {
+  if (modal && modalImg && modalCaption && closeModal) {
+    document.addEventListener('click', (e) => {
+      if (e.target.matches('.subfolder-content img')) {
         modal.style.display = 'block';
         modalImg.src = e.target.src;
-        modalCaption.textContent = e.target.alt;
-        e.stopPropagation();
+        modalImg.alt = e.target.alt;
+        modalCaption.textContent = e.target.alt || '';
+        console.log(`Opened modal for: ${e.target.alt}`);
       }
     });
 
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-    }
+    closeModal.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.style.display = 'none'; });
 
-    window.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.style.display === 'block') {
-        modal.style.display = 'none';
-      }
+    modalImg.addEventListener('error', () => {
+      modalImg.src = 'https://via.placeholder.com/500x300?text=Image+Not+Found';
+      modalCaption.textContent = 'Image could not be loaded.';
     });
   }
 
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById('name');
-      const emailInput = document.getElementById('email');
-      const messageInput = document.getElementById('message');
-
-      const name = nameInput ? nameInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim() : '';
-      const message = messageInput ? messageInput.value.trim() : '';
-
-      if (name && email && message) {
-        alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon at ${email}.`);
-        contactForm.reset();
-        showSection('cover');
-      } else {
-        alert('Please fill in all fields.');
-      }
+      const formData = new FormData(contactForm);
+      const name = formData.get('name') || document.getElementById('name').value;
+      alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon.`);
+      contactForm.reset();
+      console.log('Form submitted');
     });
   }
-  
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href').substring(1);
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+
+  const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in', 'slide-up');
+        observer.unobserve(entry.target);
       }
     });
-  });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in, .slide-up, .slide-up-delay, h2, .about-info-box, .activities-choices, .folder-content')
+          .forEach(el => { if (el) observer.observe(el); });
+
+  console.log('Portfolio + Reports scripts initialized successfully!');
 });
