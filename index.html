@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Web Portfolio</title>
+  <title>Julina's Web Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -11,7 +11,12 @@
   <header id="header">
     <div class="container">
       <nav>
-        <div class="logo">My Web Portfolio</div>
+        <div class="logo">Julina's Portfolio</div>
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <ul class="nav-links">
           <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
           <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
@@ -23,193 +28,431 @@
     </div>
   </header>
 
-  <section id="cover" class="content-section active">
-    <div class="cover-content">
-      <h1 class="fade-in">Welcome to My Portfolio</h1>
-      <p class="slide-up">Discover my journey, school activities, and passion for learning</p>
-      <a href="#" class="btn get-started-btn slide-up-delay">Get Started</a>
-    </div>
-  </section>
-
-  <section id="about" class="content-section">
-    <div class="container">
-      <h2 class="fade-in">About Me</h2>
-      <div class="about-content slide-up">
-        <div class="profile-image fade-in">
-          <img src="assets/images/IMG_20250823_131322_418.webp" alt="Julina's Profile Picture" class="profile-pic">
+  <main>
+    <section id="cover" class="content-section active">
+      <div class="container">
+        <div class="cover-content">
+          <h1 class="fade-in">Welcome to My Portfolio</h1>
+          <p class="slide-up">Discover my journey, school activities, and passion for learning</p>
+          <a href="#" class="btn get-started-btn slide-up-delay" data-section="about">Get Started</a>
         </div>
-        <div class="about-info-box slide-up-delay">
-          <div class="info-card">
-            <h3>Hello! I'm Julina Escabosa</h3>
-            <p>I am a passionate and curious student who loves learning and creating. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally.</p>
-            <p>Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries.</p>
-            <p>Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.</p>
-            <ul class="skills-list slide-up-delay">
-              <li>Music Performance & Singing</li>
-              <li>Team Collaboration</li>
-              <li>Instrument Proficiency</li>
-              <li>Creative Problem Solving</li>
-              <li>Community Service</li>
-            </ul>
+      </div>
+    </section>
+
+    <section id="about" class="content-section">
+      <div class="container">
+        <h2 class="section-title fade-in">About Me</h2>
+        <div class="about-content slide-up">
+          <div class="profile-image fade-in">
+            <div class="profile-pic-container">
+              <img src="assets/images/IMG_20250823_131322_418.webp" alt="Julina's Profile Picture" class="profile-pic" onerror="this.src='https://via.placeholder.com/400x400/4A90E2/FFFFFF?text=Julina+Escabosa'">
+            </div>
+          </div>
+          <div class="about-info-box slide-up-delay">
+            <div class="info-card">
+              <h3>Hello! I'm Julina Escabosa</h3>
+              <p>I am a passionate and curious student who loves learning and creating. I believe education has the power to transform lives, and I am always seeking ways to grow both personally and professionally.</p>
+              <p>Throughout my academic journey, I have embraced challenges and gained rewarding experiences. I thrive when collaborating on projects that make a positive impact and push creative boundaries.</p>
+              <p>Outside of academics, I enjoy spending time outdoors, playing music, and singing. I welcome new connections and opportunities to learn from others.</p>
+              <div class="skills-container">
+                <h4>Skills & Interests</h4>
+                <ul class="skills-list slide-up-delay">
+                  <li>Music Performance & Singing</li>
+                  <li>Team Collaboration</li>
+                  <li>Instrument Proficiency</li>
+                  <li>Creative Problem Solving</li>
+                  <li>Community Service</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="activities" class="content-section">
-    <div class="container">
-      <h2 class="fade-in">Reports & Activities</h2>
-      <p class="slide-up">Click below to explore my school reports and activities:</p>
+    <section id="activities" class="content-section">
+      <div class="container">
+        <h2 class="section-title fade-in">Reports & Activities</h2>
+        <p class="section-subtitle slide-up">Select term and explore my school reports and activities:</p>
 
-      <div id="activitiesChoices" class="activities-choices">
-        <div class="choices-grid" style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-          <button class="choice-btn" data-open="reportsFolder">📁 Reports</button>
-          <button class="choice-btn" data-open="activitiesFolder">📁 Activities</button>
+        <div class="term-selector">
+          <button class="term-btn active" data-term="midterm">Midterm</button>
+          <button class="term-btn" data-term="finals">Finals</button>
         </div>
-      </div>
 
-      <div id="reportsFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
-        <button class="back-to-choices">Back</button>
-        <h3>Reports</h3>
+        <div id="midtermContent" class="term-content active">
+          <div id="midtermActivitiesChoices" class="activities-choices active">
+            <div class="choices-grid">
+              <button class="choice-btn" data-open="midtermReportsFolder">📁 Midterm Reports</button>
+              <button class="choice-btn" data-open="midtermActivitiesFolder">📁 Midterm Activities</button>
+            </div>
+          </div>
 
-        <div class="folder-list" style="margin-top:12px;">
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="report1Content">Report 1</button>
-            <div id="report1Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="reportsFolder">Back</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <button class="topic-btn" data-open="topic1Content">Topic 1</button>
-                <button class="topic-btn" data-open="topic2Content">Topic 2</button>
-                <button class="topic-btn" data-open="topic3Content">Topic 3</button>
+          <div id="midtermReportsFolder" class="folder-content">
+            <button class="back-btn" data-back-to="midtermActivitiesChoices">← Back</button>
+            <h3>Midterm Reports</h3>
+
+            <div class="folder-list">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="midtermReport1Content">Report 1</button>
+                <div id="midtermReport1Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="midtermReportsFolder">← Back</button>
+                  <h4>Report 1 Topics</h4>
+                  <div class="topics-grid">
+                    <button class="topic-btn" data-open="midtermTopic1Content">Topic 1</button>
+                    <button class="topic-btn" data-open="midtermTopic2Content">Topic 2</button>
+                    <button class="topic-btn" data-open="midtermTopic3Content">Topic 3</button>
+                  </div>
+
+                  <div id="midtermTopic1Content" class="topic-content">
+                    <button class="back-btn" data-back-to="midtermReport1Content">← Back</button>
+                    <h5>Topic 1 Images</h5>
+                    <div class="images-grid">
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202322.png" alt="Midterm Topic 1 Image 1" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202329.png" alt="Midterm Topic 1 Image 2" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202336.png" alt="Midterm Topic 1 Image 3" data-modal>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="midtermTopic2Content" class="topic-content">
+                    <button class="back-btn" data-back-to="midtermReport1Content">← Back</button>
+                    <h5>Topic 2 Images</h5>
+                    <div class="images-grid">
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202400.png" alt="Midterm Topic 2 Image 1" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202411.png" alt="Midterm Topic 2 Image 2" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202418.png" alt="Midterm Topic 2 Image 3" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202429.png" alt="Midterm Topic 2 Image 4" data-modal>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="midtermTopic3Content" class="topic-content">
+                    <button class="back-btn" data-back-to="midtermReport1Content">← Back</button>
+                    <h5>Topic 3 Images</h5>
+                    <div class="images-grid">
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202756.png" alt="Midterm Topic 3 Image 1" data-modal>
+                      </div>
+                      <div class="image-item">
+                        <img src="assets/images/Screenshot_20250928-202802.png" alt="Midterm Topic 3 Image 2" data-modal>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
 
-              <div id="topic1Content" class="topic-content" style="display:none; margin-top:12px;">
-                <button class="back-to-topics">Close</button>
-                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                  <img src="assets/images/Screenshot_20250928-202322.png" alt="Topic 1 Image 1">
-                  <img src="assets/images/Screenshot_20250928-202329.png" alt="Topic 1 Image 2">
-                  <img src="assets/images/Screenshot_20250928-202336.png" alt="Topic 1 Image 3">
+          <div id="midtermActivitiesFolder" class="folder-content">
+            <button class="back-btn" data-back-to="midtermActivitiesChoices">← Back</button>
+            <h3>Midterm Activities</h3>
+
+            <div class="folder-list">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="midtermActivity1Content">Activity 1</button>
+                <div id="midtermActivity1Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="midtermActivitiesFolder">← Back</button>
+                  <h4>Activity 1 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/1000006226.jpg" alt="Midterm Activity 1 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006225.jpg" alt="Midterm Activity 1 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006227.jpg" alt="Midterm Activity 1 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006228.jpg" alt="Midterm Activity 1 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006229.jpg" alt="Midterm Activity 1 Image 5" data-modal>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div id="topic2Content" class="topic-content" style="display:none; margin-top:12px;">
-                <button class="back-to-topics">Close</button>
-                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                  <img src="assets/images/Screenshot_20250928-202400.png" alt="Topic 2 Image 1">
-                  <img src="assets/images/Screenshot_20250928-202411.png" alt="Topic 2 Image 2">
-                  <img src="assets/images/Screenshot_20250928-202418.png" alt="Topic 2 Image 3">
-                  <img src="assets/images/Screenshot_20250928-202429.png" alt="Topic 2 Image 4">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="midtermActivity2Content">Activity 2</button>
+                <div id="midtermActivity2Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="midtermActivitiesFolder">← Back</button>
+                  <h4>Activity 2 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (60).png" alt="Midterm Activity 2 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (61).png" alt="Midterm Activity 2 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (62).png" alt="Midterm Activity 2 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (63).png" alt="Midterm Activity 2 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (65).png" alt="Midterm Activity 2 Image 5" data-modal>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div id="topic3Content" class="topic-content" style="display:none; margin-top:12px;">
-                <button class="back-to-topics">Close</button>
-                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                  <img src="assets/images/Screenshot_20250928-202756.png" alt="Topic 3 Image 1">
-                  <img src="assets/images/Screenshot_20250928-202802.png" alt="Topic 3 Image 2">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="midtermActivity3Content">Activity 3</button>
+                <div id="midtermActivity3Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="midtermActivitiesFolder">← Back</button>
+                  <h4>Activity 3 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (66).png" alt="Midterm Activity 3 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (67).png" alt="Midterm Activity 3 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (68).png" alt="Midterm Activity 3 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (69).png" alt="Midterm Activity 3 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (70).png" alt="Midterm Activity 3 Image 5" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (71).png" alt="Midterm Activity 3 Image 6" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (72).png" alt="Midterm Activity 3 Image 7" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (73).png" alt="Midterm Activity 3 Image 8" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (74).png" alt="Midterm Activity 3 Image 9" data-modal>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="activitiesFolder" class="folder-content" style="display:none; margin-top:1.5rem;">
-        <button class="back-to-choices">Back</button>
-        <h3>Activities</h3>
-
-        <div class="folder-list" style="margin-top:12px;">
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="activity1Content">Activity 1</button>
-            <div id="activity1Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/1000006226.jpg" alt="Activity 1 Image 1">
-                <img src="assets/images/1000006225.jpg" alt="Activity 1 Image 2">
-                <img src="assets/images/1000006227.jpg" alt="Activity 1 Image 3">
-                <img src="assets/images/1000006228.jpg" alt="Activity 1 Image 4">
-                <img src="assets/images/1000006229.jpg" alt="Activity 1 Image 5">
-              </div>
-            </div>
-          </div>
-
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="activity2Content">Activity 2</button>
-            <div id="activity2Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/Screenshot (60).png" alt="Activity 2 Image 1">
-                <img src="assets/images/Screenshot (61).png" alt="Activity 2 Image 2">
-                <img src="assets/images/Screenshot (62).png" alt="Activity 2 Image 3">
-                <img src="assets/images/Screenshot (63).png" alt="Activity 2 Image 4">
-                <img src="assets/images/Screenshot (65).png" alt="Activity 2 Image 5">
-              </div>
-            </div>
-          </div>
-
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="activity3Content">Activity 3</button>
-            <div id="activity3Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="assets/images/Screenshot (66).png" alt="Activity 3 Image 1">
-                <img src="assets/images/Screenshot (67).png" alt="Activity 3 Image 2">
-                <img src="assets/images/Screenshot (68).png" alt="Activity 3 Image 3">
-                <img src="assets/images/Screenshot (69).png" alt="Activity 3 Image 4">
-                <img src="assets/images/Screenshot (70).png" alt="Activity 3 Image 5">
-                <img src="assets/images/Screenshot (71).png" alt="Activity 3 Image 6">
-                <img src="assets/images/Screenshot (72).png" alt="Activity 3 Image 7">
-                <img src="assets/images/Screenshot (73).png" alt="Activity 3 Image 8">
-                <img src="assets/images/Screenshot (74).png" alt="Activity 3 Image 9">
-              </div>
-            </div>
-          </div>
-
-          <div class="subfolder">
-            <button class="subfolder-btn" data-open="activity4Content">Activity 4</button>
-            <div id="activity4Content" class="subfolder-content" style="display:none;">
-              <button class="back-to-folder" data-target="activitiesFolder">Close</button>
-              <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-                <img src="https://via.placeholder.com/500x300/16A085/FFFFFF?text=Activity+4+Image+1" alt="Activity 4 Image 1">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="midtermActivity4Content">Activity 4</button>
+                <div id="midtermActivity4Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="midtermActivitiesFolder">← Back</button>
+                  <h4>Activity 4 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="https://via.placeholder.com/500x300/16A085/FFFFFF?text=Midterm+Activity+4+Image+1" alt="Midterm Activity 4 Image 1" data-modal>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div id="finalsContent" class="term-content">
+          <div id="finalsActivitiesChoices" class="activities-choices active">
+            <div class="choices-grid">
+              <button class="choice-btn" data-open="finalsActivitiesFolder">📁 Finals Activities</button>
+              <button class="choice-btn" data-open="finalsQuizzesFolder">📁 Finals Quizzes</button>
+            </div>
+          </div>
+
+          <div id="finalsActivitiesFolder" class="folder-content">
+            <button class="back-btn" data-back-to="finalsActivitiesChoices">← Back</button>
+            <h3>Finals Activities</h3>
+
+            <div class="folder-list">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="finalsActivity1Content">Activity 1</button>
+                <div id="finalsActivity1Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="finalsActivitiesFolder">← Back</button>
+                  <h4>Activity 1 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/1000006226.jpg" alt="Finals Activity 1 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006225.jpg" alt="Finals Activity 1 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006227.jpg" alt="Finals Activity 1 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006228.jpg" alt="Finals Activity 1 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/1000006229.jpg" alt="Finals Activity 1 Image 5" data-modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="finalsActivity2Content">Activity 2</button>
+                <div id="finalsActivity2Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="finalsActivitiesFolder">← Back</button>
+                  <h4>Activity 2 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (60).png" alt="Finals Activity 2 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (61).png" alt="Finals Activity 2 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (62).png" alt="Finals Activity 2 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (63).png" alt="Finals Activity 2 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (65).png" alt="Finals Activity 2 Image 5" data-modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="finalsActivity3Content">Activity 3</button>
+                <div id="finalsActivity3Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="finalsActivitiesFolder">← Back</button>
+                  <h4>Activity 3 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (66).png" alt="Finals Activity 3 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (67).png" alt="Finals Activity 3 Image 2" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (68).png" alt="Finals Activity 3 Image 3" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (69).png" alt="Finals Activity 3 Image 4" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (70).png" alt="Finals Activity 3 Image 5" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (71).png" alt="Finals Activity 3 Image 6" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (72).png" alt="Finals Activity 3 Image 7" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (73).png" alt="Finals Activity 3 Image 8" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/Screenshot (74).png" alt="Finals Activity 3 Image 9" data-modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="finalsQuizzesFolder" class="folder-content">
+            <button class="back-btn" data-back-to="finalsActivitiesChoices">← Back</button>
+            <h3>Finals Quizzes</h3>
+
+            <div class="folder-list">
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="finalsQuizzes1Content">Quiz 1</button>
+                <div id="finalsQuizzes1Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="finalsQuizzesFolder">← Back</button>
+                  <h4>Quiz 1 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/quiz1-1.jpg" alt="Finals Quiz 1 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/quiz1-2.jpg" alt="Finals Quiz 1 Image 2" data-modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="subfolder">
+                <button class="subfolder-btn" data-open="finalsQuizzes2Content">Quiz 2</button>
+                <div id="finalsQuizzes2Content" class="subfolder-content">
+                  <button class="back-btn" data-back-to="finalsQuizzesFolder">← Back</button>
+                  <h4>Quiz 2 Images</h4>
+                  <div class="images-grid">
+                    <div class="image-item">
+                      <img src="assets/images/quiz2-1.jpg" alt="Finals Quiz 2 Image 1" data-modal>
+                    </div>
+                    <div class="image-item">
+                      <img src="assets/images/quiz2-2.jpg" alt="Finals Quiz 2 Image 2" data-modal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-  
-  <section id="contact" class="content-section">
+    </section>
+
+    <section id="contact" class="content-section">
+      <div class="container">
+        <h2 class="section-title fade-in">Get In Touch</h2>
+        <p class="section-subtitle slide-up">I'm always interested in new opportunities and connections. Feel free to reach out!</p>
+        <form class="contact-form slide-up-delay" id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" placeholder="Type your message here..." rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+        <div class="contact-info">
+          <p>Or contact me directly at: <a href="mailto:example@email.com">example@email.com</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
     <div class="container">
-      <h2 class="fade-in">Get In Touch</h2>
-      <p class="slide-up">I'm always interested in new opportunities and connections. Feel free to reach out!</p>
-      <form class="contact-form slide-up-delay">
-        <div class="form-group">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" placeholder="Enter your name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="Enter your email" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Your Message</label>
-          <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
-        </div>
-        <button type="submit" class="btn">Send Message</button>
-      </form>
+      <p>&copy; <span id="currentYear"></span> Julina Escabosa. All rights reserved.</p>
     </div>
-  </section>
+  </footer>
 
   <div id="imageModal" class="modal">
     <span class="close">&times;</span>
-    <img class="modal-content" id="modalImg">
-    <div class="modal-caption" id="modalCaption"></div>
+    <div class="modal-content">
+      <img id="modalImg" alt="Modal Image">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
   </div>
 
   <div id="mobileMenu" class="mobile-menu">
+    <div class="mobile-menu-header">
+      <span class="logo">Julina's Portfolio</span>
+      <button class="mobile-close" id="mobileClose">&times;</button>
+    </div>
     <ul>
       <li><a href="#" class="nav-link" data-section="cover">Home</a></li>
       <li><a href="#" class="nav-link" data-section="about">About Me</a></li>
