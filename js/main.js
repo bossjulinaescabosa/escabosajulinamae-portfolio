@@ -1,19 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, initializing portfolio scripts...');
+  console.log('Portfolio initialized...');
   
+  const body = document.body;
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('.content-section');
-  const getStartedBtn = document.querySelector('.get-started-btn');
-  const hamburgerBtn = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const mobileCloseBtn = document.getElementById('mobileClose');
   const themeToggle = document.getElementById('themeToggle');
-  const body = document.body;
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  const getStartedBtn = document.querySelector('.get-started-btn');
   
   function showSection(sectionId) {
+    console.log('Showing:', sectionId);
+    
+    // Hide all sections
     sections.forEach(section => {
-      section.classList.remove('active');
       section.style.display = 'none';
+      section.classList.remove('active');
     });
     
     const targetSection = document.getElementById(sectionId);
@@ -21,27 +24,23 @@ document.addEventListener('DOMContentLoaded', function() {
       targetSection.style.display = 'block';
       targetSection.classList.add('active');
       
-      setTimeout(() => {
-        targetSection.style.opacity = '1';
-      }, 10);
+      if (sectionId === 'activities') {
+        resetAllTermContent();
+      }
+    }
+    
+    if (mobileMenu.classList.contains('active')) {
+      mobileMenu.classList.remove('active');
     }
   }
   
-  sections.forEach(section => {
-    if (!section.classList.contains('active')) {
-      section.style.display = 'none';
-    }
-  });
+  showSection('cover');
   
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const sectionId = link.getAttribute('data-section');
       showSection(sectionId);
-      
-      if (mobileMenu && mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-      }
     });
   });
   
@@ -52,28 +51,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  if (hamburgerBtn && mobileMenu) {
-    hamburgerBtn.addEventListener('click', () => {
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
       mobileMenu.classList.add('active');
     });
   }
   
-  if (mobileCloseBtn && mobileMenu) {
-    mobileCloseBtn.addEventListener('click', () => {
+  if (mobileClose && mobileMenu) {
+    mobileClose.addEventListener('click', () => {
       mobileMenu.classList.remove('active');
     });
   }
   
-  document.addEventListener('click', (e) => {
-    if (mobileMenu && mobileMenu.classList.contains('active')) {
-      if (!mobileMenu.contains(e.target) && 
-          (!hamburgerBtn || !hamburgerBtn.contains(e.target))) {
-        mobileMenu.classList.remove('active');
-      }
-    }
-  });
-  
   if (themeToggle) {
+    // Set initial theme
     const savedTheme = localStorage.getItem('theme') || 'light';
     body.setAttribute('data-theme', savedTheme);
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
@@ -89,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   const termBtns = document.querySelectorAll('.term-btn');
-  const termContents = document.querySelectorAll('.term-content');
   
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -97,122 +87,125 @@ document.addEventListener('DOMContentLoaded', function() {
       
       termBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      termContents.forEach(content => {
+      
+      document.querySelectorAll('.term-content').forEach(content => {
         content.classList.remove('active');
         content.style.display = 'none';
-        
-        if (content.id === `${term}Content`) {
-          content.style.display = 'block';
-          content.classList.add('active');
-        }
       });
-
-      resetTermContent(term);
+      
+      const termContent = document.getElementById(term + 'Content');
+      if (termContent) {
+        termContent.style.display = 'block';
+        termContent.classList.add('active');
+        resetTermContent(term);
+      }
     });
   });
   
+  function resetAllTermContent() {
+    document.querySelectorAll('.term-content').forEach(content => {
+      content.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+        el.style.display = 'none';
+        el.classList.remove('active');
+      });
+      
+      // Show choices
+      const choices = content.querySelector('.activities-choices');
+      if (choices) {
+        choices.style.display = 'block';
+        choices.classList.add('active');
+      }
+    });
+  }
+  
   function resetTermContent(term) {
-    const termContent = document.getElementById(`${term}Content`);
+    const termContent = document.getElementById(term + 'Content');
     if (!termContent) return;
     
-    const activitiesChoices = termContent.querySelector('.activities-choices');
-    const allFolderContents = termContent.querySelectorAll('.folder-content');
-    const allSubfolderContents = termContent.querySelectorAll('.subfolder-content');
-    const allTopicContents = termContent.querySelectorAll('.topic-content');
-    
-    allFolderContents.forEach(el => {
-      el.classList.remove('active');
+    termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
       el.style.display = 'none';
-    });
-    allSubfolderContents.forEach(el => {
       el.classList.remove('active');
-      el.style.display = 'none';
-    });
-    allTopicContents.forEach(el => {
-      el.classList.remove('active');
-      el.style.display = 'none';
     });
     
-    if (activitiesChoices) {
-      activitiesChoices.style.display = 'block';
-      activitiesChoices.classList.add('active');
+    // Show choices
+    const choices = termContent.querySelector('.activities-choices');
+    if (choices) {
+      choices.style.display = 'block';
+      choices.classList.add('active');
     }
   }
   
-  function setupFolderNavigation() {
-    document.addEventListener('click', (e) => {
-      const target = e.target;
+  document.addEventListener('click', function(e) {
+    const target = e.target;
+    
+    if (target.classList.contains('choice-btn')) {
+      e.preventDefault();
+      const folderId = target.getAttribute('data-open');
+      const folder = document.getElementById(folderId);
       
-      if (target.classList.contains('choice-btn')) {
-        e.preventDefault();
-        const folderId = target.getAttribute('data-open');
-        const folder = document.getElementById(folderId);
+      if (folder) {
+        // Hide all content in current term
         const termContent = target.closest('.term-content');
+        termContent.querySelectorAll('.folder-content, .activities-choices, .subfolder-content, .topic-content').forEach(el => {
+          el.style.display = 'none';
+          el.classList.remove('active');
+        });
         
-        if (folder && termContent) {
-          termContent.querySelectorAll('.folder-content, .activities-choices').forEach(el => {
-            el.classList.remove('active');
-            el.style.display = 'none';
-          });
-          
-          folder.style.display = 'block';
-          folder.classList.add('active');
-        }
+        folder.style.display = 'block';
+        folder.classList.add('active');
       }
+    }
+    
+    if (target.classList.contains('back-btn')) {
+      e.preventDefault();
+      const targetId = target.getAttribute('data-back-to');
+      const targetElement = document.getElementById(targetId);
+      const currentElement = target.closest('.folder-content, .subfolder-content, .topic-content');
       
-      if (target.classList.contains('back-btn')) {
-        e.preventDefault();
-        const targetId = target.getAttribute('data-back-to');
-        const targetElement = document.getElementById(targetId);
-        const currentElement = target.closest('.folder-content, .subfolder-content, .topic-content');
-        const termContent = target.closest('.term-content');
-        
-        if (targetElement && currentElement && termContent) {
-          currentElement.classList.remove('active');
-          currentElement.style.display = 'none';
-          targetElement.style.display = 'block';
-          targetElement.classList.add('active');
-        }
+      if (targetElement && currentElement) {
+        currentElement.style.display = 'none';
+        currentElement.classList.remove('active');
+        targetElement.style.display = 'block';
+        targetElement.classList.add('active');
       }
+    }
+    
+    if (target.classList.contains('subfolder-btn')) {
+      e.preventDefault();
+      const subfolderId = target.getAttribute('data-open');
+      const subfolder = document.getElementById(subfolderId);
+      const currentFolder = target.closest('.folder-content, .subfolder-content');
       
-      if (target.classList.contains('subfolder-btn')) {
-        e.preventDefault();
-        const subfolderId = target.getAttribute('data-open');
-        const subfolder = document.getElementById(subfolderId);
-        const currentFolder = target.closest('.folder-content');
-        
-        if (subfolder && currentFolder) {
-          currentFolder.classList.remove('active');
-          currentFolder.style.display = 'none';
-          subfolder.style.display = 'block';
-          subfolder.classList.add('active');
-        }
+      if (subfolder && currentFolder) {
+        currentFolder.style.display = 'none';
+        currentFolder.classList.remove('active');
+        subfolder.style.display = 'block';
+        subfolder.classList.add('active');
       }
+    }
+    
+    if (target.classList.contains('topic-btn')) {
+      e.preventDefault();
+      const topicId = target.getAttribute('data-open');
+      const topic = document.getElementById(topicId);
+      const currentSubfolder = target.closest('.subfolder-content');
+      
+      if (topic && currentSubfolder) {
+        currentSubfolder.style.display = 'none';
+        currentSubfolder.classList.remove('active');
+        topic.style.display = 'block';
+        topic.classList.add('active');
+      }
+    }
+  });
 
-      if (target.classList.contains('topic-btn')) {
-        e.preventDefault();
-        const topicId = target.getAttribute('data-open');
-        const topic = document.getElementById(topicId);
-        const currentSubfolder = target.closest('.subfolder-content');
-        
-        if (topic && currentSubfolder) {
-          currentSubfolder.classList.remove('active');
-          currentSubfolder.style.display = 'none';
-          topic.style.display = 'block';
-          topic.classList.add('active');
-        }
-      }
-    });
-  }
-  
-  setupFolderNavigation();
-  
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
   const closeModal = document.querySelector('.close');
   
-  if (modal && modalImg && modalCaption && closeModal) {
+  if (modal) {
+    // Open modal when clicking on images with data-modal attribute
     document.addEventListener('click', (e) => {
       if (e.target.hasAttribute('data-modal')) {
         modal.style.display = 'block';
@@ -223,31 +216,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    function closeImageModal() {
+    function closeModalFunc() {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
     }
     
-    closeModal.addEventListener('click', closeImageModal);
+    if (closeModal) closeModal.addEventListener('click', closeModalFunc);
     
     window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeImageModal();
-      }
+      if (e.target === modal) closeModalFunc();
     });
     
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.style.display === 'block') {
-        closeImageModal();
+        closeModalFunc();
       }
-    });
-    
-    modalImg.addEventListener('error', () => {
-      modalImg.src = 'https://via.placeholder.com/500x300?text=Image+Not+Found';
-      modalCaption.textContent = 'Image could not be loaded.';
     });
   }
   
+  // 7. CONTACT FORM
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -258,12 +245,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const message = document.getElementById('message').value;
       
       if (name && email && message) {
-        alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon.`);
+        alert(`Thank you, ${name}! Your message has been sent.`);
         contactForm.reset();
-        
-        console.log('Form submitted:', { name, email, message });
       } else {
-        alert('Please fill in all fields before submitting.');
+        alert('Please fill in all fields.');
       }
     });
   }
@@ -275,13 +260,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function() {
-      // Only replace if not already a placeholder
-      if (!this.src.includes('placeholder') && !this.src.includes('via.placeholder.com')) {
+      if (!this.src.includes('placeholder')) {
         this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
         this.alt = 'Image not available';
       }
     });
   });
   
-  console.log('Portfolio scripts initialized successfully!');
+  console.log('All scripts loaded successfully!');
 });
