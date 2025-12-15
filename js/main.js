@@ -1,301 +1,207 @@
 document.addEventListener('DOMContentLoaded', () => {
-  
-  const body = document.body;
-  const sections = document.querySelectorAll('.content-section');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const getStartedBtn = document.querySelector('.get-started-btn');
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const mobileClose = document.getElementById('mobileClose');
-  const themeToggle = document.getElementById('themeToggle');
-  const termBtns = document.querySelectorAll('.term-btn');
+    // --- Global Selectors ---
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.content-section');
+    const getStartedBtn = document.querySelector('.get-started-btn');
+    const themeToggle = document.getElementById('themeToggle');
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileClose = document.getElementById('mobileClose');
 
-  // Function to show a specific section
-  function showSection(id) {
-    // Hide all sections
-    sections.forEach(sec => {
-      sec.classList.remove('active');
-    });
+    // --- Utility Functions ---
 
-    // Show target section
-    const target = document.getElementById(id);
-    if (target) {
-      target.classList.add('active');
-      // Scroll to top when changing sections
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Reset activities if not in activities section
-    if (id !== 'activities') {
-      resetAllActivities();
-    }
-
-    closeMobileMenu();
-  }
-
-  // Reset activities navigation
-  function resetAllActivities() {
-    // Hide all folder/subfolder/topic content
-    document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
-      el.classList.remove('active');
-    });
-
-    // Show activities choices for active term
-    const activeTerm = document.querySelector('.term-content.active');
-    if (activeTerm) {
-      const choices = activeTerm.querySelector('.activities-choices');
-      if (choices) {
-        choices.classList.add('active');
-      }
-    }
-
-    // Reset term buttons
-    document.querySelectorAll('.term-btn').forEach(btn => {
-      if (btn.dataset.term === 'midterm') {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
-
-    // Reset term content
-    document.querySelectorAll('.term-content').forEach(tc => {
-      tc.classList.remove('active');
-    });
-    const midterm = document.getElementById('midtermContent');
-    if (midterm) {
-      midterm.classList.add('active');
-    }
-  }
-
-  // Show cover section initially
-  showSection('cover');
-
-  // Navigation links
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const section = link.dataset.section;
-      if (section) showSection(section);
-    });
-  });
-
-  // Get Started button
-  if (getStartedBtn) {
-    getStartedBtn.addEventListener('click', e => {
-      e.preventDefault();
-      showSection('about');
-    });
-  }
-
-  // Mobile menu functions
-  function toggleMobileMenu() {
-    if (mobileMenu) {
-      mobileMenu.classList.toggle('active');
-    }
-  }
-
-  function closeMobileMenu() {
-    if (mobileMenu) {
-      mobileMenu.classList.remove('active');
-    }
-  }
-
-  if (hamburger) {
-    hamburger.addEventListener('click', toggleMobileMenu);
-  }
-
-  if (mobileClose) {
-    mobileClose.addEventListener('click', closeMobileMenu);
-  }
-
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', e => {
-    if (
-      mobileMenu?.classList.contains('active') &&
-      !mobileMenu.contains(e.target) &&
-      hamburger && !hamburger.contains(e.target)
-    ) {
-      closeMobileMenu();
-    }
-  });
-
-  // Mobile menu nav links
-  mobileMenu.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMobileMenu();
-    });
-  });
-
-  // Theme toggle
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  body.setAttribute('data-theme', savedTheme);
-  if (themeToggle) {
-    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      body.setAttribute('data-theme', newTheme);
-      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-      localStorage.setItem('theme', newTheme);
-    });
-  }
-
-  // Term buttons (Midterm/Finals)
-  termBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      termBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      document.querySelectorAll('.term-content').forEach(tc => {
-        tc.classList.remove('active');
-      });
-
-      const termId = `${btn.dataset.term}Content`;
-      const termContent = document.getElementById(termId);
-      if (termContent) {
-        termContent.classList.add('active');
-        // Reset to show choices within this term
-        resetTermContent(termContent);
-      }
-    });
-  });
-
-  // Reset term content to show choices
-  function resetTermContent(termContent) {
-    // Hide all folder/subfolder/topic content
-    termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
-      el.classList.remove('active');
-    });
-
-    // Show choices
-    const choices = termContent.querySelector('.activities-choices');
-    if (choices) {
-      choices.classList.add('active');
-    }
-  }
-
-  // Activities navigation (Reports/Activities/Quizzes)
-  document.addEventListener('click', e => {
-    const target = e.target;
-    
-    if (target.classList.contains('choice-btn')) {
-      e.preventDefault();
-      const targetId = target.dataset.open;
-      const termContent = target.closest('.term-content');
-      if (targetId && termContent) {
-        const choices = termContent.querySelector('.activities-choices');
-        if (choices) {
-          choices.classList.remove('active');
-        }
+    /**
+     * Shows a specific content section and updates the URL hash.
+     * @param {string} targetId The ID of the section to show (e.g., 'about').
+     */
+    const showSection = (targetId) => {
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
         
-        const folder = document.getElementById(targetId);
-        if (folder) {
-          folder.classList.add('active');
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+            // Apply animations to new section
+            targetSection.querySelectorAll('.fade-in, .slide-up, .slide-up-delay').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; // Trigger reflow
+                el.style.animation = '';
+            });
+
+            targetSection.classList.add('active');
+            window.location.hash = targetId;
+
+            // Update active state in desktop and mobile navigation
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === targetId) {
+                    link.classList.add('active');
+                }
+            });
         }
-      }
-    }
+    };
 
-    if (target.classList.contains('subfolder-btn')) {
-      e.preventDefault();
-      const targetId = target.dataset.open;
-      const currentFolder = target.closest('.folder-content');
-      if (targetId && currentFolder) {
-        currentFolder.classList.remove('active');
-        const subfolder = document.getElementById(targetId);
-        if (subfolder) {
-          subfolder.classList.add('active');
+    /**
+     * Handles navigation link clicks.
+     */
+    const handleNavClick = (event) => {
+        event.preventDefault();
+        const targetId = event.currentTarget.getAttribute('data-section');
+        showSection(targetId);
+        
+        // Close mobile menu after click
+        if (mobileMenu.classList.contains('open')) {
+            mobileMenu.classList.remove('open');
+            hamburger.classList.remove('is-active');
         }
-      }
+    };
+
+    // --- Initial Setup ---
+
+    // 1. Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // 2. Load section based on URL hash or default to 'cover'
+    const initialSectionId = window.location.hash ? window.location.hash.substring(1) : 'cover';
+    showSection(initialSectionId);
+
+    // 3. Load theme preference
+    const isDark = localStorage.getItem('theme') === 'dark';
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        themeToggle.textContent = '☀️';
+    } else {
+        themeToggle.textContent = '🌙';
     }
 
-    if (target.classList.contains('topic-btn')) {
-      e.preventDefault();
-      const targetId = target.dataset.open;
-      const reportContent = target.closest('.subfolder-content');
-      if (targetId && reportContent) {
-        reportContent.classList.remove('active');
-        const topicContent = document.getElementById(targetId);
-        if (topicContent) {
-          topicContent.classList.add('active');
+    // --- Event Listeners ---
+
+    // 1. Navigation and Get Started Button
+    navLinks.forEach(link => {
+        link.addEventListener('click', handleNavClick);
+    });
+
+    if (getStartedBtn) {
+        getStartedBtn.addEventListener('click', handleNavClick);
+    }
+
+    // 2. Theme Toggle
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const isDarkNow = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+        themeToggle.textContent = isDarkNow ? '☀️' : '🌙';
+    });
+
+    // 3. Mobile Menu Toggle
+    hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        hamburger.classList.toggle('is-active'); // Add a class for visual change if you add CSS
+    });
+
+    mobileClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('is-active');
+    });
+
+
+    // --- Activities (Reports & Activities) Folder Navigation ---
+
+    /**
+     * Manages the visibility of content within the #activities section.
+     * @param {string} currentActiveContainerId The ID of the container to hide (e.g., 'midtermReportsFolder').
+     * @param {string} targetContainerId The ID of the container to show (e.g., 'midtermActivitiesChoices').
+     */
+    const switchActivityContent = (currentActiveContainerId, targetContainerId) => {
+        const currentActive = document.getElementById(currentActiveContainerId);
+        const targetContainer = document.getElementById(targetContainerId);
+
+        if (currentActive) {
+            currentActive.classList.remove('active');
         }
-      }
+        if (targetContainer) {
+            targetContainer.classList.add('active');
+        }
+    };
+
+    // Term Selector (Midterm/Finals)
+    const termBtns = document.querySelectorAll('.term-btn');
+    const midtermContent = document.getElementById('midtermContent');
+    const finalsContent = document.getElementById('finalsContent');
+    
+    termBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const term = e.currentTarget.getAttribute('data-term');
+            
+            // Update button active state
+            termBtns.forEach(b => b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            
+            // Show/Hide Term Content
+            midtermContent.classList.remove('active');
+            finalsContent.classList.remove('active');
+            
+            if (term === 'midterm') {
+                midtermContent.classList.add('active');
+            } else if (term === 'finals') {
+                finalsContent.classList.add('active');
+            }
+        });
+    });
+
+    // Folder and Content Switcher
+    document.querySelectorAll('.choice-btn, .subfolder-btn, .topic-btn, .back-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetOpen = e.currentTarget.getAttribute('data-open');
+            const targetBack = e.currentTarget.getAttribute('data-back-to');
+            
+            let currentActiveContainer;
+            
+            // Find the current active container to hide it
+            if (e.currentTarget.closest('.activities-choices.active')) {
+                currentActiveContainer = e.currentTarget.closest('.activities-choices.active');
+            } else if (e.currentTarget.closest('.folder-content.active')) {
+                currentActiveContainer = e.currentTarget.closest('.folder-content.active');
+            } else if (e.currentTarget.closest('.subfolder-content.active')) {
+                currentActiveContainer = e.currentTarget.closest('.subfolder-content.active');
+            } else if (e.currentTarget.closest('.topic-content.active')) {
+                currentActiveContainer = e.currentTarget.closest('.topic-content.active');
+            }
+
+            if (targetOpen) {
+                // Moving forward (e.g., from choices to reports folder)
+                switchActivityContent(currentActiveContainer ? currentActiveContainer.id : null, targetOpen);
+            } else if (targetBack) {
+                // Moving backward (e.g., from a report topic back to the report folder)
+                switchActivityContent(currentActiveContainer ? currentActiveContainer.id : null, targetBack);
+            }
+        });
+    });
+
+    // --- Image Modal Functionality ---
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalCaption = document.getElementById('modalCaption');
+    const span = document.getElementsByClassName("close")[0];
+    const imageItems = document.querySelectorAll('.image-item img[data-modal]');
+
+    imageItems.forEach(img => {
+        img.addEventListener('click', () => {
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            modalCaption.textContent = img.alt;
+        });
+    });
+
+    // Close the modal when the close button (x) is clicked
+    span.onclick = function() {
+        modal.style.display = "none";
     }
 
-    if (target.classList.contains('back-btn')) {
-      e.preventDefault();
-      const backToId = target.dataset.backTo;
-      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
-      const backTo = document.getElementById(backToId);
-
-      if (current && backTo) {
-        current.classList.remove('active');
-        backTo.classList.add('active');
-      }
+    // Close the modal when clicking anywhere outside of the image
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
-  });
-
-  // Image modal functionality
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalCaption = document.getElementById('modalCaption');
-  const closeModal = document.querySelector('.close');
-
-  document.addEventListener('click', e => {
-    if (e.target.hasAttribute('data-modal') && modal && modalImg) {
-      modal.style.display = 'block';
-      modalImg.src = e.target.src;
-      modalCaption.textContent = e.target.alt || '';
-      document.body.style.overflow = 'hidden';
-    }
-  });
-
-  // Close modal
-  if (closeModal) {
-    closeModal.addEventListener('click', () => {
-      if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
-  }
-
-  // Close modal when clicking outside
-  if (modal) {
-    window.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    });
-  }
-
-  // Handle image loading errors
-  document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('error', function () {
-      if (!this.dataset.failed) {
-        this.dataset.failed = 'true';
-        this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
-      }
-    });
-  });
-
-  // Set current year in footer
-  const yearEl = document.getElementById('currentYear');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
-
-  // Contact form submission
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Thank you for your message! I will get back to you soon.');
-      this.reset();
-    });
-  }
 });
