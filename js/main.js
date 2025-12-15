@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
   const closeModal = document.querySelector('.close');
-  const contactForm = document.getElementById('contactForm');
-  const yearEl = document.getElementById('currentYear');
 
   // Function to show section
   function showSection(id) {
@@ -40,8 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to reset activities navigation
   function resetAllActivities() {
-    console.log('Resetting all activities...');
-    
     // Hide all activity content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
       el.classList.remove('active');
@@ -78,7 +74,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initialize with cover section
+  // SIMPLIFIED ONE-CLICK NAVIGATION
+  function handleActivityNavigation(target, dataAttribute) {
+    const targetId = target.dataset[dataAttribute];
+    if (!targetId) return;
+
+    // Based on button type, show appropriate content
+    if (target.classList.contains('choice-btn')) {
+      // Show folder (Reports or Activities)
+      const termContent = target.closest('.term-content');
+      if (termContent) {
+        termContent.querySelector('.activities-choices').classList.remove('active');
+      }
+      document.getElementById(targetId).classList.add('active');
+    }
+    else if (target.classList.contains('subfolder-btn')) {
+      // Show subfolder (Report 1, Activity 1, etc.)
+      // AUTOMATIC: Show topics grid immediately
+      const currentFolder = target.closest('.folder-content');
+      if (currentFolder) {
+        currentFolder.classList.remove('active');
+      }
+      const subfolder = document.getElementById(targetId);
+      if (subfolder) {
+        subfolder.classList.add('active');
+        
+        // AUTOMATIC DISPLAY OF TOPICS
+        const topicsGrid = subfolder.querySelector('.topics-grid');
+        if (topicsGrid) {
+          topicsGrid.style.display = 'grid';
+        }
+      }
+    }
+    else if (target.classList.contains('topic-btn')) {
+      // Show topic content with IMAGES
+      const currentSubfolder = target.closest('.subfolder-content');
+      if (currentSubfolder) {
+        currentSubfolder.classList.remove('active');
+      }
+      const topic = document.getElementById(targetId);
+      if (topic) {
+        topic.classList.add('active');
+        
+        // AUTOMATIC DISPLAY OF IMAGES - NO MORE CLICKS NEEDED!
+        const imagesGrid = topic.querySelector('.images-grid');
+        if (imagesGrid) {
+          imagesGrid.style.display = 'grid';
+        }
+      }
+    }
+    else if (target.classList.contains('back-btn')) {
+      // Go back
+      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
+      const backTo = document.getElementById(targetId);
+      
+      if (current && backTo) {
+        current.classList.remove('active');
+        backTo.classList.add('active');
+      }
+    }
+  }
+
+  // Initialize
   showSection('cover');
 
   // Navigation links
@@ -98,36 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mobile menu functions
+  // Mobile menu
   function toggleMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.toggle('active');
-      // Toggle hamburger animation
-      const spans = hamburger.querySelectorAll('span');
-      if (mobileMenu.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-      } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-      }
     }
   }
 
   function closeMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.remove('active');
-      // Reset hamburger
-      const spans = hamburger.querySelectorAll('span');
-      spans[0].style.transform = 'none';
-      spans[1].style.opacity = '1';
-      spans[2].style.transform = 'none';
     }
   }
 
-  // Hamburger menu
   if (hamburger) {
     hamburger.addEventListener('click', toggleMobileMenu);
   }
@@ -136,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileClose.addEventListener('click', closeMobileMenu);
   }
 
-  // Close mobile menu when clicking outside
   document.addEventListener('click', e => {
     if (
       mobileMenu?.classList.contains('active') &&
@@ -164,157 +203,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Term buttons (Midterm/Finals)
+  // Term buttons
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Update active button
       termBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Hide all term content
       document.querySelectorAll('.term-content').forEach(tc => {
         tc.classList.remove('active');
       });
 
-      // Show selected term content
-      const term = btn.dataset.term;
-      const termContent = document.getElementById(`${term}Content`);
+      const termId = `${btn.dataset.term}Content`;
+      const termContent = document.getElementById(termId);
       if (termContent) {
         termContent.classList.add('active');
         
-        // Reset to choices for this term
+        // Reset to choices
+        termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+          el.classList.remove('active');
+        });
+        
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
-          // Hide all other content in this term
-          termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
-            el.classList.remove('active');
-          });
           choices.classList.add('active');
         }
       }
     });
   });
 
-  // MAIN EVENT HANDLER FOR ALL ACTIVITY BUTTONS
-  document.addEventListener('click', function(e) {
+  // ONE-CLICK EVENT HANDLER FOR ALL ACTIVITY BUTTONS
+  document.addEventListener('click', (e) => {
     const target = e.target;
     
-    // Prevent default only for buttons that have data attributes
+    // Prevent default for activity buttons
     if (target.classList.contains('choice-btn') || 
         target.classList.contains('subfolder-btn') || 
         target.classList.contains('topic-btn') || 
         target.classList.contains('back-btn')) {
       e.preventDefault();
-    }
-    
-    // Choice buttons (📁 Midterm Reports, 📁 Midterm Activities, etc.)
-    if (target.classList.contains('choice-btn') && target.dataset.open) {
-      const termContent = target.closest('.term-content');
-      const targetId = target.dataset.open;
       
-      // Hide choices in this term
-      if (termContent) {
-        const choices = termContent.querySelector('.activities-choices');
-        if (choices) {
-          choices.classList.remove('active');
-        }
+      // Handle navigation based on button type
+      if (target.classList.contains('choice-btn')) {
+        handleActivityNavigation(target, 'open');
       }
-      
-      // Show selected folder
-      const folder = document.getElementById(targetId);
-      if (folder) {
-        folder.classList.add('active');
-        
-        // Ensure proper scroll position
-        setTimeout(() => {
-          folder.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+      else if (target.classList.contains('subfolder-btn')) {
+        handleActivityNavigation(target, 'open');
       }
-    }
-    
-    // Subfolder buttons (Report 1, Activity 1, etc.)
-    else if (target.classList.contains('subfolder-btn') && target.dataset.open) {
-      const currentFolder = target.closest('.folder-content');
-      const targetId = target.dataset.open;
-      
-      // Hide current folder
-      if (currentFolder) {
-        currentFolder.classList.remove('active');
+      else if (target.classList.contains('topic-btn')) {
+        handleActivityNavigation(target, 'open');
       }
-      
-      // Show selected subfolder
-      const subfolder = document.getElementById(targetId);
-      if (subfolder) {
-        subfolder.classList.add('active');
-        
-        // Ensure proper scroll position
-        setTimeout(() => {
-          subfolder.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+      else if (target.classList.contains('back-btn')) {
+        handleActivityNavigation(target, 'backTo');
       }
-    }
-    
-    // Topic buttons (Topic 1, Topic 2, etc.)
-    else if (target.classList.contains('topic-btn') && target.dataset.open) {
-      const currentReport = target.closest('.subfolder-content');
-      const targetId = target.dataset.open;
-      
-      // Hide current report
-      if (currentReport) {
-        currentReport.classList.remove('active');
-      }
-      
-      // Show selected topic (with images)
-      const topic = document.getElementById(targetId);
-      if (topic) {
-        topic.classList.add('active');
-        
-        // Ensure images are visible
-        const imagesGrid = topic.querySelector('.images-grid');
-        if (imagesGrid) {
-          imagesGrid.style.display = 'grid';
-          imagesGrid.style.opacity = '1';
-          imagesGrid.style.visibility = 'visible';
-        }
-        
-        // Ensure proper scroll position
-        setTimeout(() => {
-          topic.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    }
-    
-    // Back buttons
-    else if (target.classList.contains('back-btn') && target.dataset.backTo) {
-      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
-      const backToId = target.dataset.backTo;
-      
-      // Hide current content
-      if (current) {
-        current.classList.remove('active');
-      }
-      
-      // Show back target
-      const backTo = document.getElementById(backToId);
-      if (backTo) {
-        backTo.classList.add('active');
-        
-        // Ensure proper scroll position
-        setTimeout(() => {
-          backTo.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    }
-    
-    // Regular navigation links in mobile menu
-    else if (target.classList.contains('nav-link') && target.dataset.section) {
-      const section = target.dataset.section;
-      showSection(section);
     }
   });
 
-  // Image modal functionality
-  // Open modal when clicking on images
+  // Image modal
   document.addEventListener('click', e => {
     if (e.target.hasAttribute('data-modal') && modal && modalImg) {
       modal.style.display = 'block';
@@ -324,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close modal
   if (closeModal) {
     closeModal.addEventListener('click', () => {
       if (modal) {
@@ -334,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close modal when clicking outside
   if (modal) {
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -354,12 +296,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Set current year in footer
+  // Set current year
+  const yearEl = document.getElementById('currentYear');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Contact form submission
+  // Contact form
+  const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -367,35 +311,4 @@ document.addEventListener('DOMContentLoaded', () => {
       this.reset();
     });
   }
-
-  // Add smooth scrolling for all anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-
-  // Add keyboard navigation support
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (modal && modal.style.display === 'block') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-      closeMobileMenu();
-    }
-  });
-
-  // Log for debugging
-  console.log('Portfolio initialized successfully!');
 });
