@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   showSection('cover');
-
+  
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -48,11 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
   mobileClose?.addEventListener('click', closeMobileMenu);
 
   document.addEventListener('click', e => {
-    if (
-      mobileMenu?.classList.contains('active') &&
-      !mobileMenu.contains(e.target) &&
-      !hamburger.contains(e.target)
-    ) {
+    if (mobileMenu?.classList.contains('active') &&
+        !mobileMenu.contains(e.target) &&
+        !hamburger.contains(e.target)) {
       closeMobileMenu();
     }
   });
@@ -70,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const termBtns = document.querySelectorAll('.term-btn');
-
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       termBtns.forEach(b => b.classList.remove('active'));
@@ -117,9 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     const t = e.target;
 
-    if (t.matches('.choice-btn, .subfolder-btn, .topic-btn, .back-btn')) {
-      e.preventDefault();
-    }
+    if (t.matches('.choice-btn, .subfolder-btn, .topic-btn, .back-btn')) e.preventDefault();
 
     if (t.classList.contains('choice-btn')) {
       openContent(t.dataset.open, t.closest('.term-content'));
