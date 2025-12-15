@@ -9,50 +9,56 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileClose = document.getElementById('mobileClose');
   const themeToggle = document.getElementById('themeToggle');
   const termBtns = document.querySelectorAll('.term-btn');
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeModal = document.querySelector('.close');
+  const contactForm = document.getElementById('contactForm');
+  const yearEl = document.getElementById('currentYear');
 
-  // ——— SHOW SECTION ———
+  // Function to show section
   function showSection(id) {
-    // Itago lahat
+    // Hide all sections
     sections.forEach(sec => {
       sec.classList.remove('active');
-      sec.style.display = 'none';
     });
 
-    // I-show target
+    // Show target section
     const target = document.getElementById(id);
     if (target) {
-      target.style.display = 'block';
-      requestAnimationFrame(() => {
-        target.classList.add('active');
-        // Scroll to top when changing sections
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // I-reset ang activities section kapag umalis
+    // Reset activities if not on activities section
     if (id !== 'activities') {
       resetAllActivities();
     }
 
-    // Isara ang mobile menu
     closeMobileMenu();
   }
 
-  // ——— RESET ACTIVITIES ———
+  // Function to reset activities navigation
   function resetAllActivities() {
-    // Itago lahat ng content
+    console.log('Resetting all activities...');
+    
+    // Hide all activity content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
-      el.style.display = 'none';
       el.classList.remove('active');
     });
 
-    // I-show ang choices (midterm/finals options)
+    // Hide all choices
     document.querySelectorAll('.activities-choices').forEach(choice => {
-      choice.style.display = 'block';
-      choice.classList.add('active');
+      choice.classList.remove('active');
     });
 
-    // Siguraduhing active ang "Midterm" button sa umpisa
+    // Show midterm choices by default
+    const midtermChoices = document.getElementById('midtermActivitiesChoices');
+    if (midtermChoices) {
+      midtermChoices.classList.add('active');
+    }
+
+    // Reset term buttons
     document.querySelectorAll('.term-btn').forEach(btn => {
       if (btn.dataset.term === 'midterm') {
         btn.classList.add('active');
@@ -61,22 +67,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // I-show ang midterm content
+    // Hide all term content except midterm
     document.querySelectorAll('.term-content').forEach(tc => {
-      tc.style.display = 'none';
       tc.classList.remove('active');
     });
+    
     const midterm = document.getElementById('midtermContent');
     if (midterm) {
-      midterm.style.display = 'block';
       midterm.classList.add('active');
     }
   }
 
-  // ——— INITIAL LOAD ———
+  // Initialize with cover section
   showSection('cover');
 
-  // ——— NAVIGATION ———
+  // Navigation links
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -85,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Get Started button
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', e => {
       e.preventDefault();
@@ -92,19 +98,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ——— MOBILE MENU ———
+  // Mobile menu functions
   function toggleMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.toggle('active');
+      // Toggle hamburger animation
+      const spans = hamburger.querySelectorAll('span');
+      if (mobileMenu.classList.contains('active')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+      } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
     }
   }
 
   function closeMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.remove('active');
+      // Reset hamburger
+      const spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
     }
   }
 
+  // Hamburger menu
   if (hamburger) {
     hamburger.addEventListener('click', toggleMobileMenu);
   }
@@ -124,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ——— THEME TOGGLE ———
+  // Theme toggle
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.setAttribute('data-theme', savedTheme);
   if (themeToggle) {
@@ -141,118 +164,157 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ——— TERM BUTTONS (MIDTERM / FINALS) ———
+  // Term buttons (Midterm/Finals)
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      // Update active button
       termBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
+      // Hide all term content
       document.querySelectorAll('.term-content').forEach(tc => {
-        tc.style.display = 'none';
         tc.classList.remove('active');
       });
 
-      const termId = `${btn.dataset.term}Content`;
-      const termContent = document.getElementById(termId);
+      // Show selected term content
+      const term = btn.dataset.term;
+      const termContent = document.getElementById(`${term}Content`);
       if (termContent) {
-        termContent.style.display = 'block';
         termContent.classList.add('active');
-        // I-reset ang term: i-show ang choices
+        
+        // Reset to choices for this term
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
-          choices.style.display = 'block';
+          // Hide all other content in this term
+          termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+            el.classList.remove('active');
+          });
           choices.classList.add('active');
         }
       }
     });
   });
 
-  // ——— DYNAMIC BUTTON HANDLING (choice, subfolder, topic, back) ———
-  document.addEventListener('click', e => {
+  // MAIN EVENT HANDLER FOR ALL ACTIVITY BUTTONS
+  document.addEventListener('click', function(e) {
     const target = e.target;
-
-    // Prevent default for all action buttons
-    if (
-      target.classList.contains('choice-btn') ||
-      target.classList.contains('subfolder-btn') ||
-      target.classList.contains('topic-btn') ||
-      target.classList.contains('back-btn')
-    ) {
+    
+    // Prevent default only for buttons that have data attributes
+    if (target.classList.contains('choice-btn') || 
+        target.classList.contains('subfolder-btn') || 
+        target.classList.contains('topic-btn') || 
+        target.classList.contains('back-btn')) {
       e.preventDefault();
     }
-
-    // ——— CHOICE BUTTON (e.g., "Midterm Reports") ———
-    if (target.classList.contains('choice-btn')) {
-      const targetId = target.dataset.open;
+    
+    // Choice buttons (📁 Midterm Reports, 📁 Midterm Activities, etc.)
+    if (target.classList.contains('choice-btn') && target.dataset.open) {
       const termContent = target.closest('.term-content');
-      if (targetId && termContent) {
-        // Itago ang choices
+      const targetId = target.dataset.open;
+      
+      // Hide choices in this term
+      if (termContent) {
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
-          choices.style.display = 'none';
           choices.classList.remove('active');
         }
-        // I-show ang target folder
-        const folder = document.getElementById(targetId);
-        if (folder) {
-          folder.style.display = 'block';
-          folder.classList.add('active');
-        }
+      }
+      
+      // Show selected folder
+      const folder = document.getElementById(targetId);
+      if (folder) {
+        folder.classList.add('active');
+        
+        // Ensure proper scroll position
+        setTimeout(() => {
+          folder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
       }
     }
-
-    // ——— SUBFOLDER BUTTON (e.g., "Report 1", "Activity 1") ———
-    if (target.classList.contains('subfolder-btn')) {
-      const targetId = target.dataset.open;
+    
+    // Subfolder buttons (Report 1, Activity 1, etc.)
+    else if (target.classList.contains('subfolder-btn') && target.dataset.open) {
       const currentFolder = target.closest('.folder-content');
-      if (targetId && currentFolder) {
-        currentFolder.style.display = 'none';
-        currentFolder.classList.remove('active');
-        const subfolder = document.getElementById(targetId);
-        if (subfolder) {
-          subfolder.style.display = 'block';
-          subfolder.classList.add('active');
-        }
-      }
-    }
-
-    // ——— TOPIC BUTTON (e.g., "Topic 1") ———
-    if (target.classList.contains('topic-btn')) {
       const targetId = target.dataset.open;
-      const reportContent = target.closest('.subfolder-content');
-      if (targetId && reportContent) {
-        reportContent.style.display = 'none';
-        reportContent.classList.remove('active');
-        const topicContent = document.getElementById(targetId);
-        if (topicContent) {
-          topicContent.style.display = 'block';
-          topicContent.classList.add('active');
-        }
+      
+      // Hide current folder
+      if (currentFolder) {
+        currentFolder.classList.remove('active');
+      }
+      
+      // Show selected subfolder
+      const subfolder = document.getElementById(targetId);
+      if (subfolder) {
+        subfolder.classList.add('active');
+        
+        // Ensure proper scroll position
+        setTimeout(() => {
+          subfolder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
       }
     }
-
-    // ——— BACK BUTTON ———
-    if (target.classList.contains('back-btn')) {
-      const backToId = target.dataset.backTo;
-      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
-      const backTo = document.getElementById(backToId);
-
-      if (current && backTo) {
-        current.style.display = 'none';
-        current.classList.remove('active');
-        backTo.style.display = 'block';
-        backTo.classList.add('active');
+    
+    // Topic buttons (Topic 1, Topic 2, etc.)
+    else if (target.classList.contains('topic-btn') && target.dataset.open) {
+      const currentReport = target.closest('.subfolder-content');
+      const targetId = target.dataset.open;
+      
+      // Hide current report
+      if (currentReport) {
+        currentReport.classList.remove('active');
       }
+      
+      // Show selected topic (with images)
+      const topic = document.getElementById(targetId);
+      if (topic) {
+        topic.classList.add('active');
+        
+        // Ensure images are visible
+        const imagesGrid = topic.querySelector('.images-grid');
+        if (imagesGrid) {
+          imagesGrid.style.display = 'grid';
+          imagesGrid.style.opacity = '1';
+          imagesGrid.style.visibility = 'visible';
+        }
+        
+        // Ensure proper scroll position
+        setTimeout(() => {
+          topic.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+    
+    // Back buttons
+    else if (target.classList.contains('back-btn') && target.dataset.backTo) {
+      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
+      const backToId = target.dataset.backTo;
+      
+      // Hide current content
+      if (current) {
+        current.classList.remove('active');
+      }
+      
+      // Show back target
+      const backTo = document.getElementById(backToId);
+      if (backTo) {
+        backTo.classList.add('active');
+        
+        // Ensure proper scroll position
+        setTimeout(() => {
+          backTo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+    
+    // Regular navigation links in mobile menu
+    else if (target.classList.contains('nav-link') && target.dataset.section) {
+      const section = target.dataset.section;
+      showSection(section);
     }
   });
 
-  // ——— IMAGE MODAL ———
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalCaption = document.getElementById('modalCaption');
-  const closeModal = document.querySelector('.close');
-
-  // Open modal
+  // Image modal functionality
+  // Open modal when clicking on images
   document.addEventListener('click', e => {
     if (e.target.hasAttribute('data-modal') && modal && modalImg) {
       modal.style.display = 'block';
@@ -262,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close with X
+  // Close modal
   if (closeModal) {
     closeModal.addEventListener('click', () => {
       if (modal) {
@@ -272,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close when clicking background
+  // Close modal when clicking outside
   if (modal) {
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -282,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ——— IMAGE ERROR HANDLING ———
+  // Handle broken images
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function () {
       if (!this.dataset.failed) {
@@ -292,20 +354,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ——— FOOTER YEAR ———
-  const yearEl = document.getElementById('currentYear');
+  // Set current year in footer
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // ——— CONTACT FORM ———
-  const contactForm = document.getElementById('contactForm');
+  // Contact form submission
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      // Simple form submission handling
       alert('Thank you for your message! I will get back to you soon.');
       this.reset();
     });
   }
+
+  // Add smooth scrolling for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // Add keyboard navigation support
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (modal && modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+      closeMobileMenu();
+    }
+  });
+
+  // Log for debugging
+  console.log('Portfolio initialized successfully!');
 });
