@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Set current year in footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Navigation functionality
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('.content-section');
 
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         document.getElementById(sectionId).classList.add('active');
         
-        // Close mobile menu if open
         closeMobileMenu();
     }
 
@@ -33,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggle.textContent = body.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
     });
 
-    // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileClose = document.getElementById('mobileClose');
@@ -63,19 +59,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function switchTerm(term) {
-        // Hide all term contents
+    
         document.querySelectorAll('.term-content').forEach(content => {
             content.classList.remove('active');
         });
-        // Show selected term content
+        
         document.getElementById(term + 'Content').classList.add('active');
         
-        // Update active term button
         termBtns.forEach(btn => btn.classList.remove('active'));
         document.querySelector(`[data-term="${term}"]`).classList.add('active');
     }
 
-    // Handle choice buttons (e.g., Midterm Reports, Midterm Activities)
     choiceBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const target = this.getAttribute('data-open');
@@ -91,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle topic buttons
     topicBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const target = this.getAttribute('data-open');
@@ -99,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle back buttons
     backBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const target = this.getAttribute('data-back-to');
@@ -108,11 +100,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function showContent(targetId) {
-        // Hide all visible contents
         document.querySelectorAll('.activities-choices, .folder-content, .subfolder-content, .topic-content').forEach(content => {
             content.classList.remove('active');
         });
-        // Show target content
         document.getElementById(targetId).classList.add('active');
     }
 
@@ -140,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Contact form
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -148,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.reset();
     });
 
-    // Initialize default state
     showSection('cover');
     switchTerm('midterm');
 });
