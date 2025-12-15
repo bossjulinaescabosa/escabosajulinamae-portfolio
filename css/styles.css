@@ -157,8 +157,8 @@ a:hover {
 /* Main Sections */
 .content-section {
     padding: 100px 0;
-    min-height: calc(100vh - 70px); /* Ensure sections take up at least most of the viewport */
-    display: none; /* Hidden by default, controlled by JS */
+    min-height: calc(100vh - 70px); 
+    display: none; 
     opacity: 0;
     transition: opacity var(--transition-speed) ease-in-out;
 }
@@ -372,7 +372,7 @@ a:hover {
 }
 
 .dark-theme .folder-content, .dark-theme .activities-choices, .dark-theme .subfolder-content, .dark-theme .topic-content {
-    background-color: var(--2D2D2D);
+    background-color: #2D2D2D;
 }
 
 .activities-choices.active, .folder-content.active, .subfolder-content.active, .topic-content.active {
@@ -484,6 +484,7 @@ a:hover {
     border-radius: 8px;
     box-shadow: var(--shadow-light);
     transition: transform 0.2s, box-shadow 0.2s;
+    aspect-ratio: 1 / 1; /* For uniform height in the grid */
 }
 
 .image-item:hover {
@@ -507,7 +508,7 @@ a:hover {
 }
 
 .dark-theme #contact {
-    background-color: var(--1A1A1A);
+    background-color: #1A1A1A;
 }
 
 .contact-form {
@@ -628,7 +629,7 @@ footer {
 .mobile-menu {
     position: fixed;
     top: 0;
-    right: -300px; /* Hidden off-screen */
+    right: -300px; 
     width: 300px;
     height: 100%;
     background-color: var(--card-background);
@@ -767,5 +768,9 @@ footer {
 
     .contact-form {
         padding: 20px;
+    }
+
+    .image-item {
+        aspect-ratio: unset; /* Remove fixed ratio on small screens if images are non-square */
     }
 }
