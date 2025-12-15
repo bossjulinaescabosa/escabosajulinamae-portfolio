@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   
-  
   const body = document.body;
   const sections = document.querySelectorAll('.content-section');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -11,23 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const termBtns = document.querySelectorAll('.term-btn');
 
+  // Function to show a specific section
   function showSection(id) {
-    // Itago lahat
+    // Hide all sections
     sections.forEach(sec => {
       sec.classList.remove('active');
-      sec.style.display = 'none';
     });
 
+    // Show target section
     const target = document.getElementById(id);
     if (target) {
-      target.style.display = 'block';
-      requestAnimationFrame(() => {
-        target.classList.add('active');
-        // Scroll to top when changing sections
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
+      target.classList.add('active');
+      // Scroll to top when changing sections
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Reset activities if not in activities section
     if (id !== 'activities') {
       resetAllActivities();
     }
@@ -35,18 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMobileMenu();
   }
 
+  // Reset activities navigation
   function resetAllActivities() {
-    // Itago lahat ng content
+    // Hide all folder/subfolder/topic content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
-      el.style.display = 'none';
       el.classList.remove('active');
     });
 
+    // Show activities choices
     document.querySelectorAll('.activities-choices').forEach(choice => {
-      choice.style.display = 'block';
       choice.classList.add('active');
     });
 
+    // Reset term buttons
     document.querySelectorAll('.term-btn').forEach(btn => {
       if (btn.dataset.term === 'midterm') {
         btn.classList.add('active');
@@ -55,19 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Reset term content
     document.querySelectorAll('.term-content').forEach(tc => {
-      tc.style.display = 'none';
       tc.classList.remove('active');
     });
     const midterm = document.getElementById('midtermContent');
     if (midterm) {
-      midterm.style.display = 'block';
       midterm.classList.add('active');
     }
   }
 
+  // Show cover section initially
   showSection('cover');
 
+  // Navigation links
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Get Started button
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', e => {
       e.preventDefault();
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Mobile menu functions
   function toggleMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.toggle('active');
@@ -103,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileClose.addEventListener('click', closeMobileMenu);
   }
 
+  // Close mobile menu when clicking outside
   document.addEventListener('click', e => {
     if (
       mobileMenu?.classList.contains('active') &&
@@ -113,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Theme toggle
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.setAttribute('data-theme', savedTheme);
   if (themeToggle) {
@@ -129,56 +133,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Term buttons (Midterm/Finals)
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       termBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       document.querySelectorAll('.term-content').forEach(tc => {
-        tc.style.display = 'none';
         tc.classList.remove('active');
       });
 
       const termId = `${btn.dataset.term}Content`;
       const termContent = document.getElementById(termId);
       if (termContent) {
-        termContent.style.display = 'block';
         termContent.classList.add('active');
-        // I-reset ang term: i-show ang choices
+        // Reset to show choices within this term
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
-          choices.style.display = 'block';
           choices.classList.add('active');
         }
       }
     });
   });
 
+  // Activities navigation (Reports/Activities/Quizzes)
   document.addEventListener('click', e => {
     const target = e.target;
     
-    if (
-      target.classList.contains('choice-btn') ||
-      target.classList.contains('subfolder-btn') ||
-      target.classList.contains('topic-btn') ||
-      target.classList.contains('back-btn')
-    ) {
-      e.preventDefault();
-    }
-
     if (target.classList.contains('choice-btn')) {
       const targetId = target.dataset.open;
       const termContent = target.closest('.term-content');
       if (targetId && termContent) {
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
-          choices.style.display = 'none';
           choices.classList.remove('active');
         }
         
         const folder = document.getElementById(targetId);
         if (folder) {
-          folder.style.display = 'block';
           folder.classList.add('active');
         }
       }
@@ -188,11 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = target.dataset.open;
       const currentFolder = target.closest('.folder-content');
       if (targetId && currentFolder) {
-        currentFolder.style.display = 'none';
         currentFolder.classList.remove('active');
         const subfolder = document.getElementById(targetId);
         if (subfolder) {
-          subfolder.style.display = 'block';
           subfolder.classList.add('active');
         }
       }
@@ -202,11 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = target.dataset.open;
       const reportContent = target.closest('.subfolder-content');
       if (targetId && reportContent) {
-        reportContent.style.display = 'none';
         reportContent.classList.remove('active');
         const topicContent = document.getElementById(targetId);
         if (topicContent) {
-          topicContent.style.display = 'block';
           topicContent.classList.add('active');
         }
       }
@@ -218,14 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const backTo = document.getElementById(backToId);
 
       if (current && backTo) {
-        current.style.display = 'none';
         current.classList.remove('active');
-        backTo.style.display = 'block';
         backTo.classList.add('active');
       }
     }
   });
 
+  // Image modal functionality
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
@@ -240,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
- 
+  // Close modal
   if (closeModal) {
     closeModal.addEventListener('click', () => {
       if (modal) {
@@ -250,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Close modal when clicking outside
   if (modal) {
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -259,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Handle image loading errors
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function () {
       if (!this.dataset.failed) {
@@ -268,11 +257,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Set current year in footer
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  // Contact form submission
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
