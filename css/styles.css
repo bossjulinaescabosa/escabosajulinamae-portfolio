@@ -38,36 +38,18 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.fade-in {
-  opacity: 0;
-  animation: fadeIn 0.8s ease-out forwards;
-}
-
-.slide-up {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: slideUp 0.8s ease-out forwards 0.2s;
-}
-
-.slide-up-delay {
-  animation-delay: 0.4s;
+.fade-in, .slide-up, .slide-up-delay {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 #header {
@@ -152,11 +134,7 @@ nav {
   margin-bottom: 2rem;
 }
 
-.btn,
-.choice-btn,
-.subfolder-btn,
-.topic-btn,
-.term-btn {
+.btn, .choice-btn, .subfolder-btn, .topic-btn, .term-btn {
   background-color: var(--accent-color);
   color: white;
   border: none;
@@ -168,11 +146,8 @@ nav {
   box-shadow: var(--shadow);
 }
 
-.btn:hover,
-.choice-btn:hover,
-.subfolder-btn:hover,
-.topic-btn:hover,
-.term-btn:hover {
+.btn:hover, .choice-btn:hover, .subfolder-btn:hover,
+.topic-btn:hover, .term-btn:hover {
   background-color: #9d6bc1;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -309,20 +284,14 @@ nav {
   margin-top: 1rem;
 }
 
-.term-content {
-  display: none;
-}
-
-.term-content.active {
-  display: block;
-}
-
+.term-content,
 .folder-content,
 .subfolder-content,
 .topic-content {
   display: none;
 }
 
+.term-content.active,
 .folder-content.active,
 .subfolder-content.active,
 .topic-content.active {
@@ -379,6 +348,11 @@ nav {
   cursor: pointer;
   transition: var(--transition);
   box-shadow: var(--shadow);
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 .image-item img:hover {
@@ -532,7 +506,6 @@ footer {
   padding: 0.5rem 0;
 }
 
-/* Responsive Design */
 @media (max-width: 850px) {
   .about-content {
     grid-template-columns: 1fr;
