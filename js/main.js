@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = document.getElementById(id);
     if (target) {
       target.style.display = 'block';
-      requestAnimationFrame(() => target.classList.add('active'));
+      requestAnimationFrame(() => {
+        target.classList.add('active');
+        // Scroll to top when changing sections
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
 
     // I-reset ang activities section kapag umalis
@@ -36,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ——— RESET ACTIVITIES ———
   function resetAllActivities() {
-    // Itago lang ang folders at topics
+    // Itago lahat ng content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
       el.style.display = 'none';
       el.classList.remove('active');
@@ -89,20 +93,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ——— MOBILE MENU ———
+  function toggleMobileMenu() {
+    if (mobileMenu) {
+      mobileMenu.classList.toggle('active');
+    }
+  }
+
   function closeMobileMenu() {
-    if (mobileMenu) mobileMenu.classList.remove('active');
+    if (mobileMenu) {
+      mobileMenu.classList.remove('active');
+    }
   }
 
   if (hamburger) {
-    hamburger.addEventListener('click', () => {
-      if (mobileMenu) mobileMenu.classList.add('active');
-    });
+    hamburger.addEventListener('click', toggleMobileMenu);
   }
 
   if (mobileClose) {
     mobileClose.addEventListener('click', closeMobileMenu);
   }
 
+  // Close mobile menu when clicking outside
   document.addEventListener('click', e => {
     if (
       mobileMenu?.classList.contains('active') &&
@@ -115,15 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ——— THEME TOGGLE ———
   const savedTheme = localStorage.getItem('theme') || 'light';
-  body.dataset.theme = savedTheme;
+  body.setAttribute('data-theme', savedTheme);
   if (themeToggle) {
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
   }
 
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      const newTheme = body.dataset.theme === 'dark' ? 'light' : 'dark';
-      body.dataset.theme = newTheme;
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
       themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
       localStorage.setItem('theme', newTheme);
     });
@@ -284,5 +296,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
+  }
+
+  // ——— CONTACT FORM ———
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Simple form submission handling
+      alert('Thank you for your message! I will get back to you soon.');
+      this.reset();
+    });
   }
 });
