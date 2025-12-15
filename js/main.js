@@ -40,10 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
       el.classList.remove('active');
     });
 
-    // Show activities choices
-    document.querySelectorAll('.activities-choices').forEach(choice => {
-      choice.classList.add('active');
-    });
+    // Show activities choices for active term
+    const activeTerm = document.querySelector('.term-content.active');
+    if (activeTerm) {
+      const choices = activeTerm.querySelector('.activities-choices');
+      if (choices) {
+        choices.classList.add('active');
+      }
+    }
 
     // Reset term buttons
     document.querySelectorAll('.term-btn').forEach(btn => {
@@ -116,6 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Mobile menu nav links
+  mobileMenu.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileMenu();
+    });
+  });
+
   // Theme toggle
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.setAttribute('data-theme', savedTheme);
@@ -148,19 +159,31 @@ document.addEventListener('DOMContentLoaded', () => {
       if (termContent) {
         termContent.classList.add('active');
         // Reset to show choices within this term
-        const choices = termContent.querySelector('.activities-choices');
-        if (choices) {
-          choices.classList.add('active');
-        }
+        resetTermContent(termContent);
       }
     });
   });
+
+  // Reset term content to show choices
+  function resetTermContent(termContent) {
+    // Hide all folder/subfolder/topic content
+    termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+      el.classList.remove('active');
+    });
+
+    // Show choices
+    const choices = termContent.querySelector('.activities-choices');
+    if (choices) {
+      choices.classList.add('active');
+    }
+  }
 
   // Activities navigation (Reports/Activities/Quizzes)
   document.addEventListener('click', e => {
     const target = e.target;
     
     if (target.classList.contains('choice-btn')) {
+      e.preventDefault();
       const targetId = target.dataset.open;
       const termContent = target.closest('.term-content');
       if (targetId && termContent) {
@@ -177,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (target.classList.contains('subfolder-btn')) {
+      e.preventDefault();
       const targetId = target.dataset.open;
       const currentFolder = target.closest('.folder-content');
       if (targetId && currentFolder) {
@@ -189,6 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (target.classList.contains('topic-btn')) {
+      e.preventDefault();
       const targetId = target.dataset.open;
       const reportContent = target.closest('.subfolder-content');
       if (targetId && reportContent) {
@@ -201,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (target.classList.contains('back-btn')) {
+      e.preventDefault();
       const backToId = target.dataset.backTo;
       const current = target.closest('.folder-content, .subfolder-content, .topic-content');
       const backTo = document.getElementById(backToId);
