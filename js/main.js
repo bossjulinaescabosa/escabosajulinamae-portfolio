@@ -1,142 +1,302 @@
+// js/main.js
+
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  console.log('DOM loaded, initializing portfolio scripts...');
 
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.content-section');
+  const body = document.body;
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.content-section');
+  const getStartedBtn = document.querySelector('.get-started-btn');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  const themeToggle = document.getElementById('themeToggle');
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetSection = this.getAttribute('data-section');
-            showSection(targetSection);
-        });
-    });
-
-    function showSection(sectionId) {
-        sections.forEach(section => {
-            section.classList.remove('active');
-        });
-        document.getElementById(sectionId).classList.add('active');
-        
-        closeMobileMenu();
-    }
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
-
-    themeToggle.addEventListener('click', function() {
-        body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-        themeToggle.textContent = body.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-    });
-
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileClose = document.getElementById('mobileClose');
-
-    hamburger.addEventListener('click', function() {
-        mobileMenu.classList.add('active');
-    });
-
-    mobileClose.addEventListener('click', closeMobileMenu);
-
-    function closeMobileMenu() {
-        mobileMenu.classList.remove('active');
-    }
-
-    // Activities navigation
-    const termBtns = document.querySelectorAll('.term-btn');
-    const choiceBtns = document.querySelectorAll('.choice-btn');
-    const subfolderBtns = document.querySelectorAll('.subfolder-btn');
-    const topicBtns = document.querySelectorAll('.topic-btn');
-    const backBtns = document.querySelectorAll('.back-btn');
-
-    termBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const term = this.getAttribute('data-term');
-            switchTerm(term);
-        });
-    });
-
-    function switchTerm(term) {
+  function showSection(sectionId) {
+    console.log('Showing:', sectionId);
     
-        document.querySelectorAll('.term-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        
-        document.getElementById(term + 'Content').classList.add('active');
-        
-        termBtns.forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-term="${term}"]`).classList.add('active');
+    // Hide all sections
+    sections.forEach(section => {
+      section.classList.remove('active');
+      section.style.display = 'none';
+    });
+
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.style.display = 'block';
+      targetSection.classList.add('active');
+
+      setTimeout(() => {
+        targetSection.style.opacity = '1';
+      }, 10);
+      if (sectionId === 'activities') {
+        resetAllTermContent();
+      }
     }
-
-    choiceBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const target = this.getAttribute('data-open');
-            showContent(target);
-        });
-    });
-
-    // Handle subfolder buttons
-    subfolderBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const target = this.getAttribute('data-open');
-            showContent(target);
-        });
-    });
-
-    topicBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const target = this.getAttribute('data-open');
-            showContent(target);
-        });
-    });
-
-    backBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const target = this.getAttribute('data-back-to');
-            showContent(target);
-        });
-    });
-
-    function showContent(targetId) {
-        document.querySelectorAll('.activities-choices, .folder-content, .subfolder-content, .topic-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        document.getElementById(targetId).classList.add('active');
+    
+    if (mobileMenu.classList.contains('active')) {
+      mobileMenu.classList.remove('active');
     }
+  }
 
-    // Modal functionality
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImg');
-    const modalCaption = document.getElementById('modalCaption');
-    const closeModal = document.querySelector('.close');
+  sections.forEach(section => {
+    if (!section.classList.contains('active')) {
+      section.style.display = 'none';
+    }
+  });
+  showSection('cover');
 
-    document.querySelectorAll('[data-modal]').forEach(img => {
-        img.addEventListener('click', function() {
-            modal.style.display = 'block';
-            modalImg.src = this.src;
-            modalCaption.textContent = this.alt;
-        });
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sectionId = link.getAttribute('data-section');
+      showSection(sectionId);
+      
+      if (mobileMenu && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+      }
     });
+  });
 
-    closeModal.addEventListener('click', function() {
-        modal.style.display = 'none';
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sectionId = getStartedBtn.getAttribute('data-section');
+      showSection(sectionId);
     });
+  }
 
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.style.display = 'none';
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+    });
+  }
+
+  if (mobileClose && mobileMenu) {
+    mobileClose.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (mobileMenu && mobileMenu.classList.contains('active')) {
+      if (!mobileMenu.contains(e.target) && 
+          (!hamburger || !hamburger.contains(e.target))) {
+        mobileMenu.classList.remove('active');
+      }
+    }
+  });
+  
+  if (themeToggle) {
+    // Set initial theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+
+  const termBtns = document.querySelectorAll('.term-btn');
+
+  termBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const term = btn.getAttribute('data-term');
+
+      termBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      document.querySelectorAll('.term-content').forEach(content => {
+        content.classList.remove('active');
+        content.style.display = 'none';
+        
+        if (content.id === `${term}Content`) {
+          content.style.display = 'block';
+          content.classList.add('active');
         }
+      });
+
+      resetTermContent(term);
+    });
+  });
+
+  function resetAllTermContent() {
+    document.querySelectorAll('.term-content').forEach(content => {
+      content.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+        el.style.display = 'none';
+        el.classList.remove('active');
+      });
+      
+      // Show choices
+      const choices = content.querySelector('.activities-choices');
+      if (choices) {
+        choices.style.display = 'block';
+        choices.classList.add('active');
+      }
+    });
+  }
+  
+  function resetTermContent(term) {
+    const termContent = document.getElementById(`${term}Content`);
+    if (!termContent) return;
+
+    termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+      el.style.display = 'none';
+      el.classList.remove('active');
     });
 
-    const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Thank you for your message! I will get back to you soon.');
+    // Show choices
+    const choices = termContent.querySelector('.activities-choices');
+    if (choices) {
+      choices.style.display = 'block';
+      choices.classList.add('active');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    const target = e.target;
+    
+    if (target.classList.contains('choice-btn')) {
+      e.preventDefault();
+      const folderId = target.getAttribute('data-open');
+      const folder = document.getElementById(folderId);
+      const termContent = target.closest('.term-content');
+      
+      if (folder && termContent) {
+        termContent.querySelectorAll('.folder-content, .activities-choices').forEach(el => {
+          el.classList.remove('active');
+          el.style.display = 'none';
+        });
+        
+        folder.style.display = 'block';
+        folder.classList.add('active');
+      }
+    }
+    
+    if (target.classList.contains('back-btn')) {
+      e.preventDefault();
+      const targetId = target.getAttribute('data-back-to');
+      const targetElement = document.getElementById(targetId);
+      const currentElement = target.closest('.folder-content, .subfolder-content, .topic-content');
+      const termContent = target.closest('.term-content');
+      
+      if (targetElement && currentElement) {
+        currentElement.style.display = 'none';
+        currentElement.classList.remove('active');
+        targetElement.style.display = 'block';
+        targetElement.classList.add('active');
+      }
+    }
+    
+    if (target.classList.contains('subfolder-btn')) {
+      e.preventDefault();
+      const subfolderId = target.getAttribute('data-open');
+      const subfolder = document.getElementById(subfolderId);
+      const currentFolder = target.closest('.folder-content');
+      
+      if (subfolder && currentFolder) {
+        currentFolder.style.display = 'none';
+        currentFolder.classList.remove('active');
+        subfolder.style.display = 'block';
+        subfolder.classList.add('active');
+      }
+    }
+    
+    if (target.classList.contains('topic-btn')) {
+      e.preventDefault();
+      const topicId = target.getAttribute('data-open');
+      const topic = document.getElementById(topicId);
+      const currentSubfolder = target.closest('.subfolder-content');
+      
+      if (topic && currentSubfolder) {
+        currentSubfolder.style.display = 'none';
+        currentSubfolder.classList.remove('active');
+        topic.style.display = 'block';
+        topic.classList.add('active');
+      }
+    }
+  });
+
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeModal = document.querySelector('.close');
+
+  if (modal) {
+    // Open modal when clicking on images with data-modal attribute
+    document.addEventListener('click', (e) => {
+      if (e.target.hasAttribute('data-modal')) {
+        modal.style.display = 'block';
+        modalImg.src = e.target.src;
+        modalCaption.textContent = e.target.alt;
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    function closeModalFunc() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    if (closeModal) closeModal.addEventListener('click', closeModalFunc);
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) closeModalFunc();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeModalFunc();
+      }
+    });
+    
+    modalImg.addEventListener('error', () => {
+      modalImg.src = 'https://via.placeholder.com/500x300?text=Image+Not+Found';
+      modalCaption.textContent = 'Image could not be loaded.';
+    });
+  }
+
+  // CONTACT FORM
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      if (name && email && message) {
+        alert(`Thank you, ${name}! Your message has been sent.`);
         contactForm.reset();
+        
+        console.log('Form submitted:', { name, email, message });
+      } else {
+        alert('Please fill in all fields.');
+      }
     });
+  }
 
-    showSection('cover');
-    switchTerm('midterm');
+  // Set current year in footer
+  const currentYearEl = document.getElementById('currentYear');
+  if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+  }
+
+  // Handle image errors
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', function() {
+      if (!this.src.includes('placeholder')) {
+        this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
+        this.alt = 'Image not available';
+      }
+    });
+  });
+
+  console.log('All scripts loaded successfully!');
 });
