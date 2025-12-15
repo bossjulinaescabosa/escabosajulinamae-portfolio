@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const termBtns = document.querySelectorAll('.term-btn');
 
-  // Function to show section
   function showSection(id) {
     sections.forEach(sec => {
       sec.classList.remove('active');
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetAllActivities() {
-    // Itago lahat ng content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
       el.style.display = 'none';
       el.classList.remove('active');
@@ -64,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Function to show content with automatic image display
   function showContent(targetId, hideParent = false, parentElement = null) {
     if (hideParent && parentElement) {
       parentElement.style.display = 'none';
@@ -76,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       target.style.display = 'block';
       target.classList.add('active');
       
-      // Check if this is a topic content that should show images
       if (target.classList.contains('topic-content') || 
           target.classList.contains('subfolder-content')) {
         // Ensure images are visible
@@ -90,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   showSection('cover');
 
-  // Navigation links
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
@@ -99,15 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Get Started button
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', e => {
       e.preventDefault();
       showSection('about');
     });
   }
-
-  // Mobile menu functions
   function toggleMobileMenu() {
     if (mobileMenu) {
       mobileMenu.classList.toggle('active');
@@ -120,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Hamburger menu
   if (hamburger) {
     hamburger.addEventListener('click', toggleMobileMenu);
   }
@@ -129,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileClose.addEventListener('click', closeMobileMenu);
   }
 
-  // Close mobile menu when clicking outside
   document.addEventListener('click', e => {
     if (
       mobileMenu?.classList.contains('active') &&
@@ -140,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Theme toggle
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.setAttribute('data-theme', savedTheme);
   if (themeToggle) {
@@ -157,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Term buttons (Midterm/Finals)
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       termBtns.forEach(b => b.classList.remove('active'));
@@ -184,11 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Main event listener for all activity buttons
   document.addEventListener('click', e => {
     const target = e.target;
     
-    // Prevent default for all activity buttons
     if (target.classList.contains('choice-btn') ||
         target.classList.contains('subfolder-btn') ||
         target.classList.contains('topic-btn') ||
@@ -196,25 +182,21 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
     }
 
-    // Choice buttons (Midterm Reports / Midterm Activities / Finals Activities / Finals Quizzes)
     if (target.classList.contains('choice-btn')) {
       const targetId = target.dataset.open;
       const termContent = target.closest('.term-content');
       
       if (targetId && termContent) {
-        // Hide choices
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
           choices.style.display = 'none';
           choices.classList.remove('active');
         }
         
-        // Show the selected folder
         showContent(targetId);
       }
     }
 
-    // Subfolder buttons (Report 1, Activity 1, etc.)
     if (target.classList.contains('subfolder-btn')) {
       const targetId = target.dataset.open;
       const currentFolder = target.closest('.folder-content');
@@ -224,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Topic buttons (Topic 1, Topic 2, etc.)
     if (target.classList.contains('topic-btn')) {
       const targetId = target.dataset.open;
       const reportContent = target.closest('.subfolder-content');
@@ -234,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Back buttons
     if (target.classList.contains('back-btn')) {
       const backToId = target.dataset.backTo;
       const current = target.closest('.folder-content, .subfolder-content, .topic-content');
@@ -249,13 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Image modal functionality
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
   const closeModal = document.querySelector('.close');
 
-  // Open modal when clicking on images
   document.addEventListener('click', e => {
     if (e.target.hasAttribute('data-modal') && modal && modalImg) {
       modal.style.display = 'block';
@@ -265,7 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close modal
   if (closeModal) {
     closeModal.addEventListener('click', () => {
       if (modal) {
@@ -275,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close modal when clicking outside
   if (modal) {
     window.addEventListener('click', e => {
       if (e.target === modal) {
@@ -285,7 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Handle broken images
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function () {
       if (!this.dataset.failed) {
@@ -295,13 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Set current year in footer
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Contact form submission
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
