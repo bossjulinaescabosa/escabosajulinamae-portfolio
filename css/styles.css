@@ -29,6 +29,7 @@ body {
   color: var(--text-color);
   line-height: 1.6;
   transition: var(--transition);
+  overflow-x: hidden;
 }
 
 .container {
@@ -39,16 +40,28 @@ body {
 
 /* ——— ANIMATIONS ——— */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
-/* ——— ANIMATION CLASSES (HINDI I-OVERRIDE!) ——— */
+/* ——— ANIMATION CLASSES ——— */
 .fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
@@ -78,6 +91,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 0;
+  position: relative;
 }
 
 .logo {
@@ -85,6 +99,7 @@ nav {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--accent-color);
+  z-index: 1001;
 }
 
 .nav-links {
@@ -99,6 +114,7 @@ nav {
   font-weight: 500;
   transition: var(--transition);
   cursor: pointer;
+  padding: 0.5rem 0;
 }
 
 .nav-link:hover {
@@ -112,6 +128,8 @@ nav {
   font-size: 1.2rem;
   cursor: pointer;
   transition: var(--transition);
+  padding: 0.5rem;
+  z-index: 1001;
 }
 
 /* ——— SECTIONS ——— */
@@ -144,6 +162,7 @@ nav {
 .cover-content p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+  opacity: 0.9;
 }
 
 /* ——— BUTTONS ——— */
@@ -157,6 +176,8 @@ nav {
   font-size: 1rem;
   transition: var(--transition);
   box-shadow: var(--shadow);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
 }
 
 .btn:hover, .choice-btn:hover, .subfolder-btn:hover,
@@ -180,6 +201,7 @@ nav {
   font-size: 0.9rem;
   transition: var(--transition);
   margin-bottom: 1rem;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .back-btn:hover {
@@ -191,6 +213,14 @@ nav {
 #about {
   padding: 3rem 0;
   background: var(--secondary-color);
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--accent-color);
 }
 
 .about-content {
@@ -256,6 +286,12 @@ nav {
   margin-top: 1.5rem;
 }
 
+.skills-container h4 {
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+}
+
 .skills-list {
   display: flex;
   flex-wrap: wrap;
@@ -273,6 +309,17 @@ nav {
 }
 
 /* ——— ACTIVITIES SECTION ——— */
+#activities {
+  padding: 3rem 0;
+}
+
+.section-subtitle {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
 .term-selector {
   display: flex;
   gap: 1rem;
@@ -281,7 +328,6 @@ nav {
 }
 
 /* ——— CRITICAL: VISIBILITY RULES ——— */
-/* Lahat ng dynamic content ay default naka-hide */
 .term-content,
 .activities-choices,
 .folder-content,
@@ -290,7 +336,6 @@ nav {
   display: none;
 }
 
-/* Lahat ng 'active' ay dapat ipakita */
 .term-content.active,
 .activities-choices.active,
 .folder-content.active,
@@ -300,7 +345,7 @@ nav {
   animation: fadeIn 0.4s ease-out;
 }
 
-/* ——— STYLING ——— */
+/* ——— ACTIVITIES STYLING ——— */
 .activities-choices,
 .folder-content,
 .subfolder-content,
@@ -386,6 +431,7 @@ nav {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.9);
+  overflow: auto;
 }
 
 .modal-content {
@@ -394,6 +440,15 @@ nav {
   width: 80%;
   max-width: 700px;
   max-height: 80%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .close {
@@ -403,26 +458,18 @@ nav {
   font-size: 40px;
   color: #fff;
   cursor: pointer;
+  z-index: 2001;
+}
+
+.modal-caption {
+  text-align: center;
+  color: #fff;
+  margin-top: 1rem;
 }
 
 /* ——— CONTACT ——— */
 #contact {
   padding: 3rem 0;
-}
-
-.section-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: var(--accent-color);
-}
-
-.section-subtitle {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--text-color);
-  opacity: 0.8;
 }
 
 .contact-form {
@@ -449,6 +496,7 @@ nav {
   background: var(--bg-color);
   color: var(--text-color);
   transition: var(--transition);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .form-group input:focus,
@@ -480,6 +528,23 @@ footer {
   border-top: 1px solid var(--border-color);
 }
 
+/* ——— HAMBURGER MENU ——— */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--text-color);
+  margin: 3px 0;
+  transition: var(--transition);
+}
+
 /* ——— MOBILE MENU ——— */
 .mobile-menu {
   display: none;
@@ -491,10 +556,12 @@ footer {
   background: var(--bg-color);
   z-index: 1100;
   padding: 2rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
 }
 
 .mobile-menu.active {
-  display: block;
+  transform: translateX(0);
 }
 
 .mobile-menu-header {
@@ -502,6 +569,8 @@ footer {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .mobile-close {
@@ -544,17 +613,11 @@ footer {
   }
   
   .hamburger {
-    display: block;
-    cursor: pointer;
+    display: flex;
   }
   
-  .hamburger span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background: var(--text-color);
-    margin: 5px 0;
-    transition: var(--transition);
+  .cover-content h1 {
+    font-size: 2.5rem;
   }
 }
 
@@ -579,13 +642,18 @@ footer {
     flex-direction: column;
     align-items: center;
   }
+  
+  .btn, .choice-btn, .subfolder-btn, .topic-btn, .term-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .about-info-box {
+    padding: 1.2rem;
+  }
 }
 
 @media (min-width: 851px) {
-  .hamburger {
-    display: none;
-  }
-  
   .mobile-menu {
     display: none !important;
   }
