@@ -1,28 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Portfolio initialized...');
-  
+  console.log('DOM loaded, initializing portfolio scripts...');
+
   const body = document.body;
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('.content-section');
-  const themeToggle = document.getElementById('themeToggle');
+  const getStartedBtn = document.querySelector('.get-started-btn');
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileClose = document.getElementById('mobileClose');
-  const getStartedBtn = document.querySelector('.get-started-btn');
-  
+  const themeToggle = document.getElementById('themeToggle');
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeModal = document.querySelector('.close');
+  const contactForm = document.getElementById('contactForm');
+
   function showSection(sectionId) {
-    console.log('Showing:', sectionId);
+    console.log('Showing section:', sectionId);
     
-    // Hide all sections
     sections.forEach(section => {
-      section.style.display = 'none';
       section.classList.remove('active');
+      section.style.display = 'none';
     });
-    
+
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
       targetSection.style.display = 'block';
-      targetSection.classList.add('active');
+      setTimeout(() => {
+        targetSection.classList.add('active');
+      }, 10);
       
       if (sectionId === 'activities') {
         resetAllTermContent();
@@ -33,9 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileMenu.classList.remove('active');
     }
   }
-  
+
+  // Initialize by showing cover section
+  sections.forEach(section => {
+    if (!section.classList.contains('active')) {
+      section.style.display = 'none';
+    }
+  });
   showSection('cover');
-  
+
+  // Navigation links
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -43,44 +56,52 @@ document.addEventListener('DOMContentLoaded', function() {
       showSection(sectionId);
     });
   });
-  
+
+  // Get Started button
   if (getStartedBtn) {
     getStartedBtn.addEventListener('click', (e) => {
       e.preventDefault();
       showSection('about');
     });
   }
-  
+
   if (hamburger && mobileMenu) {
     hamburger.addEventListener('click', () => {
       mobileMenu.classList.add('active');
     });
   }
-  
+
   if (mobileClose && mobileMenu) {
     mobileClose.addEventListener('click', () => {
       mobileMenu.classList.remove('active');
     });
   }
-  
+
+  document.addEventListener('click', (e) => {
+    if (mobileMenu && mobileMenu.classList.contains('active')) {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+      }
+    }
+  });
+
   if (themeToggle) {
-    // Set initial theme
     const savedTheme = localStorage.getItem('theme') || 'light';
     body.setAttribute('data-theme', savedTheme);
     themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-    
+
     themeToggle.addEventListener('click', () => {
       const currentTheme = body.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       
       body.setAttribute('data-theme', newTheme);
       themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
       localStorage.setItem('theme', newTheme);
     });
   }
-  
+
   const termBtns = document.querySelectorAll('.term-btn');
-  
+
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const term = btn.getAttribute('data-term');
@@ -91,17 +112,19 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.term-content').forEach(content => {
         content.classList.remove('active');
         content.style.display = 'none';
+        
+        if (content.id === `${term}Content`) {
+          content.style.display = 'block';
+          setTimeout(() => {
+            content.classList.add('active');
+          }, 10);
+        }
       });
       
-      const termContent = document.getElementById(term + 'Content');
-      if (termContent) {
-        termContent.style.display = 'block';
-        termContent.classList.add('active');
-        resetTermContent(term);
-      }
+      resetTermContent(term);
     });
   });
-  
+
   function resetAllTermContent() {
     document.querySelectorAll('.term-content').forEach(content => {
       content.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
@@ -109,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
         el.classList.remove('active');
       });
       
-      // Show choices
       const choices = content.querySelector('.activities-choices');
       if (choices) {
         choices.style.display = 'block';
@@ -119,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   function resetTermContent(term) {
-    const termContent = document.getElementById(term + 'Content');
+    const termContent = document.getElementById(`${term}Content`);
     if (!termContent) return;
     
     termContent.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
@@ -127,14 +149,13 @@ document.addEventListener('DOMContentLoaded', function() {
       el.classList.remove('active');
     });
     
-    // Show choices
     const choices = termContent.querySelector('.activities-choices');
     if (choices) {
       choices.style.display = 'block';
       choices.classList.add('active');
     }
   }
-  
+
   document.addEventListener('click', function(e) {
     const target = e.target;
     
@@ -142,10 +163,9 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const folderId = target.getAttribute('data-open');
       const folder = document.getElementById(folderId);
+      const termContent = target.closest('.term-content');
       
-      if (folder) {
-        // Hide all content in current term
-        const termContent = target.closest('.term-content');
+      if (folder && termContent) {
         termContent.querySelectorAll('.folder-content, .activities-choices, .subfolder-content, .topic-content').forEach(el => {
           el.style.display = 'none';
           el.classList.remove('active');
@@ -184,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
     
+    // Topic buttons
     if (target.classList.contains('topic-btn')) {
       e.preventDefault();
       const topicId = target.getAttribute('data-open');
@@ -199,43 +220,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalCaption = document.getElementById('modalCaption');
-  const closeModal = document.querySelector('.close');
-  
-  if (modal) {
-    // Open modal when clicking on images with data-modal attribute
+  if (modal && modalImg && modalCaption && closeModal) {
     document.addEventListener('click', (e) => {
       if (e.target.hasAttribute('data-modal')) {
         modal.style.display = 'block';
-        modalImg.src = e.target.src;
-        modalImg.alt = e.target.alt;
-        modalCaption.textContent = e.target.alt || '';
         document.body.style.overflow = 'hidden';
+        modalImg.src = e.target.src;
+        modalCaption.textContent = e.target.alt || 'Image';
       }
     });
-    
-    function closeModalFunc() {
+
+    function closeImageModal() {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
     }
-    
-    if (closeModal) closeModal.addEventListener('click', closeModalFunc);
-    
+
+    closeModal.addEventListener('click', closeImageModal);
+
     window.addEventListener('click', (e) => {
-      if (e.target === modal) closeModalFunc();
-    });
-    
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'block') {
-        closeModalFunc();
+      if (e.target === modal) {
+        closeImageModal();
       }
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeImageModal();
+      }
+    });
+    
+    modalImg.addEventListener('error', () => {
+      modalImg.src = 'https://via.placeholder.com/500x300?text=Image+Not+Found';
+      modalCaption.textContent = 'Image could not be loaded.';
+    });
   }
-  
+
   // 7. CONTACT FORM
-  const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -243,29 +263,30 @@ document.addEventListener('DOMContentLoaded', function() {
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const message = document.getElementById('message').value;
-      
+
       if (name && email && message) {
-        alert(`Thank you, ${name}! Your message has been sent.`);
+        alert(`Thank you, ${name}! Your message has been sent. I'll get back to you soon.`);
         contactForm.reset();
       } else {
-        alert('Please fill in all fields.');
+        alert('Please fill in all fields before submitting.');
       }
     });
   }
-  
-  const currentYearSpan = document.getElementById('currentYear');
-  if (currentYearSpan) {
-    currentYearSpan.textContent = new Date().getFullYear();
+
+  const currentYear = new Date().getFullYear();
+  const yearElement = document.getElementById('currentYear');
+  if (yearElement) {
+    yearElement.textContent = currentYear;
   }
-  
+
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function() {
-      if (!this.src.includes('placeholder')) {
+      if (!this.src.includes('placeholder') && !this.src.includes('via.placeholder.com')) {
         this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
         this.alt = 'Image not available';
       }
     });
   });
-  
-  console.log('All scripts loaded successfully!');
+
+  console.log('Portfolio scripts initialized successfully!');
 });
