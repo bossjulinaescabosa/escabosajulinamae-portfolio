@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM Elements
+  
+  
   const body = document.body;
   const sections = document.querySelectorAll('.content-section');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -9,141 +10,255 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileClose = document.getElementById('mobileClose');
   const themeToggle = document.getElementById('themeToggle');
   const termBtns = document.querySelectorAll('.term-btn');
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalCaption = document.getElementById('modalCaption');
-  const closeModal = document.querySelector('.close');
-  const contactForm = document.getElementById('contactForm');
-  const yearEl = document.getElementById('currentYear');
 
-  // Show section
   function showSection(id) {
-    sections.forEach(sec => sec.classList.remove('active'));
+    // Itago lahat
+    sections.forEach(sec => {
+      sec.classList.remove('active');
+      sec.style.display = 'none';
+    });
+
     const target = document.getElementById(id);
     if (target) {
-      target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      target.style.display = 'block';
+      requestAnimationFrame(() => {
+        target.classList.add('active');
+        // Scroll to top when changing sections
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
-    if (id !== 'activities') resetAllActivities();
+
+    if (id !== 'activities') {
+      resetAllActivities();
+    }
+
     closeMobileMenu();
   }
 
-  // Reset activities nav
   function resetAllActivities() {
-    document.querySelectorAll('.folder-content, .topic-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.activities-choices').forEach(c => c.classList.remove('active'));
-    document.getElementById('midtermActivitiesChoices')?.classList.add('active');
-    document.querySelectorAll('.term-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.term === 'midterm');
+    // Itago lahat ng content
+    document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
+      el.style.display = 'none';
+      el.classList.remove('active');
     });
-    document.querySelectorAll('.term-content').forEach(tc => tc.classList.remove('active'));
-    document.getElementById('midtermContent')?.classList.add('active');
+
+    document.querySelectorAll('.activities-choices').forEach(choice => {
+      choice.style.display = 'block';
+      choice.classList.add('active');
+    });
+
+    document.querySelectorAll('.term-btn').forEach(btn => {
+      if (btn.dataset.term === 'midterm') {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll('.term-content').forEach(tc => {
+      tc.style.display = 'none';
+      tc.classList.remove('active');
+    });
+    const midterm = document.getElementById('midtermContent');
+    if (midterm) {
+      midterm.style.display = 'block';
+      midterm.classList.add('active');
+    }
   }
 
-  // INIT
   showSection('cover');
 
-  // Nav click
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
-      showSection(link.dataset.section);
+      const section = link.dataset.section;
+      if (section) showSection(section);
     });
   });
 
-  // Get started
-  getStartedBtn?.addEventListener('click', e => {
-    e.preventDefault();
-    showSection('about');
-  });
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', e => {
+      e.preventDefault();
+      showSection('about');
+    });
+  }
 
-  // Mobile menu
   function toggleMobileMenu() {
-    mobileMenu?.classList.toggle('active');
-    const spans = hamburger?.querySelectorAll('span');
-    if (!spans) return;
-    if (mobileMenu?.classList.contains('active')) {
-      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-      spans[1].style.opacity = '0';
-      spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-    } else {
-      spans.forEach(s => { s.style.transform = 'none'; s.style.opacity = '1'; });
+    if (mobileMenu) {
+      mobileMenu.classList.toggle('active');
     }
   }
-  hamburger?.addEventListener('click', toggleMobileMenu);
-  mobileClose?.addEventListener('click', () => mobileMenu?.classList.remove('active'));
-  document.addEventListener('click', e => {
-    if (mobileMenu?.classList.contains('active') && !mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+
+  function closeMobileMenu() {
+    if (mobileMenu) {
       mobileMenu.classList.remove('active');
+    }
+  }
+
+  if (hamburger) {
+    hamburger.addEventListener('click', toggleMobileMenu);
+  }
+
+  if (mobileClose) {
+    mobileClose.addEventListener('click', closeMobileMenu);
+  }
+
+  document.addEventListener('click', e => {
+    if (
+      mobileMenu?.classList.contains('active') &&
+      !mobileMenu.contains(e.target) &&
+      hamburger && !hamburger.contains(e.target)
+    ) {
+      closeMobileMenu();
     }
   });
 
-  // Theme toggle
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.setAttribute('data-theme', savedTheme);
-  themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-  themeToggle?.addEventListener('click', () => {
-    const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem('theme', newTheme);
-  });
+  if (themeToggle) {
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  }
 
-  // Term switching
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('theme', newTheme);
+    });
+  }
+
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       termBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.term-content').forEach(tc => tc.classList.remove('active'));
-      const termContent = document.getElementById(`${btn.dataset.term}Content`);
-      termContent?.classList.add('active');
-      const choices = termContent?.querySelector('.activities-choices');
-      choices?.classList.add('active');
+
+      document.querySelectorAll('.term-content').forEach(tc => {
+        tc.style.display = 'none';
+        tc.classList.remove('active');
+      });
+
+      const termId = `${btn.dataset.term}Content`;
+      const termContent = document.getElementById(termId);
+      if (termContent) {
+        termContent.style.display = 'block';
+        termContent.classList.add('active');
+        // I-reset ang term: i-show ang choices
+        const choices = termContent.querySelector('.activities-choices');
+        if (choices) {
+          choices.style.display = 'block';
+          choices.classList.add('active');
+        }
+      }
     });
   });
 
-  // Activity navigation
   document.addEventListener('click', e => {
-    const t = e.target;
-    if (t.classList.contains('back-btn')) {
+    const target = e.target;
+    
+    if (
+      target.classList.contains('choice-btn') ||
+      target.classList.contains('subfolder-btn') ||
+      target.classList.contains('topic-btn') ||
+      target.classList.contains('back-btn')
+    ) {
       e.preventDefault();
-      const current = t.closest('.folder-content, .topic-content');
-      const backTo = document.getElementById(t.dataset.back);
-      current?.classList.remove('active');
-      backTo?.classList.add('active');
-      backTo?.scrollIntoView({ behavior: 'smooth' });
-    } else if (t.hasAttribute('data-target')) {
-      e.preventDefault();
-      const targetId = t.dataset.target;
-      const parent = t.closest('.term-content, .folder-content');
-      parent?.querySelectorAll('.activities-choices, .folder-content, .topic-content').forEach(el => el.classList.remove('active'));
-      const targetEl = document.getElementById(targetId);
-      targetEl?.classList.add('active');
-      targetEl?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (target.classList.contains('choice-btn')) {
+      const targetId = target.dataset.open;
+      const termContent = target.closest('.term-content');
+      if (targetId && termContent) {
+        const choices = termContent.querySelector('.activities-choices');
+        if (choices) {
+          choices.style.display = 'none';
+          choices.classList.remove('active');
+        }
+        
+        const folder = document.getElementById(targetId);
+        if (folder) {
+          folder.style.display = 'block';
+          folder.classList.add('active');
+        }
+      }
+    }
+
+    if (target.classList.contains('subfolder-btn')) {
+      const targetId = target.dataset.open;
+      const currentFolder = target.closest('.folder-content');
+      if (targetId && currentFolder) {
+        currentFolder.style.display = 'none';
+        currentFolder.classList.remove('active');
+        const subfolder = document.getElementById(targetId);
+        if (subfolder) {
+          subfolder.style.display = 'block';
+          subfolder.classList.add('active');
+        }
+      }
+    }
+
+    if (target.classList.contains('topic-btn')) {
+      const targetId = target.dataset.open;
+      const reportContent = target.closest('.subfolder-content');
+      if (targetId && reportContent) {
+        reportContent.style.display = 'none';
+        reportContent.classList.remove('active');
+        const topicContent = document.getElementById(targetId);
+        if (topicContent) {
+          topicContent.style.display = 'block';
+          topicContent.classList.add('active');
+        }
+      }
+    }
+
+    if (target.classList.contains('back-btn')) {
+      const backToId = target.dataset.backTo;
+      const current = target.closest('.folder-content, .subfolder-content, .topic-content');
+      const backTo = document.getElementById(backToId);
+
+      if (current && backTo) {
+        current.style.display = 'none';
+        current.classList.remove('active');
+        backTo.style.display = 'block';
+        backTo.classList.add('active');
+      }
     }
   });
 
-  // Modal
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeModal = document.querySelector('.close');
+
   document.addEventListener('click', e => {
-    if (e.target.hasAttribute('data-modal')) {
+    if (e.target.hasAttribute('data-modal') && modal && modalImg) {
       modal.style.display = 'block';
       modalImg.src = e.target.src;
       modalCaption.textContent = e.target.alt || '';
       document.body.style.overflow = 'hidden';
     }
   });
-  closeModal?.addEventListener('click', () => {
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  });
-  window.addEventListener('click', e => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-  });
 
-  // Utilities
+ 
+  if (closeModal) {
+    closeModal.addEventListener('click', () => {
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+
+  if (modal) {
+    window.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function () {
       if (!this.dataset.failed) {
@@ -152,21 +267,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  yearEl.textContent = new Date().getFullYear();
-  contactForm?.addEventListener('submit', e => {
-    e.preventDefault();
-    alert('Thank you for your message! I will get back to you soon.');
-    e.target.reset();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      if (modal.style.display === 'block') {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-      mobileMenu?.classList.remove('active');
-    }
-  });
 
-  console.log('Portfolio initialized successfully!');
+  const yearEl = document.getElementById('currentYear');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
+
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for your message! I will get back to you soon.');
+      this.reset();
+    });
+  }
 });
