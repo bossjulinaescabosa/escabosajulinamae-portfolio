@@ -50,40 +50,18 @@ body {
   }
 }
 
-@keyframes slideUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-@keyframes scaleIn {
-  from { 
-    opacity: 0; 
-    transform: scale(0.9); 
-  }
-  to { 
-    opacity: 1; 
-    transform: scale(1); 
-  }
-}
-
 /* ——— ANIMATION CLASSES ——— */
 .fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
 .slide-up {
-  animation: slideUp 0.6s ease-out 0.2s forwards;
+  animation: fadeIn 0.6s ease-out 0.2s forwards;
   opacity: 0;
 }
 
 .slide-up-delay {
-  animation: slideUp 0.6s ease-out 0.4s forwards;
+  animation: fadeIn 0.6s ease-out 0.4s forwards;
   opacity: 0;
 }
 
@@ -148,15 +126,10 @@ nav {
   display: none;
   min-height: 100vh;
   padding: 4rem 0;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .content-section.active {
   display: block;
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* ——— COVER ——— */
@@ -343,35 +316,24 @@ nav {
   margin: 2rem 0;
 }
 
-/* ——— CRITICAL: VISIBILITY RULES ——— */
+/* ——— BAGONG VISIBILITY SYSTEM ——— */
+/* Itago lahat ng content muna */
 .term-content,
 .activities-choices,
 .folder-content,
 .subfolder-content,
 .topic-content {
   display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Ipakita lang kung active */
 .term-content.active,
 .activities-choices.active,
 .folder-content.active,
 .subfolder-content.active,
 .topic-content.active {
   display: block !important;
-  opacity: 1;
-  transform: translateY(0);
   animation: fadeIn 0.4s ease-out;
-}
-
-/* Make sure images grid is visible when parent is active */
-.topic-content.active .images-grid,
-.subfolder-content.active .images-grid {
-  display: grid !important;
-  opacity: 1;
-  visibility: visible;
 }
 
 /* ——— ACTIVITIES STYLING ——— */
@@ -421,15 +383,19 @@ nav {
   border-radius: 8px;
 }
 
-.topics-grid {
-  display: grid;
+/* AUTOMATIC TOPICS DISPLAY - MAS IMPORTANTE ITO */
+.subfolder-content.active .topics-grid {
+  display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
+  opacity: 1;
+  visibility: visible;
 }
 
-.images-grid {
-  display: grid;
+/* AUTOMATIC IMAGES DISPLAY - ITO YUNG MAGPAPAKITA NG IMAGES */
+.topic-content.active .images-grid {
+  display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
@@ -437,10 +403,12 @@ nav {
   visibility: visible;
 }
 
-.image-item {
-  overflow: hidden;
-  border-radius: 8px;
-  transition: var(--transition);
+.topics-grid {
+  display: none;
+}
+
+.images-grid {
+  display: none;
 }
 
 .image-item img {
@@ -480,7 +448,6 @@ nav {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  animation: scaleIn 0.3s ease-out;
 }
 
 .modal-content img {
@@ -497,19 +464,12 @@ nav {
   color: #fff;
   cursor: pointer;
   z-index: 2001;
-  transition: var(--transition);
-}
-
-.close:hover {
-  color: #ff6b6b;
-  transform: scale(1.1);
 }
 
 .modal-caption {
   text-align: center;
   color: #fff;
   margin-top: 1rem;
-  font-size: 1.1rem;
 }
 
 /* ——— CONTACT ——— */
@@ -559,7 +519,6 @@ nav {
 .contact-info a {
   color: var(--accent-color);
   text-decoration: none;
-  font-weight: bold;
 }
 
 .contact-info a:hover {
@@ -625,12 +584,6 @@ footer {
   font-size: 2rem;
   color: var(--text-color);
   cursor: pointer;
-  transition: var(--transition);
-}
-
-.mobile-close:hover {
-  color: var(--accent-color);
-  transform: scale(1.1);
 }
 
 .mobile-menu ul {
@@ -645,12 +598,6 @@ footer {
   font-size: 1.2rem;
   display: block;
   padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.mobile-menu .nav-link:hover {
-  color: var(--accent-color);
-  transform: translateX(5px);
 }
 
 /* ——— MEDIA QUERIES ——— */
@@ -677,14 +624,14 @@ footer {
   .cover-content h1 {
     font-size: 2.5rem;
   }
-  
-  .section-title {
-    font-size: 2rem;
-  }
 }
 
 @media (max-width: 600px) {
   .cover-content h1 {
+    font-size: 2rem;
+  }
+  
+  .section-title {
     font-size: 2rem;
   }
   
@@ -708,10 +655,6 @@ footer {
   
   .about-info-box {
     padding: 1.2rem;
-  }
-  
-  .modal-content {
-    width: 95%;
   }
 }
 
