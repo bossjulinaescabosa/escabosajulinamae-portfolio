@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
-            // Apply animations to new section
+            // Re-trigger animations
             targetSection.querySelectorAll('.fade-in, .slide-up, .slide-up-delay').forEach(el => {
                 el.style.animation = 'none';
                 el.offsetHeight; // Trigger reflow
@@ -31,13 +31,32 @@ document.addEventListener('DOMContentLoaded', () => {
             targetSection.classList.add('active');
             window.location.hash = targetId;
 
-            // Update active state in desktop and mobile navigation
+            // Update active state in navigation
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('data-section') === targetId) {
                     link.classList.add('active');
                 }
             });
+            
+            // SPECIAL HANDLER for ACTIVITIES section reset
+            if (targetId === 'activities') {
+                // Set Midterm as active term content and active term button
+                document.querySelectorAll('.term-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector('.term-btn[data-term="midterm"]').classList.add('active');
+
+                document.querySelectorAll('.term-content').forEach(content => content.classList.remove('active'));
+                document.getElementById('midtermContent').classList.add('active');
+                
+                // Reset all internal folder views across both terms
+                document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.activities-choices').forEach(el => el.classList.remove('active'));
+                
+                // Show the main choices for the default active term (Midterm)
+                document.getElementById('midtermActivitiesChoices').classList.add('active');
+            }
         }
     };
 
@@ -52,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close mobile menu after click
         if (mobileMenu.classList.contains('open')) {
             mobileMenu.classList.remove('open');
-            hamburger.classList.remove('is-active');
+            // hamburger.classList.remove('is-active'); // No need for this class in current CSS
         }
     };
 
@@ -96,12 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. Mobile Menu Toggle
     hamburger.addEventListener('click', () => {
         mobileMenu.classList.toggle('open');
-        hamburger.classList.toggle('is-active'); // Add a class for visual change if you add CSS
     });
 
     mobileClose.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
-        hamburger.classList.remove('is-active');
     });
 
 
@@ -109,8 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Manages the visibility of content within the #activities section.
-     * @param {string} currentActiveContainerId The ID of the container to hide (e.g., 'midtermReportsFolder').
-     * @param {string} targetContainerId The ID of the container to show (e.g., 'midtermActivitiesChoices').
      */
     const switchActivityContent = (currentActiveContainerId, targetContainerId) => {
         const currentActive = document.getElementById(currentActiveContainerId);
@@ -126,8 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Term Selector (Midterm/Finals)
     const termBtns = document.querySelectorAll('.term-btn');
-    const midtermContent = document.getElementById('midtermContent');
-    const finalsContent = document.getElementById('finalsContent');
     
     termBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -138,18 +151,24 @@ document.addEventListener('DOMContentLoaded', () => {
             e.currentTarget.classList.add('active');
             
             // Show/Hide Term Content
-            midtermContent.classList.remove('active');
-            finalsContent.classList.remove('active');
+            document.querySelectorAll('.term-content').forEach(content => content.classList.remove('active'));
             
-            if (term === 'midterm') {
-                midtermContent.classList.add('active');
-            } else if (term === 'finals') {
-                finalsContent.classList.add('active');
+            // Reset and set active term content
+            const termContent = document.getElementById(term + 'Content');
+            if (termContent) {
+                termContent.classList.add('active');
+                
+                // Reset all internal folder views across both terms
+                document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.activities-choices').forEach(el => el.classList.remove('active'));
+
+                // Show the main choices for the selected term
+                document.getElementById(term + 'ActivitiesChoices').classList.add('active');
             }
         });
     });
 
-    // Folder and Content Switcher
+    // Folder and Content Switcher (Handles choice-btn, subfolder-btn, topic-btn, back-btn)
     document.querySelectorAll('.choice-btn, .subfolder-btn, .topic-btn, .back-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const targetOpen = e.currentTarget.getAttribute('data-open');
@@ -157,23 +176,24 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let currentActiveContainer;
             
-            // Find the current active container to hide it
-            if (e.currentTarget.closest('.activities-choices.active')) {
-                currentActiveContainer = e.currentTarget.closest('.activities-choices.active');
-            } else if (e.currentTarget.closest('.folder-content.active')) {
-                currentActiveContainer = e.currentTarget.closest('.folder-content.active');
-            } else if (e.currentTarget.closest('.subfolder-content.active')) {
-                currentActiveContainer = e.currentTarget.closest('.subfolder-content.active');
-            } else if (e.currentTarget.closest('.topic-content.active')) {
-                currentActiveContainer = e.currentTarget.closest('.topic-content.active');
-            }
+            // Find the currently active container to hide it
+            const activeTermContent = document.querySelector('.term-content.active');
+            if (!activeTermContent) return;
 
-            if (targetOpen) {
-                // Moving forward (e.g., from choices to reports folder)
-                switchActivityContent(currentActiveContainer ? currentActiveContainer.id : null, targetOpen);
-            } else if (targetBack) {
-                // Moving backward (e.g., from a report topic back to the report folder)
-                switchActivityContent(currentActiveContainer ? currentActiveContainer.id : null, targetBack);
+            // Find the active container within the active term
+            currentActiveContainer = activeTermContent.querySelector('.activities-choices.active, .folder-content.active, .subfolder-content.active, .topic-content.active');
+
+            if (currentActiveContainer) {
+                if (targetOpen) {
+                    // Moving forward
+                    switchActivityContent(currentActiveContainer.id, targetOpen);
+                } else if (targetBack) {
+                    // Moving backward
+                    switchActivityContent(currentActiveContainer.id, targetBack);
+                }
+            } else if (targetOpen) {
+                 // Fallback for initial state: If no container is active yet, but a choice-btn is clicked
+                 switchActivityContent(null, targetOpen);
             }
         });
     });
