@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  
-  
   const body = document.body;
   const sections = document.querySelectorAll('.content-section');
   const navLinks = document.querySelectorAll('.nav-link');
@@ -12,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const termBtns = document.querySelectorAll('.term-btn');
 
   function showSection(id) {
-    // Itago lahat
     sections.forEach(sec => {
       sec.classList.remove('active');
       sec.style.display = 'none';
@@ -23,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
       target.style.display = 'block';
       requestAnimationFrame(() => {
         target.classList.add('active');
-        // Scroll to top when changing sections
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
@@ -36,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetAllActivities() {
-    // Itago lahat ng content
     document.querySelectorAll('.folder-content, .subfolder-content, .topic-content').forEach(el => {
       el.style.display = 'none';
       el.classList.remove('active');
@@ -59,10 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
       tc.style.display = 'none';
       tc.classList.remove('active');
     });
+    
     const midterm = document.getElementById('midtermContent');
     if (midterm) {
       midterm.style.display = 'block';
       midterm.classList.add('active');
+    }
+  }
+
+  function showContent(targetId, hideParent = false, parentElement = null) {
+    if (hideParent && parentElement) {
+      parentElement.style.display = 'none';
+      parentElement.classList.remove('active');
+    }
+    
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.style.display = 'block';
+      target.classList.add('active');
+      
+      if (target.classList.contains('topic-content') || 
+          target.classList.contains('subfolder-content')) {
+        const imagesGrid = target.querySelector('.images-grid');
+        if (imagesGrid) {
+          imagesGrid.style.display = 'grid';
+        }
+      }
     }
   }
 
@@ -103,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileClose.addEventListener('click', closeMobileMenu);
   }
 
+  // Close mobile menu when clicking outside
   document.addEventListener('click', e => {
     if (
       mobileMenu?.classList.contains('active') &&
@@ -129,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Term buttons (Midterm/Finals)
   termBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       termBtns.forEach(b => b.classList.remove('active'));
@@ -144,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (termContent) {
         termContent.style.display = 'block';
         termContent.classList.add('active');
-        // I-reset ang term: i-show ang choices
+        
+        // Show the choices section for the term
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
           choices.style.display = 'block';
@@ -157,18 +177,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     const target = e.target;
     
-    if (
-      target.classList.contains('choice-btn') ||
-      target.classList.contains('subfolder-btn') ||
-      target.classList.contains('topic-btn') ||
-      target.classList.contains('back-btn')
-    ) {
+    if (target.classList.contains('choice-btn') ||
+        target.classList.contains('subfolder-btn') ||
+        target.classList.contains('topic-btn') ||
+        target.classList.contains('back-btn')) {
       e.preventDefault();
     }
 
     if (target.classList.contains('choice-btn')) {
       const targetId = target.dataset.open;
       const termContent = target.closest('.term-content');
+      
       if (targetId && termContent) {
         const choices = termContent.querySelector('.activities-choices');
         if (choices) {
@@ -176,39 +195,25 @@ document.addEventListener('DOMContentLoaded', () => {
           choices.classList.remove('active');
         }
         
-        const folder = document.getElementById(targetId);
-        if (folder) {
-          folder.style.display = 'block';
-          folder.classList.add('active');
-        }
+        showContent(targetId);
       }
     }
 
     if (target.classList.contains('subfolder-btn')) {
       const targetId = target.dataset.open;
       const currentFolder = target.closest('.folder-content');
+      
       if (targetId && currentFolder) {
-        currentFolder.style.display = 'none';
-        currentFolder.classList.remove('active');
-        const subfolder = document.getElementById(targetId);
-        if (subfolder) {
-          subfolder.style.display = 'block';
-          subfolder.classList.add('active');
-        }
+        showContent(targetId, true, currentFolder);
       }
     }
 
     if (target.classList.contains('topic-btn')) {
       const targetId = target.dataset.open;
       const reportContent = target.closest('.subfolder-content');
+      
       if (targetId && reportContent) {
-        reportContent.style.display = 'none';
-        reportContent.classList.remove('active');
-        const topicContent = document.getElementById(targetId);
-        if (topicContent) {
-          topicContent.style.display = 'block';
-          topicContent.classList.add('active');
-        }
+        showContent(targetId, true, reportContent);
       }
     }
 
@@ -240,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
- 
   if (closeModal) {
     closeModal.addEventListener('click', () => {
       if (modal) {
@@ -250,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Close modal when clicking outside
   if (modal) {
     window.addEventListener('click', e => {
       if (e.target === modal) {
