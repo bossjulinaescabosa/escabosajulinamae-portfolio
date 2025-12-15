@@ -38,7 +38,6 @@ body {
   padding: 0 20px;
 }
 
-/* ——— ANIMATIONS ——— */
 @keyframes fadeIn {
   from { 
     opacity: 0; 
@@ -61,7 +60,6 @@ body {
   }
 }
 
-/* ——— ANIMATION CLASSES ——— */
 .fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
@@ -76,7 +74,6 @@ body {
   opacity: 0;
 }
 
-/* ——— HEADER ——— */
 #header {
   position: sticky;
   top: 0;
@@ -132,7 +129,6 @@ nav {
   z-index: 1001;
 }
 
-/* ——— SECTIONS ——— */
 .content-section {
   display: none;
   min-height: 100vh;
@@ -143,7 +139,6 @@ nav {
   display: block;
 }
 
-/* ——— COVER ——— */
 #cover {
   display: flex;
   align-items: center;
@@ -165,7 +160,6 @@ nav {
   opacity: 0.9;
 }
 
-/* ——— BUTTONS ——— */
 .btn, .choice-btn, .subfolder-btn, .topic-btn, .term-btn {
   background-color: var(--accent-color);
   color: white;
@@ -209,7 +203,6 @@ nav {
   transform: translateY(-1px);
 }
 
-/* ——— ABOUT ——— */
 #about {
   padding: 3rem 0;
   background: var(--secondary-color);
@@ -308,7 +301,6 @@ nav {
   border: 1px solid var(--border-color);
 }
 
-/* ——— ACTIVITIES SECTION ——— */
 #activities {
   padding: 3rem 0;
 }
@@ -327,7 +319,6 @@ nav {
   margin: 2rem 0;
 }
 
-/* ——— CRITICAL: VISIBILITY RULES ——— */
 .term-content,
 .activities-choices,
 .folder-content,
@@ -345,7 +336,6 @@ nav {
   animation: fadeIn 0.4s ease-out;
 }
 
-/* ——— ACTIVITIES STYLING ——— */
 .activities-choices,
 .folder-content,
 .subfolder-content,
@@ -421,7 +411,6 @@ nav {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* ——— MODAL ——— */
 .modal {
   display: none;
   position: fixed;
@@ -467,7 +456,6 @@ nav {
   margin-top: 1rem;
 }
 
-/* ——— CONTACT ——— */
 #contact {
   padding: 3rem 0;
 }
@@ -520,7 +508,6 @@ nav {
   text-decoration: underline;
 }
 
-/* ——— FOOTER ——— */
 footer {
   background: var(--secondary-color);
   padding: 1.5rem 0;
@@ -528,7 +515,6 @@ footer {
   border-top: 1px solid var(--border-color);
 }
 
-/* ——— HAMBURGER MENU ——— */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -545,7 +531,6 @@ footer {
   transition: var(--transition);
 }
 
-/* ——— MOBILE MENU ——— */
 .mobile-menu {
   display: none;
   position: fixed;
@@ -595,7 +580,6 @@ footer {
   padding: 0.5rem 0;
 }
 
-/* ——— MEDIA QUERIES ——— */
 @media (max-width: 850px) {
   .about-content {
     grid-template-columns: 1fr;
