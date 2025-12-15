@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => mobileMenu.classList.add('active'));
   }
 
-  if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu);
+  if (mobileClose) {
+    mobileClose.addEventListener('click', closeMobileMenu);
+  }
 
   document.addEventListener('click', e => {
     if (mobileMenu?.classList.contains('active') &&
@@ -61,7 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeToggle = document.getElementById('themeToggle');
   const savedTheme = localStorage.getItem('theme') || 'light';
   body.dataset.theme = savedTheme;
-  if (themeToggle) themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  if (themeToggle) {
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  }
 
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -120,51 +124,68 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     const t = e.target;
 
-    if (t.matches('.choice-btn, .subfolder-btn, .topic-btn, .back-btn')) e.preventDefault();
-
     if (t.classList.contains('choice-btn')) {
-      openContent(t.dataset.open, t.closest('.term-content'));
+      e.preventDefault();
+      const targetId = t.dataset.open;
+      const termContent = t.closest('.term-content');
+      if (targetId && termContent) {
+        termContent.querySelectorAll('.activities-choices').forEach(el => {
+          el.style.display = 'none';
+          el.classList.remove('active');
+        });
+     
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.style.display = 'block';
+          target.classList.add('active');
+        }
+      }
     }
-
-    if (t.classList.contains('subfolder-btn')) {
-      openContent(t.dataset.open, t.closest('.folder-content') || t.closest('.subfolder-content'));
+    
+    else if (t.classList.contains('subfolder-btn')) {
+      e.preventDefault();
+      const targetId = t.dataset.open;
+      const folderContent = t.closest('.folder-content');
+      if (targetId && folderContent) {
+        const target = document.getElementById(targetId);
+        if (target) {
+          folderContent.style.display = 'none';
+          folderContent.classList.remove('active');
+          target.style.display = 'block';
+          target.classList.add('active');
+        }
+      }
     }
-
-    if (t.classList.contains('topic-btn')) {
-      openContent(t.dataset.open, t.closest('.folder-content') || t.closest('.subfolder-content') || t.closest('.topic-content'));
+  
+    else if (t.classList.contains('topic-btn')) {
+      e.preventDefault();
+      const targetId = t.dataset.open;
+      const reportContent = t.closest('.subfolder-content');
+      if (targetId && reportContent) {
+        const target = document.getElementById(targetId);
+        if (target) {
+          reportContent.style.display = 'none';
+          reportContent.classList.remove('active');
+          target.style.display = 'block';
+          target.classList.add('active');
+        }
+      }
     }
-
-    if (t.classList.contains('back-btn')) {
+ 
+    else if (t.classList.contains('back-btn')) {
+      e.preventDefault();
+      const backToId = t.dataset.backTo;
       const current = t.closest('.folder-content, .subfolder-content, .topic-content');
-      const backTo = document.getElementById(t.dataset.backTo);
+      const backTo = document.getElementById(backToId);
       if (current && backTo) {
         current.style.display = 'none';
+        current.classList.remove('active');
         backTo.style.display = 'block';
         backTo.classList.add('active');
       }
     }
   });
 
-  function openContent(id, container) {
-    if (!container || !id) return;
-
-    container.querySelectorAll('.folder-content, .subfolder-content, .topic-content, .activities-choices')
-      .forEach(el => {
-        el.style.display = 'none';
-        el.classList.remove('active');
-      });
-
-    const target = document.getElementById(id);
-    if (target) {
-      target.style.display = 'block';
-      target.classList.add('active');
-      target.querySelectorAll('.images-grid').forEach(grid => {
-        grid.style.display = 'grid';
-      });
-    }
-  }
-
-  // Modal
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalCaption = document.getElementById('modalCaption');
@@ -181,25 +202,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (closeModal) {
     closeModal.addEventListener('click', () => {
-      if (modal) modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
     });
   }
 
   window.addEventListener('click', e => {
-    if (e.target === modal && closeModal) closeModal.click();
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
   });
 
-  // Image fallback
+  // Image error handling
   document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('error', function () {
-      if (this.dataset.failed) return;
-      this.dataset.failed = "true";
-      this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
+    img.addEventListener('error', function() {
+      if (!this.dataset.failed) {
+        this.dataset.failed = "true";
+        this.src = 'https://via.placeholder.com/400x300/4A90E2/FFFFFF?text=Image+Not+Available';
+      }
     });
   });
 
-  // Current year
+  // Set current year in footer
   const year = document.getElementById('currentYear');
-  if (year) year.textContent = new Date().getFullYear();
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
 });
